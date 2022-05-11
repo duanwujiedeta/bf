@@ -15,7 +15,34 @@
     <div id="output"></div>
   </div>
 
-  <script type="text/javascript" src="../build/public/iroh-browser.js"></script>
+  <div>
+    <h1>Basic Example</h1>
+    <div id="container">
+      <p>
+        To install React, follow the instructions on
+        <a href="http://www.github.com/facebook/react.js/">GitHub</a>.
+      </p>
+      <p>
+        If you can see this, React is not working right.
+        If you checked out the source from GitHub make sure to run <code>grunt</code>.
+      </p>
+    </div>
+    <h4>Example Details</h4>
+    <ul>
+      <li>
+        This is built with
+        <a href="https://github.com/substack/node-browserify">browserify</a>.
+      </li>
+    </ul>
+    <p>
+    </p>
+    <p>
+      Learn more at
+      <a href="http://facebook.github.io/react" target="_blank">facebook.github.io/react</a>.
+    </p>
+  </div>
+
+  <script type="text/javascript" src="./static/js/iroh-browser.js"></script>
 
   <!--
     Here we add some listeners to the submitted code
@@ -30,6 +57,7 @@
 
           console.log(" ".repeat(e.indent) + "%c ☕if test☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The if's condition value):", e.value);
           console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "%c ☕if test☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
 
         })
@@ -37,12 +65,14 @@
       
                 console.log(" ".repeat(e.indent) + "%c ☕if enter☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.value);
                 console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
                 console.log(" ".repeat(e.indent) + "%c ☕if enter☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
               })
                .on("leave", (e) => {
       
                 console.log(" ".repeat(e.indent) + "%c ☕if leave☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
                 console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
                 console.log(" ".repeat(e.indent) + "%c ☕if leave☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
               }); */
 
@@ -52,12 +82,14 @@
 
           console.log(" ".repeat(e.indent) + "%c ☕else enter☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
           console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "%c ☕else enter☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;")
         })
       /*         .on("leave", (e) => {
       
                 console.log(" ".repeat(e.indent) + "%c ☕else leave☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
                 console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
                 console.log(" ".repeat(e.indent) + "%c ☕else leave☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;")
       
               }); */
@@ -68,6 +100,7 @@
 
           console.log(" ".repeat(e.indent) + "%c ☕loop test☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The loop's condition value):", e.value, "kind(Indicates the loop kind e.g. WhileStatement):" + e.kind);
           console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "%c ☕loop test☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;")
 
 
@@ -76,6 +109,7 @@
       
                 console.log(" ".repeat(e.indent) + "%c ☕loop enter☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.value, e.kind);
                 console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
                 console.log(" ".repeat(e.indent) + "%c ☕loop enter☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;")
       
               })
@@ -83,6 +117,7 @@
       
                 console.log(" ".repeat(e.indent) + "%c ☕loop leave☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.kind);
                 console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
                 console.log(" ".repeat(e.indent) + "%c ☕loop leave☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;")
       
               }); */
@@ -93,6 +128,7 @@
 
           console.log(" ".repeat(e.indent) + "%c ☕break fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(Do break or not):", e.value);
           console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "%c ☕break fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
 
         })
@@ -103,6 +139,7 @@
 
           console.log(" ".repeat(e.indent) + "%c ☕continue fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(Do continue or not):", e.value);
           console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "%c ☕continue fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
 
         })
@@ -113,6 +150,7 @@
 
           console.log(" ".repeat(e.indent) + "%c ☕switch test☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The switch's tested value):", e.value);
           console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "%c ☕switch test☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
 
         })
@@ -131,6 +169,7 @@
 
           console.log(" ".repeat(e.indent) + "%c ☕case test☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The case's tested value):", e.value);
           console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "%c ☕case test☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
 
         })
@@ -138,6 +177,7 @@
 
           console.log(" ".repeat(e.indent) + "%c ☕case enter☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "default(Default case or not):", e.default);
           console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "%c ☕case enter☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
 
         })
@@ -145,6 +185,7 @@
       
                 console.log(" ".repeat(e.indent) + "%c ☕case leave☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.default);
                 console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
                 console.log(" ".repeat(e.indent) + "%c ☕case leave☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
       
               }); */
@@ -155,6 +196,7 @@
 
           console.log(" ".repeat(e.indent) + "%c ☕call before☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "arguments:", e.arguments);
           console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "%c ☕call before☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
 
         })
@@ -162,6 +204,7 @@
      
                console.log(" ".repeat(e.indent) + "%c ☕call after☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "arguments:", e.arguments);
                console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
                console.log(" ".repeat(e.indent) + "%c ☕call after☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
      
              }); */
@@ -172,6 +215,7 @@
 
           console.log(" ".repeat(e.indent) + "%c ☕function enter☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "arguments:", e.arguments);
           console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "%c ☕function enter☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
 
         })
@@ -179,6 +223,7 @@
         
                   console.log(" ".repeat(e.indent) + "%c ☕function leave☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.name);
                   console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
                   console.log(" ".repeat(e.indent) + "%c ☕function leave☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
         
                 }) */
@@ -186,6 +231,7 @@
 
           console.log(" ".repeat(e.indent) + "%c ☕function return☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "return:", e.return);
           console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "%c ☕function return☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
 
         });
@@ -196,6 +242,7 @@
       
                 console.log(" ".repeat(e.indent) + "%c ☕var before☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.name);
                 console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
                 console.log(" ".repeat(e.indent) + "%c ☕var before☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
       
               })
@@ -203,6 +250,7 @@
       
                 console.log(" ".repeat(e.indent) + "%c ☕var after☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.name);
                 console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
                 console.log(" ".repeat(e.indent) + "%c ☕var after☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
       
               }) */
@@ -214,6 +262,7 @@
 
           console.log(" ".repeat(e.indent) + "%c ☕OP_NEW before☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "name(Auto-generated constructor name):", e.name);
           console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "arguments:", e.arguments);
           console.log(" ".repeat(e.indent) + "%c ☕var before☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
 
@@ -222,6 +271,7 @@
 
           console.log(" ".repeat(e.indent) + "%c ☕OP_NEW after☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "return(The new's returned value):", e.return);
           console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "%c ☕var after☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
 
         })
@@ -255,6 +305,7 @@
       
                 console.log(" ".repeat(e.indent) + "%c ☕alloc fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.value);
                 console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
                 console.log(" ".repeat(e.indent) + "%c ☕alloc fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
       
               }) */
@@ -265,6 +316,7 @@
 
           console.log(" ".repeat(e.indent) + "%c ☕this fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "context(The context):", e.context);
           console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "%c ☕this fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
 
         })
@@ -276,6 +328,7 @@
       
                 console.log(" ".repeat(e.indent) + "%c ☕literal fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.value);
                 console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
                 console.log(" ".repeat(e.indent) + "%c ☕literal fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
       
               }) */
@@ -287,6 +340,7 @@
 
           console.log(" ".repeat(e.indent) + "%c ☕assign fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The value to assign with):", e.value);
           console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "left:", e.object);
           console.log(" ".repeat(e.indent) + "right:", e.property);
           console.log(" ".repeat(e.indent) + "op:", e.op);
@@ -303,6 +357,7 @@
 
           console.log(" ".repeat(e.indent) + "%c ☕ternary fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "return(The returned value):", e.result);
           console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "test:", e.test);
           console.log(" ".repeat(e.indent) + "truthy:", e.truthy);
           console.log(" ".repeat(e.indent) + "falsy:", e.falsy);
@@ -316,6 +371,7 @@
 
           console.log(" ".repeat(e.indent) + "%c ☕logical fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "result(The result):", e.result);
           console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "left:", e.left);
           console.log(" ".repeat(e.indent) + "right:", e.right);
           console.log(" ".repeat(e.indent) + "op:", e.op);
@@ -330,6 +386,7 @@
 
           console.log(" ".repeat(e.indent) + "%c ☕binary fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "result(The result):", e.result);
           console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "left:", e.left);
           console.log(" ".repeat(e.indent) + "right:", e.right);
           console.log(" ".repeat(e.indent) + "op:", e.op);
@@ -346,6 +403,7 @@
 
           console.log(" ".repeat(e.indent) + "%c ☕unary fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "result(The result):", e.result);
           console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "value:", e.value);
           console.log(" ".repeat(e.indent) + "op:", e.op);
           console.log(" ".repeat(e.indent) + "%c ☕unary fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
@@ -359,6 +417,7 @@
 
           console.log(" ".repeat(e.indent) + "%c ☕unary fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "result(The result):", e.result);
           console.log(" ".repeat(e.indent) + "source:", e.getSource().substring(0, 230));
+          console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "prefix:", e.prefix);
           console.log(" ".repeat(e.indent) + "op:", e.op);
           console.log(" ".repeat(e.indent) + "%c ☕binary fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
@@ -380,6 +439,7 @@
     };
   </script>
 
+  <script type="text/javascript" src="./static/js/before.js"></script>
   <script>
 
     let value = "";
@@ -408,13 +468,19 @@ factorial(9);`);
       let code = docin.getValue();
       value = "";
       docout.setValue(value);
-
+      runWithCode.call(window, code)
+    };
+    var stage;
+    function runWithCode(code) {
       // initialise
-      let stage = new Iroh.Stage(code);
+      stage = new Iroh.Stage(code);
       attachListeners(stage);
       // run script
-      eval(stage.script);
-    };
+      eval.call(window, stage.script);
+      setTimeout(function () {
+        addScript("./static/js/after.js");
+      }, 100);
+    }
 
     // run.click();
 
@@ -436,6 +502,37 @@ factorial(9);`);
       docout.setValue(value);
     };
 
+    function addScript(src) {
+      var secScript = document.createElement("script");
+      secScript.setAttribute("type", "text/javascript");
+      secScript.setAttribute("src", src);
+      document.body.insertBefore(secScript, document.body.lastChild);
+      setTimeout(function () {
+        runRt();
+      }, 100)
+    }
+  </script>
+
+  <script>
+    function runRt() {
+      var ExampleApplication = React.createClass({
+        render: function () {
+          var elapsed = Math.round(this.props.elapsed / 100);
+          var seconds = elapsed / 10 + (elapsed % 10 ? '' : '.0');
+          var message =
+            'React has been successfully running for ' + seconds + ' seconds.';
+
+          return React.DOM.p(null, message);
+        }
+      });
+      var start = new Date().getTime();
+      React.renderComponent(
+        ExampleApplication({ elapsed: new Date().getTime() - start }),
+        document.getElementById('container')
+      );
+      setInterval(function () {
+      }, 50);
+    }
   </script>
 
   <style>
