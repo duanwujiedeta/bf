@@ -311,7 +311,7 @@
               }) */
 
       //THIS
-      stage.addListener(Iroh.THIS)
+      /* stage.addListener(Iroh.THIS)
         .on("fire", (e) => {
 
           console.log(" ".repeat(e.indent) + "%c ☕this fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "context(The context):", e.context);
@@ -319,7 +319,7 @@
           console.log(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           console.log(" ".repeat(e.indent) + "%c ☕this fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
 
-        })
+        }) */
 
 
       //LITERAL
@@ -380,7 +380,7 @@
         })
 
       //BINARY
-      stage.addListener(Iroh.BINARY)
+/*       stage.addListener(Iroh.BINARY)
         .on("fire", (e) => {
 
 
@@ -393,11 +393,11 @@
           console.log(" ".repeat(e.indent) + "%c ☕binary fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
 
 
-        })
+        }) */
 
 
       //UNARY
-      stage.addListener(Iroh.UNARY)
+/*       stage.addListener(Iroh.UNARY)
         .on("fire", (e) => {
 
 
@@ -409,7 +409,7 @@
           console.log(" ".repeat(e.indent) + "%c ☕unary fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
 
 
-        })
+        }) */
 
       //UPDATE
       stage.addListener(Iroh.UPDATE)
