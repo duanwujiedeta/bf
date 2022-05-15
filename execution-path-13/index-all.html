@@ -50,6 +50,55 @@
     https://www.jsjiami.com/jiemi.html
   -->
   <script>
+    (function () {
+      function isArray(value) {
+        return Array.isArray(value);
+      }
+
+      function isObject(value) {
+        return Object.prototype.toString.call(value) === '[object Object]';
+      }
+      function copy(source, destination) {
+        if (!destination) {
+          destination = source;
+          if (source) {
+            if (isArray(source)) {
+              destination = copy(source, []);
+            } else if (source instanceof Date) {
+              destination = new Date(source.getTime());
+            } else if (isObject(source)) {
+              destination = copy(source, {});
+            }
+          }
+        } else {
+          if (isArray(source)) {
+            while (destination.length) {
+              destination.pop();
+            }
+            for (var i = 0; i < source.length; i++) {
+              if (source[i] == source) {
+                continue
+              }
+              destination.push(copy(source[i]));
+            }
+          } else {
+            for (let key in destination) {
+              delete destination[key];
+            }
+            for (var key in source) {
+              if (source[key] == source) {
+                continue
+              }
+              destination[key] = copy(source[key]);
+            }
+          }
+        }
+        return destination;
+      }
+      window.myCopy = copy;
+    })()
+  </script>
+  <script>
     var shouldDeb = false;
     var hasClear = false;
     function attachListeners(stage) {
@@ -57,7 +106,7 @@
       stage.addListener(Iroh.IF)
         .on("test", (e) => {
           shouldDeb = false;
-          luLog(" ".repeat(e.indent) + "%c ☕if test☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The if's condition value):", e.value);
+          luLog(" ".repeat(e.indent) + "%c ☕if test☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The if's condition value):", myCopy(e.value));
           luLog(" ".repeat(e.indent) + "source:", e.getSource());
           luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           shouldDeb = true;
@@ -66,7 +115,7 @@
         })
       /*        .on("enter", (e) => {
       
-               luLog(" ".repeat(e.indent) + "%c ☕if enter☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.value);
+               luLog(" ".repeat(e.indent) + "%c ☕if enter☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", myCopy(e.value));
                luLog(" ".repeat(e.indent) + "source:", e.getSource());
          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
                luLog(" ".repeat(e.indent) + "%c ☕if enter☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
@@ -102,7 +151,7 @@
       stage.addListener(Iroh.LOOP)
         .on("test", (e) => {
           shouldDeb = false;
-          luLog(" ".repeat(e.indent) + "%c ☕loop test☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The loop's condition value):", e.value, "kind(Indicates the loop kind e.g. WhileStatement):" + e.kind);
+          luLog(" ".repeat(e.indent) + "%c ☕loop test☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The loop's condition value):", myCopy(e.value), "kind(Indicates the loop kind e.g. WhileStatement):" + e.kind);
           luLog(" ".repeat(e.indent) + "source:", e.getSource());
           luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           shouldDeb = true;
@@ -112,7 +161,7 @@
         })
       /*         .on("enter", (e) => {
       
-               luLog(" ".repeat(e.indent) + "%c ☕loop enter☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.value, e.kind);
+               luLog(" ".repeat(e.indent) + "%c ☕loop enter☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", myCopy(e.value), e.kind);
                luLog(" ".repeat(e.indent) + "source:", e.getSource());
          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
                luLog(" ".repeat(e.indent) + "%c ☕loop enter☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;")
@@ -131,7 +180,7 @@
       stage.addListener(Iroh.BREAK)
         .on("fire", (e) => {
           shouldDeb = false;
-          luLog(" ".repeat(e.indent) + "%c ☕break fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(Do break or not):", e.value);
+          luLog(" ".repeat(e.indent) + "%c ☕break fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(Do break or not):", myCopy(e.value));
           luLog(" ".repeat(e.indent) + "source:", e.getSource());
           luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           shouldDeb = true;
@@ -143,7 +192,7 @@
       stage.addListener(Iroh.CONTINUE)
         .on("fire", (e) => {
           shouldDeb = false;
-          luLog(" ".repeat(e.indent) + "%c ☕continue fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(Do continue or not):", e.value);
+          luLog(" ".repeat(e.indent) + "%c ☕continue fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(Do continue or not):", myCopy(e.value));
           luLog(" ".repeat(e.indent) + "source:", e.getSource());
           luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           shouldDeb = true;
@@ -155,7 +204,7 @@
       stage.addListener(Iroh.SWITCH)
         .on("test", (e) => {
           shouldDeb = false;
-          luLog(" ".repeat(e.indent) + "%c ☕switch test☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The switch's tested value):", e.value);
+          luLog(" ".repeat(e.indent) + "%c ☕switch test☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The switch's tested value):", myCopy(e.value));
           luLog(" ".repeat(e.indent) + "source:", e.getSource());
           luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           shouldDeb = true;
@@ -175,7 +224,7 @@
       stage.addListener(Iroh.CASE)
         .on("test", (e) => {
           shouldDeb = false;
-          luLog(" ".repeat(e.indent) + "%c ☕case test☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The case's tested value):", e.value);
+          luLog(" ".repeat(e.indent) + "%c ☕case test☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The case's tested value):", myCopy(e.value));
           luLog(" ".repeat(e.indent) + "source:", e.getSource());
           luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           shouldDeb = true;
@@ -204,7 +253,7 @@
       stage.addListener(Iroh.CALL)
         .on("before", (e) => {
           shouldDeb = false;
-          luLog(" ".repeat(e.indent) + "%c ☕call before☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "arguments:", e.arguments);
+          luLog(" ".repeat(e.indent) + "%c ☕call before☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "arguments:", myCopy(e.arguments));
           luLog(" ".repeat(e.indent) + "source:", e.getSource());
           luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           shouldDeb = true;
@@ -213,7 +262,7 @@
         })
       /*        .on("after", (e) => {
      
-              luLog(" ".repeat(e.indent) + "%c ☕call after☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "arguments:", e.arguments);
+              luLog(" ".repeat(e.indent) + "%c ☕call after☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "arguments:", myCopy(e.arguments));
               luLog(" ".repeat(e.indent) + "source:", e.getSource());
          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
               luLog(" ".repeat(e.indent) + "%c ☕call after☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
@@ -224,7 +273,7 @@
       stage.addListener(Iroh.FUNCTION)
         .on("enter", (e) => {
           shouldDeb = false;
-          luLog(" ".repeat(e.indent) + "%c ☕function enter☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "arguments:", e.arguments);
+          luLog(" ".repeat(e.indent) + "%c ☕function enter☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "arguments:", myCopy(e.arguments));
           luLog(" ".repeat(e.indent) + "source:", e.getSource());
           luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           shouldDeb = true;
@@ -276,7 +325,7 @@
           luLog(" ".repeat(e.indent) + "%c ☕OP_NEW before☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "name(Auto-generated constructor name):", e.name);
           luLog(" ".repeat(e.indent) + "source:", e.getSource());
           luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
-          luLog(" ".repeat(e.indent) + "arguments:", e.arguments);
+          luLog(" ".repeat(e.indent) + "arguments:", myCopy(e.arguments));
           shouldDeb = true;
           luLog(" ".repeat(e.indent) + "%c ☕var before☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
 
@@ -318,7 +367,7 @@
       /*       stage.addListener(Iroh.ALLOC)
               .on("fire", (e) => {
       
-               luLog(" ".repeat(e.indent) + "%c ☕alloc fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.value);
+               luLog(" ".repeat(e.indent) + "%c ☕alloc fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", myCopy(e.value));
                luLog(" ".repeat(e.indent) + "source:", e.getSource());
          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
                luLog(" ".repeat(e.indent) + "%c ☕alloc fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
@@ -341,7 +390,7 @@
       /*       stage.addListener(Iroh.LITERAL)
               .on("fire", (e) => {
       
-               luLog(" ".repeat(e.indent) + "%c ☕literal fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.value);
+               luLog(" ".repeat(e.indent) + "%c ☕literal fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", myCopy(e.value));
                luLog(" ".repeat(e.indent) + "source:", e.getSource());
          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
                luLog(" ".repeat(e.indent) + "%c ☕literal fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
@@ -353,7 +402,7 @@
       stage.addListener(Iroh.ASSIGN)
         .on("fire", (e) => {
           shouldDeb = false;
-          luLog(" ".repeat(e.indent) + "%c ☕assign fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The value to assign with):", e.value);
+          luLog(" ".repeat(e.indent) + "%c ☕assign fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The value to assign with):", myCopy(e.value));
           luLog(" ".repeat(e.indent) + "source:", e.getSource());
           luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           luLog(" ".repeat(e.indent) + "left:", e.object);
@@ -371,7 +420,7 @@
       stage.addListener(Iroh.TERNARY)
         .on("fire", (e) => {
           shouldDeb = false;
-          luLog(" ".repeat(e.indent) + "%c ☕ternary fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "return(The returned value):", e.result);
+          luLog(" ".repeat(e.indent) + "%c ☕ternary fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "return(The returned value):", myCopy(e.result));
           luLog(" ".repeat(e.indent) + "source:", e.getSource());
           luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           luLog(" ".repeat(e.indent) + "test:", e.test);
@@ -386,7 +435,7 @@
       stage.addListener(Iroh.LOGICAL)
         .on("fire", (e) => {
           shouldDeb = false;
-          luLog(" ".repeat(e.indent) + "%c ☕logical fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "result(The result):", e.result);
+          luLog(" ".repeat(e.indent) + "%c ☕logical fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "result(The result):", myCopy(e.result));
           luLog(" ".repeat(e.indent) + "source:", e.getSource());
           luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           luLog(" ".repeat(e.indent) + "left:", e.left);
@@ -402,7 +451,7 @@
               .on("fire", (e) => {
       
       
-               luLog(" ".repeat(e.indent) + "%c ☕binary fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "result(The result):", e.result);
+               luLog(" ".repeat(e.indent) + "%c ☕binary fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "result(The result):", myCopy(e.result));
                luLog(" ".repeat(e.indent) + "source:", e.getSource());
                luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
                luLog(" ".repeat(e.indent) + "left:", e.left);
@@ -419,10 +468,10 @@
               .on("fire", (e) => {
       
       
-               luLog(" ".repeat(e.indent) + "%c ☕unary fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "result(The result):", e.result);
+               luLog(" ".repeat(e.indent) + "%c ☕unary fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "result(The result):", myCopy(e.result));
                luLog(" ".repeat(e.indent) + "source:", e.getSource());
                luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
-               luLog(" ".repeat(e.indent) + "value:", e.value);
+               luLog(" ".repeat(e.indent) + "value:", myCopy(e.value));
                luLog(" ".repeat(e.indent) + "op:", e.op);
                luLog(" ".repeat(e.indent) + "%c ☕unary fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
       
@@ -433,7 +482,7 @@
       stage.addListener(Iroh.UPDATE)
         .on("fire", (e) => {
           shouldDeb = false;
-          luLog(" ".repeat(e.indent) + "%c ☕unary fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "result(The result):", e.result);
+          luLog(" ".repeat(e.indent) + "%c ☕unary fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "result(The result):", myCopy(e.result));
           luLog(" ".repeat(e.indent) + "source:", e.getSource());
           luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
           luLog(" ".repeat(e.indent) + "prefix:", e.prefix);
