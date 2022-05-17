@@ -3,7 +3,6 @@
 
 <head>
   <link rel="stylesheet" href="./static/css/codemirror.css">
-  <link rel="stylesheet" href="./static/css/base.css">
   <script src="./static/js/codemirror.js"></script>
   <script src="./static/js/javascript.js"></script>
 </head>
@@ -329,13 +328,13 @@
       //THIS
       stage.addListener(Iroh.THIS)
         .on("fire", (e) => {
-          // if (e.getLocation().start.line == 2435) hasClear = true;
-          shouldDeb = false;
-          luLog(" ".repeat(e.indent) + "%c ☕this fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "context(The context):", e.context);
-          luLog(" ".repeat(e.indent) + "source:", e.getSource());
-          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
-          shouldDeb = true;
-          luLog(" ".repeat(e.indent) + "%c ☕this fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
+         if (e.getLocation().start.line == 2435) hasClear = true;
+         shouldDeb = false;
+         luLog(" ".repeat(e.indent) + "%c ☕this fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "context(The context):", e.context);
+         luLog(" ".repeat(e.indent) + "source:", e.getSource());
+         luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start);
+         shouldDeb = true;
+         luLog(" ".repeat(e.indent) + "%c ☕this fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;");
 
         })
 
@@ -462,6 +461,7 @@
   </script>
 
   <script type="text/javascript" src="./static/js/before.js"></script>
+  <script type="text/javascript" src="./static/js/JSXTransformer.js"></script>
   <script>
     let value = "";
 
@@ -528,7 +528,7 @@ factorial(9);`);
       secScript.setAttribute("type", "text/javascript");
       secScript.setAttribute("src", src);
       document.body.insertBefore(secScript, document.body.lastChild);
-      // console.clear();
+      console.clear();
       shouldDeb = true;
       // hasClear = true;
       setTimeout(function () {
@@ -539,48 +539,23 @@ factorial(9);`);
 
   <script>
     function runRt() {
-      function computeBallmerPeak(x) {
-        x = x * 100;
-        return (
-          1 - 1 / (1 + Math.exp(-(x - 6))) * .5 + Math.exp(-Math.pow(Math.abs(x - 10), 2) * 10)
-        ) / 1.6;
-      }
-
-      var BallmerPeakCalculator = React.createClass({
-        displayName: 'BallmerPeakCalculator',
-        getInitialState: function () {
-          return { bac: 0 };
-        },
-        handleChange: React.autoBind(function () {
-          this.setState({ bac: this.refs.bac.getDOMNode().value });
-        }),
+      var ExampleApplication = React.createClass({
         render: function () {
-          var bac;
-          var pct;
-          pct = computeBallmerPeak(this.state.bac);
-          if (isNaN(pct)) {
-            pct = 'N/A';
-          } else {
-            pct = (100 - Math.round(pct * 100)) + '%';
-          }
-          return (
-            React.DOM.div(null, [
-              React.DOM.img({ src: "./ballmer_peak.png" }, null),
-              React.DOM.p(null, ["Credit due to ", React.DOM.a({ href: "http://xkcd.com/323/" }, "xkcd"), "."]),
-              React.DOM.h4(null, "Compute your Ballmer Peak:"),
-              React.DOM.p(null, [
-                " If your BAC is", ' ',
-                React.DOM.input({ ref: "bac", type: "text", onKeyUp: this.handleChange, value: this.state.bac }, null),
-                ', ', "then ", React.DOM.b(null, pct), " of your lines of code will have bugs. "])
-            ])
-          );
+          var elapsed = Math.round(this.props.elapsed / 100);
+          var seconds = elapsed / 10 + (elapsed % 10 ? '' : '.0');
+          var message =
+            'React has been successfully running for ' + seconds + ' seconds.';
+
+          return React.DOM.p(null, message);
         }
       });
-
+      var start = new Date().getTime();
       React.renderComponent(
-        BallmerPeakCalculator(null, null),
+        ExampleApplication({ elapsed: new Date().getTime() - start }),
         document.getElementById('container')
       );
+      setInterval(function () {
+      }, 50);
     }
     function luLog() {
       console.log.apply(console, arguments);
