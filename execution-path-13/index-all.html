@@ -532,7 +532,7 @@ factorial(9);`);
       shouldDeb = true;
       // hasClear = true;
       setTimeout(function () {
-        // runRt();
+        runRt();
       }, 100)
     }
   </script>
@@ -598,8 +598,10 @@ factorial(9);`);
         /* if (!(2423 < start && start < 2622 || 2836 < start && start < 2978 || 2106 < start && start < 2218 || 1754 < start && start < 1781 || 2316 < start && start < 2343)) {// 针对  ReactNativeComponent   ReactCompositeCompnentMixin
           return
         } */
-        if (!(1094 < start && start < 1239)) {// EventHub
+        if (!(1444 < start && start < 1464 || 1463 < start && start < 1542|| 959 < start && start < 974)) {// EventHub
           return
+        }else{
+          hasClear = true;
         }
       }
       console.log.apply(console, args);
