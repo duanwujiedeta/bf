@@ -1,1 +1,5 @@
-start<163 || 221<start<245 || 316<start<470 || 510<start<643 || 661<start<762 || 787<start<803 || 807<start<820 || 1022<start<1106 || 1234<start<1376 || 1391<start<1444 || 1565<start<1569 || 1592<start<1619 || 1705<start<1713 || 1779<start<1787 || 1896<start<1908 || 1938<start<1947 || 2235<start<2302 || 2343<start<2378 || 2417<start<2424 || 2590<start<2595 || 2764<start<2771 || 2825<start<2836 || 2973<start<2993 || 3003<start<3086 || 3094<start<3122 || 3149<start<3345
+
+
+"start>=1&&start<=245"||
+"start>=316&&start<=2409"||
+

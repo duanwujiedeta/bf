@@ -4,11 +4,15 @@
 <head>
   <link rel="stylesheet" href="./static/css/codemirror.css">
   <link rel="stylesheet" href="./static/css/base.css">
+  <link rel="stylesheet" href="./base.css">
   <script src="./static/js/codemirror.js"></script>
   <script src="./static/js/javascript.js"></script>
 </head>
 
 <body>
+  <!-- 该文件用于记录一些行，以便 index-all.html 能够避免开来，不运行指定行 -->
+  <div id="todoapp"></div>
+  <div id="benchmark"></div>
 
   <div class="container">
     <div id="input"></div>
@@ -52,7 +56,9 @@
   -->
   <script>
     var shouldDeb = false;
-    var hasClear = false;
+    var hasClear = true;
+    var strConfig = "";
+    var lineArr = ['start>=1088&&start<=1093', 'start>=1075&&start<=1086', 'start>=1057&&start<=1059', 'start>=1041&&start<=1043', 'start>=8&&start<=8', 'start>=46&&start<=48', 'start>=85&&start<=94', 'start>=129&&start<=133', 'start>=135&&start<=141', 'start>=234&&start<=236', 'start>=237&&start<=239', 'start>=222&&start<=231', 'start>=240&&start<=242', 'start>=243&&start<=245', 'start>=322&&start<=344', 'start>=316&&start<=321', 'start>=354&&start<=354'];
     function attachListeners(stage) {
       // if
       stage.addListener(Iroh.IF)
@@ -505,24 +511,6 @@ factorial(9);`);
 
     // run.click();
 
-    function log() {
-      let val = "";
-      for (let ii = 0; ii < arguments.length; ++ii) {
-        let arg = arguments[ii];
-        if (arg instanceof Array) {
-          arg = arg.map((value) => {
-            if (value instanceof Function) return `[function ${value.name}]`;
-            return String(value);
-          });
-        }
-        else if (arg instanceof Object) arg = String(arg);
-        val += arg;
-        if (ii < arguments.length - 1) val += " ";
-      };
-      value += val + "\n";
-      docout.setValue(value);
-    };
-
     function addScript(src) {
       var secScript = document.createElement("script");
       secScript.setAttribute("type", "text/javascript");
@@ -538,55 +526,14 @@ factorial(9);`);
   </script>
 
   <script>
-    function runRt() {
-      function computeBallmerPeak(x) {
-        x = x * 100;
-        return (
-          1 - 1 / (1 + Math.exp(-(x - 6))) * .5 + Math.exp(-Math.pow(Math.abs(x - 10), 2) * 10)
-        ) / 1.6;
-      }
-
-      var BallmerPeakCalculator = React.createClass({
-        displayName: 'BallmerPeakCalculator',
-        getInitialState: function () {
-          return { bac: 0 };
-        },
-        handleChange: React.autoBind(function () {
-          this.setState({ bac: this.refs.bac.getDOMNode().value });
-        }),
-        render: function () {
-          var bac;
-          var pct;
-          pct = computeBallmerPeak(this.state.bac);
-          if (isNaN(pct)) {
-            pct = 'N/A';
-          } else {
-            pct = (100 - Math.round(pct * 100)) + '%';
-          }
-          return (
-            React.DOM.div(null, [
-              React.DOM.img({ src: "./ballmer_peak.png" }, null),
-              React.DOM.p(null, ["Credit due to ", React.DOM.a({ href: "http://xkcd.com/323/" }, "xkcd"), "."]),
-              React.DOM.h4(null, "Compute your Ballmer Peak:"),
-              React.DOM.p(null, [
-                " If your BAC is", ' ',
-                React.DOM.input({ ref: "bac", type: "text", onKeyUp: this.handleChange, value: this.state.bac }, null),
-                ', ', "then ", React.DOM.b(null, pct), " of your lines of code will have bugs. "])
-            ])
-          );
-        }
-      });
-
-      React.renderComponent(
-        BallmerPeakCalculator(null, null),
-        document.getElementById('container')
-      );
-    }
     function luLog() {
       var args = Array.prototype.slice.call(arguments);
       var e = args.pop();
       //添加过滤行号
-      var lineObj = e && e.getLocation && e.getLocation().start;
+      var location = e && e.getLocation && e.getLocation();
+      var lineObj = location.start;
+      strConfig = "start>=" + location.start.line + "&&" + "start<=" + location.end.line;
+
       if (lineObj) {
         var start = lineObj.line;
         /* if (start && start < 163 || 221 < start && start < 245 || 315 < start && start < 470 || 510 < start && start < 643 || 661 < start && start < 762 || 787 < start && start < 803 || 807 < start && start < 820|| 855 < start && start < 910 || 1022 < start && start < 1106 || 1234 < start && start < 1376 || 1391 < start && start < 1444 || 1565 < start && start < 1569 || 1592 < start && start < 1619 || 1699 < start && start < 1713 || 1779 < start && start < 1787 || 1896 < start && start < 1908 || 1938 < start && start < 1947 || 2235 < start && start < 2302 || 2343 < start && start < 2410 || 2417 < start && start < 2424 || 2590 < start && start < 2595 || 2764 < start && start < 2771 || 2825 < start && start < 2836 || 2973 < start && start < 2993 || 3003 < start && start < 3086 || 3094 < start && start < 3122 || 3149 < start && start < 3345 || (2078 < start && start < 2102 || 1947 < start && start < 2078 || 1908 < start && start < 1941 || 569 < start && start < 628)) {//不监听的行
@@ -598,10 +545,8 @@ factorial(9);`);
         /* if (!(2423 < start && start < 2622 || 2836 < start && start < 2978 || 2106 < start && start < 2218 || 1754 < start && start < 1781 || 2316 < start && start < 2343)) {// 针对  ReactNativeComponent   ReactCompositeCompnentMixin
           return
         } */
-        if (!(1444 < start && start < 1464 || 1463 < start && start < 1542|| 959 < start && start < 974)) {// EventHub
+        if (/* start >= 1271 && start <= 1273 || start >= 1258 && start <= 1268 || start >= 1332 && start <= 1336 || start >= 515 && start <= 518 || start >= 1552 && start <= 1561 || start >= 1466 && start <= 1475 || start >= 1436 && start <= 1439 || start >= 1415 && start <= 1422 || start >= 1377 && start <= 1381 || start >= 1190 && start <= 1202 || start >= 3352 && start <= 3383 || start >= 3122 && start <= 3145 || start >= 590 && start <= 599 || start >= 644 && start <= 654 || start >= 1004 && start <= 1009 || start >= 947 && start <= 952 || start >= 1511 && start <= 1519 || start >= 1487 && start <= 1503 || start >= 1445 && start <= 1463 || start >= 330 && start <= 341 || start >= 1526 && start <= 1540 || start >= 1432 && start <= 1434 || start >= 1428 && start <= 1430 || start >= 981 && start <= 989 || start >= 767 && start <= 770 || start >= 902 && start <= 927 || start >= 39 && start <= 43 || start >= 1203 && start <= 1207 || start >= 1216 && start <= 1223 || start >= 929 && start <= 935 || start >= 1208 && start <= 1215 || start >= 1168 && start <= 1183 || start >= 841 && start <= 845 || start >= 821 && start <= 835 || start >= 810 && start <= 818 || start >= 600 && start <= 608 || start >= 656 && start <= 660 || start >= 719 && start <= 725 || start >= 744 && start <= 753 || start >= 629 && start <= 635 || start >= 734 && start <= 743 || start >= 716 && start <= 718 || start >= 997 && start <= 1002 || start >= 975 && start <= 979 || start >= 1520 && start <= 1525 || start >= 960 && start <= 973 || start >= 955 && start <= 958 || start >= 1441 && start <= 1443 ||  */eval(lineArr.join("||"))) {// EventHub
           return
-        }else{
-          hasClear = true;
         }
       }
       console.log.apply(console, args);
@@ -610,7 +555,7 @@ factorial(9);`);
       }
     }
   </script>
-
+  <script type="text/javascript" src="./static/js/todomvc.js"></script>
   <style>
     .CodeMirror {
       border: 1px solid rgba(0, 0, 0, 0.1);
