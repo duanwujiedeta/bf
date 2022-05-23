@@ -56,7 +56,7 @@
   -->
   <script>
     var shouldDeb = false;
-    var hasClear = true;
+    var hasClear = false;
     var strConfig = "";
     var lineArr = ['start>=1088&&start<=1093', 'start>=1075&&start<=1086', 'start>=1057&&start<=1059', 'start>=1041&&start<=1043', 'start>=8&&start<=8', 'start>=46&&start<=48', 'start>=85&&start<=94', 'start>=129&&start<=133', 'start>=135&&start<=141', 'start>=234&&start<=236', 'start>=237&&start<=239', 'start>=222&&start<=231', 'start>=240&&start<=242', 'start>=243&&start<=245', 'start>=322&&start<=344', 'start>=316&&start<=321', 'start>=354&&start<=354'];
     function attachListeners(stage) {
@@ -238,23 +238,23 @@
           luLog(" ".repeat(e.indent) + "%c ☕function enter☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
 
         })
-        /*         .on("leave", (e) => {
-        
-                 luLog(" ".repeat(e.indent) + "%c ☕function leave☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.name,e);
-                 luLog(" ".repeat(e.indent) + "source:", e.getSource(),e);
-         luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start,e);
-                 luLog(" ".repeat(e.indent) + "%c ☕function leave☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;",e);
-        
-                }) */
-        .on("return", (e) => {
-          shouldDeb = false;
-          luLog(" ".repeat(e.indent) + "%c ☕function return☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "return:", e.return, e);
-          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
-          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
-          shouldDeb = true;
-          luLog(" ".repeat(e.indent) + "%c ☕function return☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+      /*         .on("leave", (e) => {
+      
+               luLog(" ".repeat(e.indent) + "%c ☕function leave☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.name,e);
+               luLog(" ".repeat(e.indent) + "source:", e.getSource(),e);
+       luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start,e);
+               luLog(" ".repeat(e.indent) + "%c ☕function leave☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;",e);
+      
+              }) */
+      /* .on("return", (e) => {
+        shouldDeb = false;
+        luLog(" ".repeat(e.indent) + "%c ☕function return☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "return:", e.return, e);
+        luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+        luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+        shouldDeb = true;
+        luLog(" ".repeat(e.indent) + "%c ☕function return☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
 
-        })
+      }) */
 
       //VAR
       /*       stage.addListener(Iroh.VAR)
@@ -288,15 +288,15 @@
           luLog(" ".repeat(e.indent) + "%c ☕var before☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
 
         })
-        .on("after", (e) => {
-          shouldDeb = false;
-          luLog(" ".repeat(e.indent) + "%c ☕OP_NEW after☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "return(The new's returned value):", e.return, e);
-          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
-          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
-          shouldDeb = true;
-          luLog(" ".repeat(e.indent) + "%c ☕OP_NEW after☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+      /* .on("after", (e) => {
+        shouldDeb = false;
+        luLog(" ".repeat(e.indent) + "%c ☕OP_NEW after☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "return(The new's returned value):", e.return, e);
+        luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+        luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+        shouldDeb = true;
+        luLog(" ".repeat(e.indent) + "%c ☕OP_NEW after☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
 
-        })
+      }) */
 
 
       //TRY
@@ -332,7 +332,7 @@
       
               }) */
 
-      //THIS
+      /* //THIS
       stage.addListener(Iroh.THIS)
         .on("fire", (e) => {
           // if (e.getLocation().start.line == 2435) hasClear = true;
@@ -343,7 +343,7 @@
           shouldDeb = true;
           luLog(" ".repeat(e.indent) + "%c ☕this fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
 
-        })
+        }) */
 
 
       //LITERAL
@@ -376,7 +376,7 @@
 
 
 
-      //TERNARY
+      /* //TERNARY
       stage.addListener(Iroh.TERNARY)
         .on("fire", (e) => {
           shouldDeb = false;
@@ -389,7 +389,7 @@
           shouldDeb = true;
           luLog(" ".repeat(e.indent) + "%c ☕ternary fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
 
-        })
+        }) */
 
       //LOGICAL
       stage.addListener(Iroh.LOGICAL)
@@ -438,7 +438,7 @@
       
               }) */
 
-      //UPDATE
+      /* //UPDATE
       stage.addListener(Iroh.UPDATE)
         .on("fire", (e) => {
           shouldDeb = false;
@@ -450,7 +450,7 @@
           shouldDeb = true;
           luLog(" ".repeat(e.indent) + "%c ☕binary fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
 
-        })
+        }) */
 
 
 
@@ -516,9 +516,9 @@ factorial(9);`);
       secScript.setAttribute("type", "text/javascript");
       secScript.setAttribute("src", src);
       document.body.insertBefore(secScript, document.body.lastChild);
-      // console.clear();
+      console.clear();
       shouldDeb = true;
-      // hasClear = true;
+      hasClear = true;
       setTimeout(function () {
         runRt();
       }, 100)
@@ -545,7 +545,7 @@ factorial(9);`);
         /* if (!(2423 < start && start < 2622 || 2836 < start && start < 2978 || 2106 < start && start < 2218 || 1754 < start && start < 1781 || 2316 < start && start < 2343)) {// 针对  ReactNativeComponent   ReactCompositeCompnentMixin
           return
         } */
-        if (/* start >= 1271 && start <= 1273 || start >= 1258 && start <= 1268 || start >= 1332 && start <= 1336 || start >= 515 && start <= 518 || start >= 1552 && start <= 1561 || start >= 1466 && start <= 1475 || start >= 1436 && start <= 1439 || start >= 1415 && start <= 1422 || start >= 1377 && start <= 1381 || start >= 1190 && start <= 1202 || start >= 3352 && start <= 3383 || start >= 3122 && start <= 3145 || start >= 590 && start <= 599 || start >= 644 && start <= 654 || start >= 1004 && start <= 1009 || start >= 947 && start <= 952 || start >= 1511 && start <= 1519 || start >= 1487 && start <= 1503 || start >= 1445 && start <= 1463 || start >= 330 && start <= 341 || start >= 1526 && start <= 1540 || start >= 1432 && start <= 1434 || start >= 1428 && start <= 1430 || start >= 981 && start <= 989 || start >= 767 && start <= 770 || start >= 902 && start <= 927 || start >= 39 && start <= 43 || start >= 1203 && start <= 1207 || start >= 1216 && start <= 1223 || start >= 929 && start <= 935 || start >= 1208 && start <= 1215 || start >= 1168 && start <= 1183 || start >= 841 && start <= 845 || start >= 821 && start <= 835 || start >= 810 && start <= 818 || start >= 600 && start <= 608 || start >= 656 && start <= 660 || start >= 719 && start <= 725 || start >= 744 && start <= 753 || start >= 629 && start <= 635 || start >= 734 && start <= 743 || start >= 716 && start <= 718 || start >= 997 && start <= 1002 || start >= 975 && start <= 979 || start >= 1520 && start <= 1525 || start >= 960 && start <= 973 || start >= 955 && start <= 958 || start >= 1441 && start <= 1443 ||  */eval(lineArr.join("||"))) {// EventHub
+        if (/* start >= 1271 && start <= 1273 || start >= 1258 && start <= 1268 || start >= 1332 && start <= 1336 || start >= 515 && start <= 518 || start >= 1552 && start <= 1561 || start >= 1466 && start <= 1475 || start >= 1436 && start <= 1439 || start >= 1415 && start <= 1422 || start >= 1377 && start <= 1381 || start >= 1190 && start <= 1202 || start >= 3352 && start <= 3383 || start >= 3122 && start <= 3145 || start >= 590 && start <= 599 || start >= 644 && start <= 654 || start >= 1004 && start <= 1009 || start >= 947 && start <= 952 || start >= 1511 && start <= 1519 || start >= 1487 && start <= 1503 || start >= 1445 && start <= 1463 || start >= 330 && start <= 341 || start >= 1526 && start <= 1540 || start >= 1432 && start <= 1434 || start >= 1428 && start <= 1430 || start >= 981 && start <= 989 || start >= 767 && start <= 770 || start >= 902 && start <= 927 || start >= 39 && start <= 43 || start >= 1203 && start <= 1207 || start >= 1216 && start <= 1223 || start >= 929 && start <= 935 || start >= 1208 && start <= 1215 || start >= 1168 && start <= 1183 || start >= 841 && start <= 845 || start >= 821 && start <= 835 || start >= 810 && start <= 818 || start >= 600 && start <= 608 || start >= 656 && start <= 660 || start >= 719 && start <= 725 || start >= 744 && start <= 753 || start >= 629 && start <= 635 || start >= 734 && start <= 743 || start >= 716 && start <= 718 || start >= 997 && start <= 1002 || start >= 975 && start <= 979 || start >= 1520 && start <= 1525 || start >= 960 && start <= 973 || start >= 955 && start <= 958 || start >= 1441 && start <= 1443 ||  */false) {// EventHub
           return
         }
       }

@@ -59,6 +59,8 @@
     var hasClear = false;
     var lineArr = [];
     var sourceArr = [];
+    var nameArr = [];
+    var nameLineArr = [];
     var sourceWithOnceArr = [];
     function attachListeners(stage) {
       // function
@@ -73,6 +75,16 @@
           sourceArr.push("//function line:" + e.getLocation().start.line);
           sourceArr.push(e.getSource());
 
+
+          var name = e.name;
+          if (nameArr.indexOf(name) < 0 && name.indexOf("$$") < 0) {
+            nameArr.push(name)
+          }/*  else if (nameLineArr.indexOf(str) < 0) {
+            nameLineArr.push(str);
+          } */
+          if (nameLineArr.indexOf(str) < 0) {
+            nameLineArr.push(str);
+          }
 
           shouldDeb = false;
           luLog(" ".repeat(e.indent) + "%c ☕function enter☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "arguments:", e.arguments, e);
@@ -150,7 +162,7 @@ factorial(9);`);
       document.body.insertBefore(secScript, document.body.lastChild);
       console.clear();
       shouldDeb = true;
-      hasClear = true;
+      // hasClear = true;
       setTimeout(function () {
         runRt();
       }, 100)
