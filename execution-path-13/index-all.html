@@ -56,9 +56,9 @@
   -->
   <script>
     var shouldDeb = false;
-    var hasClear = false;
+    var hasClear = true;
     var strConfig = "";
-    var lineArr = ['start>=1088&&start<=1093', 'start>=1075&&start<=1086', 'start>=1057&&start<=1059', 'start>=1041&&start<=1043', 'start>=8&&start<=8', 'start>=46&&start<=48', 'start>=85&&start<=94', 'start>=129&&start<=133', 'start>=135&&start<=141', 'start>=234&&start<=236', 'start>=237&&start<=239', 'start>=222&&start<=231', 'start>=240&&start<=242', 'start>=243&&start<=245', 'start>=322&&start<=344', 'start>=316&&start<=321', 'start>=354&&start<=354'];
+    var lineNum = "";
     function attachListeners(stage) {
       // if
       stage.addListener(Iroh.IF)
@@ -516,9 +516,9 @@ factorial(9);`);
       secScript.setAttribute("type", "text/javascript");
       secScript.setAttribute("src", src);
       document.body.insertBefore(secScript, document.body.lastChild);
-      console.clear();
+      // console.clear();
       shouldDeb = true;
-      hasClear = true;
+      // hasClear = true;
       setTimeout(function () {
         runRt();
       }, 100)
@@ -550,7 +550,7 @@ factorial(9);`);
         }
       }
       console.log.apply(console, args);
-      if (hasClear && shouldDeb) {
+      if (shouldDeb && (hasClear || lineNum == location.start.line)) {
         debugger
       }
     }
