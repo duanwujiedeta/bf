@@ -1581,6 +1581,9 @@ function recordAllRegistrationNames(eventType, PluginModule) {
     }
 }
 
+// --------------
+// `getPluginModuleForAbstractEvent`
+// 根据`abstractEvent`的`type`属性，返回 `SimpleEventPlugin` 或 `EnterLeaveEventPlugin`
 function getPluginModuleForAbstractEvent(abstractEvent) {
     if (abstractEvent.type.registrationName) {
         return registrationNames$2[abstractEvent.type.registrationName]
@@ -1597,12 +1600,20 @@ function getPluginModuleForAbstractEvent(abstractEvent) {
     }
     return null
 }
+
+// --------------
+// `deleteAllListeners`
+// 删除 domID对应的所有事件回调
 var deleteAllListeners = function (domID) {
     var ii;
     for (ii = 0; ii < registrationNamesArr.length; ii++) {
         deleteListener(domID, registrationNamesArr[ii])
     }
 };
+
+// --------------
+// `extractAbstractEvents$1`
+// 传入 `topLevelType` 、 `nativeEvent` 、 `renderedTargetID` 、 `renderedTarget`，然后解析，最后合并成 `abstractEvents` 返回
 var extractAbstractEvents$1 = function (topLevelType, nativeEvent, renderedTargetID, renderedTarget) {
     var abstractEvents;
     var plugins = injection$1.plugins;
