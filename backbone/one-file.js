@@ -61,7 +61,7 @@ var dangerousStyleValue_1 = dangerousStyleValue;
 // --------------
 // `throwIf`
 // 传入条件和message，如果条件成立，则报错吐出 message
-var throwIf = function(condition, err) {
+var throwIf = function (condition, err) {
     if (condition) {
         throw new Error(err);
     }
@@ -98,7 +98,7 @@ function escaper(match) {
 // --------------
 // `escapeTextForBrowser`
 // 传入字符串，把 ESCAPE_LOOKUP 对象的 key 替换为value
-var escapeTextForBrowser = function(text) {
+var escapeTextForBrowser = function (text) {
     var type = typeof text;
     var invalid = type === 'object';
     if (__DEV__) {
@@ -135,7 +135,7 @@ var hyphenate_1 = hyphenate;
 // 传入一个函数，返回一个含有闭包作用域的函数，返回的函数只接收字符串做参数
 function memoizeStringOnly(callback) {
     var cache = {};
-    return function(string) {
+    return function (string) {
         if (cache.hasOwnProperty(string)) {
             return cache[string]
         } else {
@@ -148,7 +148,7 @@ var memoizeStringOnly_1 = memoizeStringOnly;
 // --------------
 // `processStyleName`
 // 把字符串转为 -$ ，然后再把ESCAPE_LOOKUP 的 key 替换为它的值
-var processStyleName = memoizeStringOnly_1(function(styleName) {
+var processStyleName = memoizeStringOnly_1(function (styleName) {
     return escapeTextForBrowser_1(hyphenate_1(styleName))
 });
 
@@ -159,7 +159,7 @@ var CSSPropertyOperations = {
     // --------------
     // `createMarkupForStyles`
     // 传入一个对象，生成 css 的行内样式，key 值用 [`processStyleName`](#section-31) ，value值使用[`dangerousStyleValue`](#section-13)来进行转化
-    createMarkupForStyles: function(styles) {
+    createMarkupForStyles: function (styles) {
         var serialized = '';
         for (var styleName in styles) {
             if (!styles.hasOwnProperty(styleName)) {
@@ -176,7 +176,7 @@ var CSSPropertyOperations = {
     // --------------
     // `setValueForStyles`
     // 根据node元素，取出style，再使用[`dangerousStyleValue`](#section-13)转化value后，设置为node.style对应的值
-    setValueForStyles: function(node, styles) {
+    setValueForStyles: function (node, styles) {
         var style = node.style;
         for (var styleName in styles) {
             if (!styles.hasOwnProperty(styleName)) {
@@ -206,7 +206,7 @@ if (__DEV__) {
     // --------------
     // `validateMarkupParams`
     // 插入html字符串的过滤判断方法
-    validateMarkupParams = function(parentNode, markup) {
+    validateMarkupParams = function (parentNode, markup) {
         throwIf_1(!ExecutionEnvironment_1.canUseDOM, DOM_UNSUPPORTED);
         throwIf_1(!parentNode || !parentNode.tagName, NO_MARKUP_PARENT);
         throwIf_1(!markup, NO_MULTI_MARKUP);
@@ -234,9 +234,9 @@ function insertNodeAfterNode(elem, insert, after) {
         throwIf_1(!ExecutionEnvironment_1.canUseDOM, DOM_UNSUPPORTED);
     }
     if (after) {
-        if (after.nextSibling) {// 有子元素
+        if (after.nextSibling) { // 有子元素
             return elem.insertBefore(insert, after.nextSibling)
-        } else {// 作为最后一个元素
+        } else { // 作为最后一个元素
             return elem.appendChild(insert)
         }
     } else {
@@ -324,7 +324,7 @@ var insertNodeAt_1 = insertNodeAt;
 // --------------
 // `keyOf`
 // 拿取 `oneKeyObj`对象的第一个 key，没有则返回 null
-var keyOf = function(oneKeyObj) {
+var keyOf = function (oneKeyObj) {
     var key;
     for (key in oneKeyObj) {
         if (!oneKeyObj.hasOwnProperty(key)) {
@@ -343,16 +343,32 @@ var NON_INCREASING_OPERATIONS;
 if (__DEV__) {
     NON_INCREASING_OPERATIONS = 'DOM child management operations must be provided in order of increasing destination index. This is likely an issue with the core framework.'
 }
+
+// --------------
+// `MOVE_NODE_AT_ORIG_INDEX`
+// 字符串 moveFrom ,一个dom元素对象的属性标识
 var MOVE_NODE_AT_ORIG_INDEX = keyOf_1({
     moveFrom: null
 });
+
+// --------------
+// `INSERT_MARKUP`
+// 字符串 insertMarkup ,一个dom元素对象的属性标识
 var INSERT_MARKUP = keyOf_1({
     insertMarkup: null
 });
+
+// --------------
+// `REMOVE_AT`
+// 字符串 removeAt ,一个dom元素对象的属性标识
 var REMOVE_AT = keyOf_1({
     removeAt: null
 });
-var _getNodesByOriginalIndex = function(parent, childOperations) {
+
+// --------------
+// `_getNodesByOriginalIndex`
+// 提供一个dom列表`childOperations`，并遍历childOperations，取出它的每个moveFrom或者moveAt属性（也是parent子元素的索引），从`parent`取出索引后，塞入到`nodesByOriginalIndex`数组中并返回
+var _getNodesByOriginalIndex = function (parent, childOperations) {
     var nodesByOriginalIndex;
     var childOperation;
     var origIndex;
@@ -370,7 +386,11 @@ var _getNodesByOriginalIndex = function(parent, childOperations) {
     }
     return nodesByOriginalIndex
 };
-var _removeChildrenByOriginalIndex = function(parent, nodesByOriginalIndex) {
+
+// --------------
+// `_removeChildrenByOriginalIndex`
+// 根据`nodesByOriginalIndex`的dom元素顺序，依次从`parent`元素中把子元素移除
+var _removeChildrenByOriginalIndex = function (parent, nodesByOriginalIndex) {
     for (var j = 0; j < nodesByOriginalIndex.length; j++) {
         var nodeToRemove = nodesByOriginalIndex[j];
         if (nodeToRemove) {
@@ -378,7 +398,11 @@ var _removeChildrenByOriginalIndex = function(parent, nodesByOriginalIndex) {
         }
     }
 };
-var _placeNodesAtDestination = function(parent, childOperations, nodesByOriginalIndex) {
+
+// --------------
+// `_placeNodesAtDestination`
+// 该方法用于移动dom元素位置，遍历循环`childOperations`，如果childOperations元素列表中含有moveFrom属性，则在取出`nodesByOriginalIndex`元素中`moveFrom`索引对应的索引元素，并插入到`childOperation.finalIndex`元素的前面，或者moveAt属性，在`childOperation.finalIndex`前插入`childOperation.insertMarkup`html文本。[`insertNodeAt`](#section-59)，[`insertNodeAt`](#section-51)。
+var _placeNodesAtDestination = function (parent, childOperations, nodesByOriginalIndex) {
     var origNode;
     var finalIndex;
     var lastFinalIndex = -1;
@@ -405,16 +429,28 @@ var _placeNodesAtDestination = function(parent, childOperations, nodesByOriginal
         }
     }
 };
-var manageChildren = function(parent, childOperations) {
+
+// --------------
+// `manageChildren`
+// 从`parent`中取出`nodesByOriginalIndex`,并把nodesByOriginalIndex的所有子元素移除；移除完毕后，再把childOperations按照moveFrom或insertMarkup来从新定位顺序
+var manageChildren = function (parent, childOperations) {
     var nodesByOriginalIndex = _getNodesByOriginalIndex(parent, childOperations);
     if (nodesByOriginalIndex) {
         _removeChildrenByOriginalIndex(parent, nodesByOriginalIndex)
     }
     _placeNodesAtDestination(parent, childOperations, nodesByOriginalIndex)
 };
-var setTextNodeValueAtIndex = function(parent, index, val) {
+
+// --------------
+// `setTextNodeValueAtIndex`
+// 把`parent`元素的第`index`个子元素的文本替换为`val`
+var setTextNodeValueAtIndex = function (parent, index, val) {
     parent.childNodes[index].nodeValue = val
 };
+
+// --------------
+// `manageChildren`
+// [`dangerouslyReplaceNodeWithMarkup`](#section-55)，[`manageChildren`](#section-77)，，[`setTextNodeValueAtIndex`](#section-79)。
 var DOMChildrenOperations = {
     dangerouslyReplaceNodeWithMarkup: Danger_1.dangerouslyReplaceNodeWithMarkup,
     manageChildren: manageChildren,
@@ -422,13 +458,20 @@ var DOMChildrenOperations = {
 };
 var DOMChildrenOperations_1 = DOMChildrenOperations;
 
+// --------------
+// `createCommonjsModule`
+// 传入一个函数并执行，函数的参数分别为`module`、`module.exports`,最后返回module.exports
 function createCommonjsModule(fn) {
     var module = {
         exports: {}
     };
     return fn(module, module.exports), module.exports
 }
-var invariant_1 = createCommonjsModule(function(module) {
+
+// --------------
+// `invariant`
+// 一个和throwIf相反的函数，如果条件为false的时候，则报错。
+var invariant_1 = createCommonjsModule(function (module) {
     function invariant(condition) {
         if (!condition) {
             throw new Error('Invariant Violation');
@@ -436,14 +479,14 @@ var invariant_1 = createCommonjsModule(function(module) {
     }
     module.exports = invariant;
     if (__DEV__) {
-        var invariantDev = function(condition, format, a, b, c, d, e, f) {
+        var invariantDev = function (condition, format, a, b, c, d, e, f) {
             if (format === undefined) {
                 throw new Error('invariant requires an error message argument');
             }
             if (!condition) {
                 var args = [a, b, c, d, e, f];
                 var argIndex = 0;
-                throw new Error('Invariant Violation: ' + format.replace(/%s/g, function() {
+                throw new Error('Invariant Violation: ' + format.replace(/%s/g, function () {
                     return args[argIndex++];
                 }))
             }
@@ -451,15 +494,19 @@ var invariant_1 = createCommonjsModule(function(module) {
         module.exports = invariantDev
     }
 });
+
+// --------------
+// `DOMProperty`
+// `isCustomAttribute`，一个函数，用于判断一个字符串是否为自定义属性。
 var DOMProperty = {
-    isStandardName: {},
-    getAttributeName: {},
-    getPropertyName: {},
-    getMutationMethod: {},
-    mustUseAttribute: {},
-    mustUseProperty: {},
-    hasBooleanValue: {},
-    hasSideEffects: {},
+    isStandardName: {},// `Properties`所有key为key，value值都为vallue
+    getAttributeName: {},// `Properties`所有key为key，value优先为`DOMAttributeNames`的value，不然则是`Properties`的key
+    getPropertyName: {},// `Properties`所有key为key，value优先为`DOMPropertyNames`的value，不然则是`Properties`的key
+    getMutationMethod: {},// {className:}function (node, value) { node.className = value || '' }
+    mustUseAttribute: {},// `Properties`所有key为key,vlue值为 0 和其他数字
+    mustUseProperty: {},// `Properties`所有key为key,vlue值为 0 和其他数字
+    hasBooleanValue: {},// `Properties`所有key为key,vlue值为 0 和其他数字
+    hasSideEffects: {},// `Properties`所有key为key,vlue值为 0 和其他数字
     isCustomAttribute: RegExp.prototype.test.bind(/^(data|aria)-[a-z_][a-z\d_.\-]*$/)
 };
 var MustUseAttribute = 0x1;
@@ -553,7 +600,7 @@ var DOMPropertyNames = {
     spellCheck: 'spellcheck'
 };
 var DOMMutationMethods = {
-    className: function(node, value) {
+    className: function (node, value) {
         node.className = value || ''
     }
 };
@@ -574,11 +621,22 @@ for (var propName in Properties) {
     invariant_1(DOMProperty.mustUseProperty[propName] || !DOMProperty.hasSideEffects[propName], 'DOMProperty: Properties that have side effects must use property: %s', propName)
 }
 var DOMProperty_1 = DOMProperty;
-var processAttributeNameAndPrefix = memoizeStringOnly_1(function(name) {
+
+// --------------
+// `processAttributeNameAndPrefix`
+// 传入字符串，去驼峰，再转义
+var processAttributeNameAndPrefix = memoizeStringOnly_1(function (name) {
     return escapeTextForBrowser_1(name) + '="'
 });
+
+// --------------
+// `DOMPropertyOperations`
+// `createMarkupForProperty`，`setValueForProperty`都是用来设置样式
 var DOMPropertyOperations = {
-    createMarkupForProperty: function(name, value) {
+    // --------------
+    // createMarkupForProperty
+    // 传入 `name`、`value`，并生成 XXX="XXX"
+    createMarkupForProperty: function (name, value) {
         if (DOMProperty_1.isStandardName[name]) {
             if (value == null || DOMProperty_1.hasBooleanValue[name] && !value) {
                 return ''
@@ -594,7 +652,10 @@ var DOMPropertyOperations = {
             return null
         }
     },
-    setValueForProperty: function(node, name, value) {
+    // --------------
+    // `setValueForProperty`
+    // 用于设置或者移除dom元素`node`的`name`属性
+    setValueForProperty: function (node, name, value) {
         if (DOMProperty_1.isStandardName[name]) {
             var mutationMethod = DOMProperty_1.getMutationMethod[name];
             if (mutationMethod) {
@@ -617,21 +678,33 @@ var DOMPropertyOperations = {
     }
 };
 var DOMPropertyOperations_1 = DOMPropertyOperations;
+
+// --------------
+// `BrowserEnv`
+// 一个对象，用于记录当前浏览器滚动的偏移量
 var BrowserEnv = {
     currentScrollLeft: 0,
     currentScrollTop: 0,
     browserInfo: null,
-    refreshAuthoritativeScrollValues: function() {
+    refreshAuthoritativeScrollValues: function () {
         BrowserEnv.currentScrollLeft = document.body.scrollLeft + document.documentElement.scrollLeft;
         BrowserEnv.currentScrollTop = document.body.scrollTop + document.documentElement.scrollTop
     }
 };
 var BrowserEnv_1 = BrowserEnv;
+
+// --------------
+// `NOT_OBJECT_ERROR`
+// 不是对象的报错信息
 var NOT_OBJECT_ERROR = 'NOT_OBJECT_ERROR';
 if (__DEV__) {
     NOT_OBJECT_ERROR = 'keyMirror only works on objects'
 }
-var keyMirror = function(obj) {
+
+// --------------
+// `keyMirror`
+// 传入一个对象，返回另一个对象(key为原对象的key，value为原对象的key)
+var keyMirror = function (obj) {
     var ret = {};
     var key;
     throwIf_1(!(obj instanceof Object) || Array.isArray(obj), NOT_OBJECT_ERROR);
@@ -644,10 +717,18 @@ var keyMirror = function(obj) {
     return ret
 };
 var keyMirror_1 = keyMirror;
+
+// --------------
+// `PropagationPhases`
+// 一个对象{bubbled:"bubbled",captured:"captured"}
 var PropagationPhases$1 = keyMirror_1({
     bubbled: null,
     captured: null
 });
+
+// --------------
+// `topLevelTypes`
+// document元素的事件回调函数标识，都是 topXXX
 var topLevelTypes$4 = keyMirror_1({
     topBlur: null,
     topChange: null,
@@ -676,7 +757,11 @@ var EventConstants = {
     PropagationPhases: PropagationPhases$1
 };
 var EventConstants_1 = EventConstants;
-var oneArgumentPooler = function(copyFieldsFrom) {
+
+// --------------
+// `oneArgumentPooler`
+// 用作传入一个参数实例化
+var oneArgumentPooler = function (copyFieldsFrom) {
     var Klass = this;
     if (Klass.instancePool.length) {
         var instance = Klass.instancePool.pop();
@@ -686,7 +771,11 @@ var oneArgumentPooler = function(copyFieldsFrom) {
         return new Klass(copyFieldsFrom)
     }
 };
-var twoArgumentPooler = function(a1, a2) {
+
+// --------------
+// `twoArgumentPooler`
+// 用作传入2个参数实例化
+var twoArgumentPooler = function (a1, a2) {
     var Klass = this;
     if (Klass.instancePool.length) {
         var instance = Klass.instancePool.pop();
@@ -696,7 +785,11 @@ var twoArgumentPooler = function(a1, a2) {
         return new Klass(a1, a2)
     }
 };
-var fiveArgumentPooler = function(a1, a2, a3, a4, a5) {
+
+// --------------
+// `fiveArgumentPooler`
+// 用作传入5个参数实例化
+var fiveArgumentPooler = function (a1, a2, a3, a4, a5) {
     var Klass = this;
     if (Klass.instancePool.length) {
         var instance = Klass.instancePool.pop();
@@ -706,7 +799,11 @@ var fiveArgumentPooler = function(a1, a2, a3, a4, a5) {
         return new Klass(a1, a2, a3, a4, a5)
     }
 };
-var standardReleaser = function(instance) {
+
+// --------------
+// `standardReleaser`
+// 一般是执行完 `perform`后的资源释放方法
+var standardReleaser = function (instance) {
     var Klass = this;
     if (instance.destructor) {
         instance.destructor()
@@ -717,7 +814,11 @@ var standardReleaser = function(instance) {
 };
 var DEFAULT_POOL_SIZE = 10;
 var DEFAULT_POOLER = oneArgumentPooler;
-var addPoolingTo = function(CopyConstructor, pooler) {
+
+// --------------
+// `addPoolingTo`
+// 给一个函数`CopyConstructor`设置一些静态属性初始化方法
+var addPoolingTo = function (CopyConstructor, pooler) {
     var NewKlass = CopyConstructor;
     NewKlass.instancePool = [];
     NewKlass.getPooled = pooler || DEFAULT_POOLER;
@@ -727,6 +828,10 @@ var addPoolingTo = function(CopyConstructor, pooler) {
     NewKlass.release = standardReleaser;
     return NewKlass
 };
+
+// --------------
+// `PooledClass`
+// 用于生成初始化和添加初始化函数静态属性的对象
 var PooledClass = {
     addPoolingTo: addPoolingTo,
     oneArgumentPooler: oneArgumentPooler,
@@ -734,8 +839,12 @@ var PooledClass = {
     fiveArgumentPooler: fiveArgumentPooler
 };
 var PooledClass_1 = PooledClass;
+
+// --------------
+// `TouchEventUtils`
+// 用于解析触摸事件的对象
 var TouchEventUtils = {
-    extractSingleTouch: function(nativeEvent) {
+    extractSingleTouch: function (nativeEvent) {
         var touches = nativeEvent.touches;
         var changedTouches = nativeEvent.changedTouches;
         var hasTouches = touches && touches.length > 0;
@@ -744,12 +853,19 @@ var TouchEventUtils = {
     }
 };
 var TouchEventUtils_1 = TouchEventUtils;
+
+// --------------
+// `CLONE_TYPE_ERR`
+// 克隆 AbstractEvent 对象的报错信息
 var CLONE_TYPE_ERR;
 if (__DEV__) {
     CLONE_TYPE_ERR = 'You may only clone instances of AbstractEvent for persistent references. Check yourself.'
 }
 var MAX_POOL_SIZE = 20;
 
+// --------------
+// `AbstractEvent`
+// `abstractEventType`是一个被加工兼容过的事件对象；`abstractTargetID`是由rt框架生成的id；`originatingTopLevelEventType`用来进一步解析事件的对象
 function AbstractEvent(abstractEventType, abstractTargetID, originatingTopLevelEventType, nativeEvent, data) {
     this.type = abstractEventType;
     this.abstractTargetID = abstractTargetID || '';
@@ -762,30 +878,30 @@ function AbstractEvent(abstractEventType, abstractTargetID, originatingTopLevelE
     this.isPropagationStopped = false
 }
 AbstractEvent.poolSize = MAX_POOL_SIZE;
-AbstractEvent.prototype.destructor = function() {
+AbstractEvent.prototype.destructor = function () {
     this.target = null;
     this._dispatchListeners = null;
     this._dispatchIDs = null
 };
 PooledClass_1.addPoolingTo(AbstractEvent, PooledClass_1.fiveArgumentPooler);
-AbstractEvent.prototype.stopPropagation = function() {
+AbstractEvent.prototype.stopPropagation = function () {
     this.isPropagationStopped = true;
     if (this.nativeEvent.stopPropagation) {
         this.nativeEvent.stopPropagation()
     }
     this.nativeEvent.cancelBubble = true
 };
-AbstractEvent.prototype.preventDefault = function() {
+AbstractEvent.prototype.preventDefault = function () {
     AbstractEvent.preventDefaultOnNativeEvent(this.nativeEvent)
 };
-AbstractEvent.preventDefaultOnNativeEvent = function(nativeEvent) {
+AbstractEvent.preventDefaultOnNativeEvent = function (nativeEvent) {
     if (nativeEvent.preventDefault) {
         nativeEvent.preventDefault()
     } else {
         nativeEvent.returnValue = false
     }
 };
-AbstractEvent.normalizeScrollDataFromTarget = function(target) {
+AbstractEvent.normalizeScrollDataFromTarget = function (target) {
     return {
         scrollTop: target.scrollTop,
         scrollLeft: target.scrollLeft,
@@ -795,7 +911,7 @@ AbstractEvent.normalizeScrollDataFromTarget = function(target) {
         scrollWidth: target.scrollWidth
     }
 };
-AbstractEvent.normalizeMouseWheelData = function(nativeEvent) {
+AbstractEvent.normalizeMouseWheelData = function (nativeEvent) {
     var delta = 0;
     var deltaX = 0;
     var deltaY = 0;
@@ -822,17 +938,17 @@ AbstractEvent.normalizeMouseWheelData = function(nativeEvent) {
         deltaY: deltaY
     }
 };
-AbstractEvent.isNativeClickEventRightClick = function(nativeEvent) {
+AbstractEvent.isNativeClickEventRightClick = function (nativeEvent) {
     return nativeEvent.which ? nativeEvent.which === 3 : nativeEvent.button ? nativeEvent.button === 2 : false
 };
-AbstractEvent.normalizePointerData = function(nativeEvent) {
+AbstractEvent.normalizePointerData = function (nativeEvent) {
     return {
         globalX: AbstractEvent.eventPageX(nativeEvent),
         globalY: AbstractEvent.eventPageY(nativeEvent),
         rightMouseButton: AbstractEvent.isNativeClickEventRightClick(nativeEvent)
     }
 };
-AbstractEvent.normalizeDragEventData = function(nativeEvent, globalX, globalY, startX, startY) {
+AbstractEvent.normalizeDragEventData = function (nativeEvent, globalX, globalY, startX, startY) {
     return {
         globalX: globalX,
         globalY: globalY,
@@ -840,7 +956,7 @@ AbstractEvent.normalizeDragEventData = function(nativeEvent, globalX, globalY, s
         startY: startY
     }
 };
-AbstractEvent.eventPageY = function(nativeEvent) {
+AbstractEvent.eventPageY = function (nativeEvent) {
     var singleTouch = TouchEventUtils_1.extractSingleTouch(nativeEvent);
     if (singleTouch) {
         return singleTouch.pageY
@@ -850,7 +966,7 @@ AbstractEvent.eventPageY = function(nativeEvent) {
         return nativeEvent.clientY + BrowserEnv_1.currentPageScrollTop
     }
 };
-AbstractEvent.eventPageX = function(nativeEvent) {
+AbstractEvent.eventPageX = function (nativeEvent) {
     var singleTouch = TouchEventUtils_1.extractSingleTouch(nativeEvent);
     if (singleTouch) {
         return singleTouch.pageX
@@ -860,48 +976,84 @@ AbstractEvent.eventPageX = function(nativeEvent) {
         return nativeEvent.clientX + BrowserEnv_1.currentPageScrollLeft
     }
 };
-AbstractEvent.persistentCloneOf = function(abstractEvent) {
+AbstractEvent.persistentCloneOf = function (abstractEvent) {
     if (__DEV__) {
         throwIf_1(!(abstractEvent instanceof AbstractEvent), CLONE_TYPE_ERR);
     }
     return new AbstractEvent(abstractEvent.type, abstractEvent.abstractTargetID, abstractEvent.originatingTopLevelEventType, abstractEvent.nativeEvent, abstractEvent.data, abstractEvent.target)
 };
 var AbstractEvent_1 = AbstractEvent;
+
+// --------------
+// `listenerBank`
+// 根据元素的事件名，id，记录一系列的回调函数
 var listenerBank = {};
+
+// --------------
+// `CallbackRegistry`
+// 事件的记录对象
 var CallbackRegistry = {
-    putListener: function(id, registrationName, listener) {
+
+    // --------------
+    // `putListener`
+    // 记录事件
+    putListener: function (id, registrationName, listener) {
         var bankForRegistrationName = listenerBank[registrationName] || (listenerBank[registrationName] = {});
         bankForRegistrationName[id] = listener
     },
-    getListener: function(id, registrationName) {
+
+    // --------------
+    // `getListener`
+    // 获取事件
+    getListener: function (id, registrationName) {
         var bankForRegistrationName = listenerBank[registrationName];
         return bankForRegistrationName && bankForRegistrationName[id]
     },
-    deleteListener: function(id, registrationName) {
+
+    // --------------
+    // `deleteListener`
+    // 删除事件
+    deleteListener: function (id, registrationName) {
         var bankForRegistrationName = listenerBank[registrationName];
         if (bankForRegistrationName) {
             delete bankForRegistrationName[id]
         }
     },
-    __purge: function() {
+
+    // --------------
+    // `deleteListener`
+    // 清除事件
+    __purge: function () {
         listenerBank = {}
     }
 };
 var CallbackRegistry_1 = CallbackRegistry;
 var topLevelTypes$3 = EventConstants_1.topLevelTypes;
 
+// --------------
+// `isEndish`
+// 传入`topLevelType`，判断是否为离开屏幕的事件
 function isEndish(topLevelType) {
     return topLevelType === topLevelTypes$3.topMouseUp || topLevelType === topLevelTypes$3.topTouchEnd || topLevelType === topLevelTypes$3.topTouchCancel
 }
 
+// --------------
+// `isMoveish`
+// 传入`topLevelType`，判断是否为在屏幕移动的事件
 function isMoveish(topLevelType) {
     return topLevelType === topLevelTypes$3.topMouseMove || topLevelType === topLevelTypes$3.topTouchMove
 }
 
+// --------------
+// `isStartish`
+// 传入`topLevelType`，判断是否为进入屏幕的事件
 function isStartish(topLevelType) {
     return topLevelType === topLevelTypes$3.topMouseDown || topLevelType === topLevelTypes$3.topTouchStart
 }
 
+// --------------
+// `storePageCoordsIn`
+// 获取屏幕的X、Y轴坐标给对象`obj`
 function storePageCoordsIn(obj, nativeEvent) {
     var pageX = AbstractEvent_1.eventPageX(nativeEvent);
     var pageY = AbstractEvent_1.eventPageY(nativeEvent);
@@ -909,14 +1061,21 @@ function storePageCoordsIn(obj, nativeEvent) {
     obj.pageY = pageY
 }
 
+// --------------
+// `eventDistance`
+// 获取`coords`、`nativeEvent`两点之间的距离
 function eventDistance(coords, nativeEvent) {
     var pageX = AbstractEvent_1.eventPageX(nativeEvent);
     var pageY = AbstractEvent_1.eventPageY(nativeEvent);
     return Math.pow(Math.pow(pageX - coords.pageX, 2) + Math.pow(pageY - coords.pageY, 2), 0.5)
 }
+
+// --------------
+// `validateEventDispatches`
+// 传入`abstractEvent`事件，判断abstractEvent是否为 `AbstractEvent`对象
 var validateEventDispatches;
 if (__DEV__) {
-    validateEventDispatches = function(abstractEvent) {
+    validateEventDispatches = function (abstractEvent) {
         var dispatchListeners = abstractEvent._dispatchListeners;
         var dispatchIDs = abstractEvent._dispatchIDs;
         var listenersIsArr = Array.isArray(dispatchListeners);
@@ -927,6 +1086,9 @@ if (__DEV__) {
     }
 }
 
+// --------------
+// `forEachEventDispatch`
+// 遍历`abstractEvent.dispatchListeners`，循环执行`cb(abstractEvent,dispatchListeners,dispatchIDs)`
 function forEachEventDispatch(abstractEvent, cb) {
     var dispatchListeners = abstractEvent._dispatchListeners;
     var dispatchIDs = abstractEvent._dispatchIDs;
@@ -943,16 +1105,25 @@ function forEachEventDispatch(abstractEvent, cb) {
     }
 }
 
+// --------------
+// `executeDispatch`
+// `listener`是绑定的事件回调函数，`domID`是Rt生成的DOM的id
 function executeDispatch(abstractEvent, listener, domID) {
     listener(abstractEvent, domID)
 }
 
+// --------------
+// `executeDispatchesInOrder`
+// 循环执行某个事件，执行完毕后再清空
 function executeDispatchesInOrder(abstractEvent, executeDispatch) {
     forEachEventDispatch(abstractEvent, executeDispatch);
     abstractEvent._dispatchListeners = null;
     abstractEvent._dispatchIDs = null
 }
 
+// --------------
+// `executeDispatchesInOrderStopAtTrue`
+// 循环执行`abstractEvent`事件，如果回调函数返回真值，则停止循环并返回它对应的id
 function executeDispatchesInOrderStopAtTrue(abstractEvent) {
     var dispatchListeners = abstractEvent._dispatchListeners;
     var dispatchIDs = abstractEvent._dispatchIDs;
@@ -974,6 +1145,9 @@ function executeDispatchesInOrderStopAtTrue(abstractEvent) {
     return null
 }
 
+// --------------
+// `executeDirectDispatch`
+// 执行`abstractEvent`（他的`_dispatchListeners`不是数组）
 function executeDirectDispatch(abstractEvent) {
     if (__DEV__) {
         validateEventDispatches(abstractEvent)
@@ -987,27 +1161,41 @@ function executeDirectDispatch(abstractEvent) {
     return res
 }
 
+// --------------
+// `hasDispatches`
+// 判断`abstractEvent`是否含有`_dispatchListeners`
 function hasDispatches(abstractEvent) {
     return !!abstractEvent._dispatchListeners
 }
+
+// --------------
+// `EventPluginUtils`
+// 事件的辅助类
 var EventPluginUtils = {
-    isEndish: isEndish,
-    isMoveish: isMoveish,
-    isStartish: isStartish,
-    storePageCoordsIn: storePageCoordsIn,
-    eventDistance: eventDistance,
-    executeDispatchesInOrder: executeDispatchesInOrder,
-    executeDispatchesInOrderStopAtTrue: executeDispatchesInOrderStopAtTrue,
-    executeDirectDispatch: executeDirectDispatch,
-    hasDispatches: hasDispatches,
-    executeDispatch: executeDispatch
+    isEndish: isEndish,// 是否为离开（如keyup）
+    isMoveish: isMoveish,// 是否为触动
+    isStartish: isStartish,// 是否为进入
+    storePageCoordsIn: storePageCoordsIn,// 是否为进入
+    eventDistance: eventDistance,// 获得当前鼠标的 X、Y坐标
+    executeDispatchesInOrder: executeDispatchesInOrder,// 循环执行某个事件，执行完毕后再清空
+    executeDispatchesInOrderStopAtTrue: executeDispatchesInOrderStopAtTrue,// 循环执行`abstractEvent`事件，如果回调函数返回真值，则停止循环并返回它对应的id
+    executeDirectDispatch: executeDirectDispatch,// 执行`abstractEvent`（他的`_dispatchListeners`不是数组）
+    hasDispatches: hasDispatches,// 判断`abstractEvent`是否含有`_dispatchListeners`
+    executeDispatch: executeDispatch// `listener`是绑定的事件回调函数，`domID`是Rt生成的DOM的id
 };
 var EventPluginUtils_1 = EventPluginUtils;
+
+// --------------
+// `INVALID_ARGS`
+// `accumulate`第二个参数为null时的报错信息
 var INVALID_ARGS = 'INVALID_ACCUM_ARGS';
 if (__DEV__) {
     INVALID_ARGS = 'accumulate requires non empty (non-null, defined) next values. All arrays accumulated must not contain any empty items.'
 }
 
+// --------------
+// `accumulate`
+// 把两个参数合并为一个同层的数组
 function accumulate(cur, next) {
     var curValIsEmpty = cur == null;
     var nextValIsEmpty = next === null;
@@ -1035,7 +1223,11 @@ function accumulate(cur, next) {
     }
 }
 var accumulate_1 = accumulate;
-var forEachAccumulated = function(arr, cb, scope) {
+
+// --------------
+// `forEachAccumulated`
+// 已scope为this，执行cb，cb的参数为 arr 的 v,k，或者直接是 arr
+var forEachAccumulated = function (arr, cb, scope) {
     if (Array.isArray(arr)) {
         arr.forEach(cb, scope)
     } else if (arr) {
@@ -1045,15 +1237,27 @@ var forEachAccumulated = function(arr, cb, scope) {
 var forEachAccumulated_1 = forEachAccumulated;
 var getListener = CallbackRegistry_1.getListener;
 var PropagationPhases = EventConstants_1.PropagationPhases;
+
+// --------------
+// `injection$2`
+// 一个用于操作Rt的dom元素ID的对象类
 var injection$2 = {
-    InstanceHandle: null,
-    injectInstanceHandle: function(InjectedInstanceHandle) {
+    InstanceHandle: null,//ReactInstanceHandles，会被注入赋值
+
+    // --------------
+    // `injectInstanceHandle`
+    // 注入`InstanceHandle`属性
+    injectInstanceHandle: function (InjectedInstanceHandle) {
         injection$2.InstanceHandle = InjectedInstanceHandle;
         if (__DEV__) {
             injection$2.validate()
         }
     },
-    validate: function() {
+
+    // --------------
+    // `validate`
+    // 用于校验`injection$2`对象需要含有 `InstanceHandle`、`InstanceHandle.traverseTwoPhase`、`InstanceHandle.traverseEnterLeave`三个属性之一
+    validate: function () {
         var invalid = !injection$2.InstanceHandle || !injection$2.InstanceHandle.traverseTwoPhase || !injection$2.InstanceHandle.traverseEnterLeave;
         if (invalid) {
             throw new Error('InstanceHandle not injected before use!');
@@ -1061,11 +1265,17 @@ var injection$2 = {
     }
 };
 
+// --------------
+// `listenerAtPhase`
+// 用于解析事件名，并返回事件回调函数，注意`abstractEvent.type`的结构为:{mouseDown: {phasedRegistrationNames: { bubbled: "bubbled",captured: "onMouseDownCapture" }}}
 function listenerAtPhase(id, abstractEvent, propagationPhase) {
     var registrationName = abstractEvent.type.phasedRegistrationNames[propagationPhase];
     return getListener(id, registrationName)
 }
 
+// --------------
+// `accumulateDirectionalDispatches`
+// 根据domID和abstractEvent解析出回调函数，把回调函数塞入 `abstractEvent` 对象中
 function accumulateDirectionalDispatches(domID, upwards, abstractEvent) {
     if (__DEV__) {
         if (!domID) {
@@ -1081,12 +1291,18 @@ function accumulateDirectionalDispatches(domID, upwards, abstractEvent) {
     }
 }
 
+// --------------
+// `accumulateDirectionalDispatches`
+// 传入`abstractEvent`对象，然后自下而上，或者自上而下的遍历DOM ID，把解析出来的回调函数全部塞入到abstractEvent中。
 function accumulateTwoPhaseDispatchesSingle(abstractEvent) {
     if (abstractEvent && abstractEvent.type.phasedRegistrationNames) {
-        injection$2.InstanceHandle.traverseTwoPhase(abstractEvent.abstractTargetID, accumulateDirectionalDispatches, abstractEvent)
+        injection$2.InstanceHandle.traverseTwoPhase(abstractEvent.abstractTargetID, accumulateDirectionalDispatches, abstractEvent)// 这里会执行 traverseParentPath函数
     }
 }
 
+// --------------
+// `accumulateDispatches`
+// 传入`id`和`abstractEvent`,把id对应的回调拿到，合并到`abstractEvent`的`_dispatchListeners`回调函数中
 function accumulateDispatches(id, ignoredDirection, abstractEvent) {
     if (abstractEvent && abstractEvent.type.registrationName) {
         var listener = getListener(id, abstractEvent.type.registrationName);
@@ -1097,12 +1313,18 @@ function accumulateDispatches(id, ignoredDirection, abstractEvent) {
     }
 }
 
+// --------------
+// `accumulateDirectDispatchesSingle`
+// 针对单个domID，把该id对应的回调函数塞入到 abstractEvent中
 function accumulateDirectDispatchesSingle(abstractEvent) {
     if (abstractEvent && abstractEvent.type.registrationName) {
         accumulateDispatches(abstractEvent.abstractTargetID, null, abstractEvent)
     }
 }
 
+// --------------
+// `accumulateTwoPhaseDispatches`
+// 给到一个数组`abstractEvents`，遍历循环每个元素，把每个 abstractEvent的事件，自上而下、自下而上的收集进入到abstractEvent中
 function accumulateTwoPhaseDispatches(abstractEvents) {
     if (__DEV__) {
         injection$2.validate()
@@ -1110,13 +1332,19 @@ function accumulateTwoPhaseDispatches(abstractEvents) {
     forEachAccumulated_1(abstractEvents, accumulateTwoPhaseDispatchesSingle)
 }
 
+// --------------
+// `accumulateEnterLeaveDispatches`
+// 单方向(向上或向下)进行刷新 `leave`、`enter`（他们都是AbstractEvent的实例）的_dispatchListeners
 function accumulateEnterLeaveDispatches(leave, enter, fromID, toID) {
     if (__DEV__) {
         injection$2.validate()
     }
-    injection$2.InstanceHandle.traverseEnterLeave(fromID, toID, accumulateDispatches, leave, enter)
+    injection$2.InstanceHandle.traverseEnterLeave(fromID, toID, accumulateDispatches, leave, enter)// 这里会执行 traverseParentPath函数
 }
 
+// --------------
+// `accumulateDirectDispatches`
+// 把`abstractEvents`中的每个abstractEvent的ID对应的事件进行刷新
 function accumulateDirectDispatches(abstractEvents) {
     if (__DEV__) {
         injection$2.validate()
@@ -1124,19 +1352,23 @@ function accumulateDirectDispatches(abstractEvents) {
     forEachAccumulated_1(abstractEvents, accumulateDirectDispatchesSingle)
 }
 var EventPropagators = {
-    accumulateTwoPhaseDispatches: accumulateTwoPhaseDispatches,
-    accumulateDirectDispatches: accumulateDirectDispatches,
-    accumulateEnterLeaveDispatches: accumulateEnterLeaveDispatches,
-    injection: injection$2
+    accumulateTwoPhaseDispatches: accumulateTwoPhaseDispatches,// 给到一个数组`abstractEvents`，遍历循环每个元素，把每个 abstractEvent的事件，自上而下、自下而上的收集进入到abstractEvent中
+    accumulateDirectDispatches: accumulateDirectDispatches,// 把`abstractEvents`中的每个abstractEvent的ID对应的事件进行刷新
+    accumulateEnterLeaveDispatches: accumulateEnterLeaveDispatches,// 单方向(向上或向下)进行刷新 `leave`、`enter`（他们都是AbstractEvent的实例）的_dispatchListeners
+    injection: injection$2// 关于Rt的ID操作的类
 };
 var EventPropagators_1 = EventPropagators;
 var MAX_MERGE_DEPTH = 36;
+
+// --------------
+// `ERRORS$1`
+// 合并对象的一个错误信息存储对象
 var ERRORS$1 = keyMirror_1({
-    MERGE_ARRAY_FAIL: null,
-    MERGE_CORE_FAILURE: null,
+    MERGE_ARRAY_FAIL: null,// 合并数组失败的报错信息
+    MERGE_CORE_FAILURE: null,// 判断不是为数组的错误信息
     MERGE_TYPE_USAGE_FAILURE: null,
-    MERGE_DEEP_MAX_LEVELS: null,
-    MERGE_DEEP_NO_ARR_STRATEGY: null
+    MERGE_DEEP_MAX_LEVELS: null,// 超出最深层合并的错误信息
+    MERGE_DEEP_NO_ARR_STRATEGY: null// 不属于`mergeHelpers.ArrayStrategies`的错误信息
 });
 if (__DEV__) {
     ERRORS$1 = {
@@ -1147,31 +1379,63 @@ if (__DEV__) {
         MERGE_DEEP_NO_ARR_STRATEGY: 'You must provide an array strategy to deep merge functions to instruct the deep merge how to resolve merging two arrays.'
     }
 }
-var isTerminal = function(o) {
+
+// --------------
+// `isTerminal`
+// 判断是否为除了 对象 之外的其他结构
+var isTerminal = function (o) {
     return typeof o !== 'object' || o === null
 };
 var mergeHelpers = {
     MAX_MERGE_DEPTH: MAX_MERGE_DEPTH,
     isTerminal: isTerminal,
-    normalizeMergeArg: function(arg) {
+
+    // --------------
+    // `normalizeMergeArg`
+    // 把 `null`和`undefined`转化为 {}，其他的都不变
+    normalizeMergeArg: function (arg) {
         return arg === undefined || arg === null ? {} : arg
     },
-    checkMergeArrayArgs: function(one, two) {
+
+    // --------------
+    // `checkMergeArrayArgs`
+    // 把参数`one`、`two`进行校验，如果不是数组就报错
+    checkMergeArrayArgs: function (one, two) {
         throwIf_1(!Array.isArray(one) || !Array.isArray(two), ERRORS$1.MERGE_CORE_FAILURE);
     },
-    checkMergeObjectArgs: function(one, two) {
+
+    // --------------
+    // `checkMergeObjectArgs`
+    // 把参数`one`、`two`进行校验，如果是数组或者不是对象，则报错(结果就是只能是对象)
+    checkMergeObjectArgs: function (one, two) {
         mergeHelpers.checkMergeObjectArg(one);
         mergeHelpers.checkMergeObjectArg(two)
     },
-    checkMergeObjectArg: function(arg) {
+
+    // --------------
+    // `checkMergeObjectArg`
+    // 把参数`arg`进行校验，如果只是对象才不报错
+    checkMergeObjectArg: function (arg) {
         throwIf_1(isTerminal(arg) || Array.isArray(arg), ERRORS$1.MERGE_CORE_FAILURE);
     },
-    checkMergeLevel: function(level) {
+
+    // --------------
+    // `checkMergeLevel`
+    // 校验当前的层级是否超过最大层级
+    checkMergeLevel: function (level) {
         throwIf_1(level >= MAX_MERGE_DEPTH, ERRORS$1.MERGE_DEEP_MAX_LEVELS);
     },
-    checkArrayStrategy: function(strategy) {
+
+    // --------------
+    // `checkArrayStrategy`
+    // 判断参数`strategy`是否为`mergeHelpers.ArrayStrategies`的键
+    checkArrayStrategy: function (strategy) {
         throwIf_1(strategy !== undefined && !(strategy in mergeHelpers.ArrayStrategies), ERRORS$1.MERGE_DEEP_NO_ARR_STRATEGY);
     },
+
+    // --------------
+    // `ArrayStrategies`
+    // {Clobber:"Clobber",IndexByIndex:"IndexByIndex"}
     ArrayStrategies: keyMirror_1({
         Clobber: true,
         IndexByIndex: true
@@ -1181,6 +1445,10 @@ var mergeHelpers = {
 var mergeHelpers_1 = mergeHelpers;
 var checkMergeObjectArg = mergeHelpers_1.checkMergeObjectArg;
 
+
+// --------------
+// `mergeInto`
+// 把two对象合并到one对象，会经过对象类型的判断
 function mergeInto(one, two) {
     checkMergeObjectArg(one);
     if (two != null) {
@@ -1194,7 +1462,11 @@ function mergeInto(one, two) {
     }
 }
 var mergeInto_1 = mergeInto;
-var merge = function(one, two) {
+
+// --------------
+// `merge`
+// 把`one`、`two`合并到`result`，并返回
+var merge = function (one, two) {
     var result = {};
     mergeInto_1(result, one);
     mergeInto_1(result, two);
@@ -1202,6 +1474,10 @@ var merge = function(one, two) {
 };
 var merge_1 = merge;
 var deleteListener = CallbackRegistry_1.deleteListener;
+
+// --------------
+// `ERRORS`
+// `DOUBLE_REGISTER`不存在的事件报错信息；`DOUBLE_ENQUEUE`当abstractEventQueue运行完没释放时的报错；`DEPENDENCY_ERROR`：不存在plugin的时候的报错信息
 var ERRORS = keyMirror_1({
     DOUBLE_REGISTER: null,
     DOUBLE_ENQUEUE: null,
@@ -1212,36 +1488,64 @@ if (__DEV__) {
     ERRORS.DOUBLE_ENQUEUE = 'During the processing of events, more events were enqueued. This is strange and should not happen. Please report immediately. ';
     ERRORS.DEPENDENCY_ERROR = 'You have either attempted to load an event plugin that has no entry in EventPluginOrder, or have attempted to extract events when some critical dependencies have not yet been injected.'
 }
+
+// --------------
+// `injection$1`
+// 一个注入对象，框架运行结束前会调用执行
 var injection$1 = {
-    injectInstanceHandle: function(InjectedInstanceHandle) {
+
+    // --------------
+    // `injectInstanceHandle`
+    // 给 `EventPropagators_1.injection`注入对象 `ReactInstanceHandles`
+    injectInstanceHandle: function (InjectedInstanceHandle) {
         EventPropagators_1.injection.injectInstanceHandle(InjectedInstanceHandle)
     },
+
+    // --------------
+    // `EventPluginOrder`
+    // DefaultEventPluginOrder对象，有顺序的 ['ResponderEventPlugin','SimpleEventPlugin','TapEventPlugin','EnterLeaveEventPlugin','AnalyticsEventPlugin']
     EventPluginOrder: null,
-    injectEventPluginOrder: function(InjectedEventPluginOrder) {
+
+    // --------------
+    // `injectEventPluginOrder`
+    // 注入`EventPluginOrder`
+    injectEventPluginOrder: function (InjectedEventPluginOrder) {
         injection$1.EventPluginOrder = InjectedEventPluginOrder;
-        injection$1._recomputePluginsList()
+        injection$1._recomputePluginsList()// 第一次注入的时候没执行到逻辑
     },
     plugins: [],
-    injectEventPluginsByName: function(pluginsByName) {
+
+    // --------------
+    // `injectEventPluginsByName`
+    // 注入 `pluginsByName`，结构为:{'SimpleEventPlugin','EnterLeaveEventPlugin'}
+    injectEventPluginsByName: function (pluginsByName) {
         injection$1.pluginsByName = merge_1(injection$1.pluginsByName, pluginsByName);
         injection$1._recomputePluginsList()
     },
+
+    // --------------
+    // `pluginsByName`
+    // 以 ['ResponderEventPlugin','SimpleEventPlugin','TapEventPlugin','EnterLeaveEventPlugin','AnalyticsEventPlugin'] 的元素为 key 的对象
     pluginsByName: {},
-    _recomputePluginsList: function() {
-        var injectPluginByName = function(name, PluginModule) {
+
+    // --------------
+    // `_recomputePluginsList`
+    // 循环每个注入的 `pluginsByName`，并为 `plugins`生成对应index的数组元素
+    _recomputePluginsList: function () {
+        var injectPluginByName = function (name, PluginModule) {
             var pluginIndex = injection$1.EventPluginOrder.indexOf(name);
             throwIf_1(pluginIndex === -1, ERRORS.DEPENDENCY_ERROR + name);
             if (!injection$1.plugins[pluginIndex]) {
-                injection$1.plugins[pluginIndex] = PluginModule;
+                injection$1.plugins[pluginIndex] = PluginModule;// {'SimpleEventPlugin','EnterLeaveEventPlugin'}
                 for (var eventName in PluginModule.abstractEventTypes) {
                     var eventType = PluginModule.abstractEventTypes[eventName];
                     recordAllRegistrationNames(eventType, PluginModule)
                 }
             }
         };
-        if (injection$1.EventPluginOrder) {
-            var injectedPluginsByName = injection$1.pluginsByName;
-            for (var name in injectedPluginsByName) {
+        if (injection$1.EventPluginOrder) {// ['ResponderEventPlugin','SimpleEventPlugin','TapEventPlugin','EnterLeaveEventPlugin','AnalyticsEventPlugin']
+            var injectedPluginsByName = injection$1.pluginsByName;// {'SimpleEventPlugin','EnterLeaveEventPlugin'}
+            for (var name in injectedPluginsByName) {// {'SimpleEventPlugin','EnterLeaveEventPlugin'}
                 injectPluginByName(name, injectedPluginsByName[name])
             }
         }
@@ -1251,11 +1555,14 @@ var registrationNames$2 = {};
 var registrationNamesArr = [];
 var abstractEventQueue = [];
 
+// --------------
+// `recordAllRegistrationNames`
+// 参数说明：`eventType`（SimpleEventPlugin.abstractEventTypes对象的元素 或 EnterLeaveEventPlugin.abstractEventTypes对象的元素） `PluginModule`({'SimpleEventPlugin','EnterLeaveEventPlugin'})；最终生成了 `registrationNames` 和 `registrationNamesArr`两个的元素
 function recordAllRegistrationNames(eventType, PluginModule) {
     var phaseName;
-    var phasedRegistrationNames = eventType.phasedRegistrationNames;
+    var phasedRegistrationNames = eventType.phasedRegistrationNames;// 结构为{bubbled:"onMouseDown",captured:"onMouseDownCapture"}
     if (phasedRegistrationNames) {
-        for (phaseName in phasedRegistrationNames) {
+        for (phaseName in phasedRegistrationNames) {// `phaseName`为 `bubbled` `captured`等
             if (!phasedRegistrationNames.hasOwnProperty(phaseName)) {
                 continue
             }
@@ -1265,9 +1572,9 @@ function recordAllRegistrationNames(eventType, PluginModule) {
             registrationNames$2[phasedRegistrationNames[phaseName]] = PluginModule;
             registrationNamesArr.push(phasedRegistrationNames[phaseName])
         }
-    } else if (eventType.registrationName) {
+    } else if (eventType.registrationName) {// 结构为('onMouseEnter' 或 'onMouseLeave')
         if (__DEV__) {
-            throwIf_1(registrationNames$2[eventType.registrationName], ERRORS.DOUBLE_REGISTER);
+            throwIf_1(registrationNames$2[eventType.registrationName], ERRORS.DOUBLE_REGISTER);//重复注入则会报错
         }
         registrationNames$2[eventType.registrationName] = PluginModule;
         registrationNamesArr.push(eventType.registrationName)
@@ -1290,13 +1597,13 @@ function getPluginModuleForAbstractEvent(abstractEvent) {
     }
     return null
 }
-var deleteAllListeners = function(domID) {
+var deleteAllListeners = function (domID) {
     var ii;
     for (ii = 0; ii < registrationNamesArr.length; ii++) {
         deleteListener(domID, registrationNamesArr[ii])
     }
 };
-var extractAbstractEvents$1 = function(topLevelType, nativeEvent, renderedTargetID, renderedTarget) {
+var extractAbstractEvents$1 = function (topLevelType, nativeEvent, renderedTargetID, renderedTarget) {
     var abstractEvents;
     var plugins = injection$1.plugins;
     var len = plugins.length;
@@ -1309,12 +1616,12 @@ var extractAbstractEvents$1 = function(topLevelType, nativeEvent, renderedTarget
     }
     return abstractEvents
 };
-var enqueueAbstractEvents = function(abstractEvents) {
+var enqueueAbstractEvents = function (abstractEvents) {
     if (abstractEvents) {
         abstractEventQueue = accumulate_1(abstractEventQueue, abstractEvents)
     }
 };
-var executeDispatchesAndRelease = function(abstractEvent) {
+var executeDispatchesAndRelease = function (abstractEvent) {
     if (abstractEvent) {
         var PluginModule = getPluginModuleForAbstractEvent(abstractEvent);
         var pluginExecuteDispatch = PluginModule && PluginModule.executeDispatch;
@@ -1322,7 +1629,7 @@ var executeDispatchesAndRelease = function(abstractEvent) {
         AbstractEvent_1.release(abstractEvent)
     }
 };
-var processAbstractEventQueue = function() {
+var processAbstractEventQueue = function () {
     var processingAbstractEventQueue = abstractEventQueue;
     abstractEventQueue = null;
     forEachAccumulated_1(processingAbstractEventQueue, executeDispatchesAndRelease);
@@ -1345,15 +1652,19 @@ if (ExecutionEnvironment_1.canUseDOM) {
     window.EventPluginHub = EventPluginHub
 }
 var EventPluginHub_1 = EventPluginHub;
+
+// --------------
+// `EventListener`
+// 用于监听事件的对象`listen`方法非捕获监听，`capture`方法捕获；handlerBaseName是事件名
 var EventListener = {
-    listen: function(el, handlerBaseName, cb) {
+    listen: function (el, handlerBaseName, cb) {
         if (el.addEventListener) {
             el.addEventListener(handlerBaseName, cb, false)
         } else if (el.attachEvent) {
             el.attachEvent('on' + handlerBaseName, cb)
         }
     },
-    capture: function(el, handlerBaseName, cb) {
+    capture: function (el, handlerBaseName, cb) {
         if (!el.addEventListener) {
             console.error('You are attempting to use addEventlistener in a browser that does not support it support it.This likely means that you will not receive events that your application relies on (such as scroll).');
             return
@@ -1377,15 +1688,15 @@ function normalizeEvent(eventParam) {
 }
 
 function createNormalizedCallback(cb) {
-    return function(unfixedNativeEvent) {
+    return function (unfixedNativeEvent) {
         cb(normalizeEvent(unfixedNativeEvent))
     }
 }
 var NormalizedEventListener = {
-    listen: function(el, handlerBaseName, cb) {
+    listen: function (el, handlerBaseName, cb) {
         EventListener_1.listen(el, handlerBaseName, createNormalizedCallback(cb))
     },
-    capture: function(el, handlerBaseName, cb) {
+    capture: function (el, handlerBaseName, cb) {
         EventListener_1.capture(el, handlerBaseName, createNormalizedCallback(cb))
     }
 };
@@ -1430,7 +1741,7 @@ function trapCapturedEvent(topLevelType, handlerBaseName, onWhat) {
 }
 
 function registerDocumentScrollListener() {
-    listen(window, 'scroll', function(nativeEvent) {
+    listen(window, 'scroll', function (nativeEvent) {
         if (nativeEvent.target === window) {
             BrowserEnv_1.refreshAuthoritativeScrollValues()
         }
@@ -1438,7 +1749,7 @@ function registerDocumentScrollListener() {
 }
 
 function registerDocumentResizeListener() {
-    listen(window, 'resize', function(nativeEvent) {
+    listen(window, 'resize', function (nativeEvent) {
         if (nativeEvent.target === window) {
             BrowserEnv_1.refreshAuthoritativeScrollValues()
         }
@@ -1474,7 +1785,8 @@ function listenAtTopLevel(touchNotMouse) {
         trapCapturedEvent(topLevelTypes$2.topScroll, 'scroll', mountAt)
     } else {
         trapBubbledEvent(topLevelTypes$2.topScroll, 'scroll', window)
-    } if (isEventSupported_1('focus', true)) {
+    }
+    if (isEventSupported_1('focus', true)) {
         trapCapturedEvent(topLevelTypes$2.topFocus, 'focus', mountAt);
         trapCapturedEvent(topLevelTypes$2.topBlur, 'blur', mountAt)
     } else if (isEventSupported_1('focusin')) {
@@ -1572,7 +1884,7 @@ function traverseParentPath(start, stop, cb, arg, skipFirst, skipLast) {
 }
 var ReactInstanceHandles = {
     separator: SEPARATOR,
-    getFirstReactDOM: function(node) {
+    getFirstReactDOM: function (node) {
         var current = node;
         while (current && current.parentNode !== current) {
             if (isRenderedByReact(current)) {
@@ -1582,7 +1894,7 @@ var ReactInstanceHandles = {
         }
         return null
     },
-    findComponentRoot: function(ancestorNode, id) {
+    findComponentRoot: function (ancestorNode, id) {
         var child = ancestorNode.firstChild;
         while (child) {
             if (id === child.id) {
@@ -1593,7 +1905,7 @@ var ReactInstanceHandles = {
             child = child.nextSibling
         }
     },
-    getFirstCommonAncestorID: function(oneID, twoID) {
+    getFirstCommonAncestorID: function (oneID, twoID) {
         var minLength = Math.min(oneID.length, twoID.length);
         if (minLength === 0) {
             return ''
@@ -1610,14 +1922,14 @@ var ReactInstanceHandles = {
         invariant_1(isValidID(longestCommonID), 'getFirstCommonAncestorID(%s, %s): Expected a valid React DOM ID: %s', oneID, twoID, longestCommonID);
         return longestCommonID
     },
-    getReactRootID: function(mountPointCount) {
+    getReactRootID: function (mountPointCount) {
         return '.reactRoot[' + mountPointCount + ']'
     },
-    getReactRootIDFromNodeID: function(id) {
+    getReactRootIDFromNodeID: function (id) {
         var regexResult = /\.reactRoot\[[^\]]+\]/.exec(id);
         return regexResult && regexResult[0]
     },
-    traverseEnterLeave: function(leaveID, enterID, cb, upArg, downArg) {
+    traverseEnterLeave: function (leaveID, enterID, cb, upArg, downArg) {
         var longestCommonID = ReactInstanceHandles.getFirstCommonAncestorID(leaveID, enterID);
         if (longestCommonID !== leaveID) {
             traverseParentPath(leaveID, longestCommonID, cb, upArg, false, true)
@@ -1626,13 +1938,13 @@ var ReactInstanceHandles = {
             traverseParentPath(longestCommonID, enterID, cb, downArg, true, false)
         }
     },
-    traverseTwoPhase: function(targetID, cb, arg) {
+    traverseTwoPhase: function (targetID, cb, arg) {
         if (targetID) {
             traverseParentPath('', targetID, cb, arg, true, false);
             traverseParentPath(targetID, '', cb, arg, false, true)
         }
     },
-    nextDescendantID: function(ancestorID, destinationID) {
+    nextDescendantID: function (ancestorID, destinationID) {
         invariant_1(isValidID(ancestorID) && isValidID(destinationID), 'nextDescendantID(%s, %s): Received an invalid React DOM ID.', ancestorID, destinationID);
         var longestCommonID = ReactInstanceHandles.getFirstCommonAncestorID(ancestorID, destinationID);
         invariant_1(longestCommonID === ancestorID, 'nextDescendantID(...): React has made an invalid assumption about the DOM hierarchy. Expected `%s` to be an ancestor of `%s`.', ancestorID, destinationID);
@@ -1651,14 +1963,14 @@ var ReactInstanceHandles = {
 var ReactInstanceHandles_1 = ReactInstanceHandles;
 var _topLevelListenersEnabled = true;
 var ReactEventTopLevelCallback = {
-    setEnabled: function(enabled) {
+    setEnabled: function (enabled) {
         _topLevelListenersEnabled = !!enabled
     },
-    isEnabled: function() {
+    isEnabled: function () {
         return _topLevelListenersEnabled
     },
-    createTopLevelCallback: function(topLevelType) {
-        return function(fixedNativeEvent) {
+    createTopLevelCallback: function (topLevelType) {
+        return function (fixedNativeEvent) {
             if (!_topLevelListenersEnabled) {
                 return
             }
@@ -1729,18 +2041,18 @@ var ReactMount = {
     totalInstantiationTime: 0,
     totalInjectionTime: 0,
     useTouchEvents: false,
-    scrollMonitor: function(container, renderCallback) {
+    scrollMonitor: function (container, renderCallback) {
         renderCallback()
     },
-    prepareTopLevelEvents: function(TopLevelCallbackCreator) {
+    prepareTopLevelEvents: function (TopLevelCallbackCreator) {
         ReactEvent_1.ensureListening(ReactMount.useTouchEvents, TopLevelCallbackCreator)
     },
-    renderComponent: function(nextComponent, container) {
+    renderComponent: function (nextComponent, container) {
         var prevComponent = instanceByReactRootID[getReactRootID(container)];
         if (prevComponent) {
             if (prevComponent.constructor === nextComponent.constructor) {
                 var nextProps = nextComponent.props;
-                ReactMount.scrollMonitor(container, function() {
+                ReactMount.scrollMonitor(container, function () {
                     prevComponent.replaceProps(nextProps)
                 });
                 return prevComponent
@@ -1754,18 +2066,18 @@ var ReactMount = {
         nextComponent.mountComponentIntoNode(reactRootID, container);
         return nextComponent
     },
-    createComponentRenderer: function(component) {
-        return function(container) {
+    createComponentRenderer: function (component) {
+        return function (container) {
             return ReactMount.renderComponent(component, container)
         }
     },
-    constructAndRenderComponent: function(constructor, props, container) {
+    constructAndRenderComponent: function (constructor, props, container) {
         return ReactMount.renderComponent(constructor(props), container)
     },
-    constructAndRenderComponentByID: function(constructor, props, id) {
+    constructAndRenderComponentByID: function (constructor, props, id) {
         return ReactMount.constructAndRenderComponent(constructor, props, $_1(id))
     },
-    registerContainer: function(container) {
+    registerContainer: function (container) {
         var reactRootID = getReactRootID(container);
         if (reactRootID) {
             reactRootID = ReactInstanceHandles_1.getReactRootIDFromNodeID(reactRootID)
@@ -1776,18 +2088,18 @@ var ReactMount = {
         containersByReactRootID[reactRootID] = container;
         return reactRootID
     },
-    unmountAndReleaseReactRootNode: function(container) {
+    unmountAndReleaseReactRootNode: function (container) {
         var reactRootID = getReactRootID(container);
         var component = instanceByReactRootID[reactRootID];
         component.unmountComponentFromNode(container);
         delete instanceByReactRootID[reactRootID];
         delete containersByReactRootID[reactRootID]
     },
-    findReactContainerForID: function(id) {
+    findReactContainerForID: function (id) {
         var reatRootID = ReactInstanceHandles_1.getReactRootIDFromNodeID(id);
         return containersByReactRootID[reatRootID]
     },
-    findReactRenderedDOMNodeSlow: function(id) {
+    findReactRenderedDOMNodeSlow: function (id) {
         var reactRoot = ReactMount.findReactContainerForID(id);
         return ReactInstanceHandles_1.findComponentRoot(reactRoot, id)
     }
@@ -1795,11 +2107,11 @@ var ReactMount = {
 var ReactMount_1 = ReactMount;
 var nodeCache = {};
 var ReactDOMNodeCache = {
-    purgeEntireCache: function() {
+    purgeEntireCache: function () {
         nodeCache = {};
         return nodeCache
     },
-    getCachedNodeByID: function(id) {
+    getCachedNodeByID: function (id) {
         return nodeCache[id] || (nodeCache[id] = document.getElementById(id) || ReactMount_1.findReactRenderedDOMNodeSlow(id))
     }
 };
@@ -1820,12 +2132,12 @@ var INVALID_PROPERTY_ERRORS = {
 };
 var textContentAccessor = getTextContentAccessor_1() || 'NA';
 var ReactDOMIDOperations = {
-    updatePropertyByID: function(id, name, value) {
+    updatePropertyByID: function (id, name, value) {
         var node = ReactDOMNodeCache_1.getCachedNodeByID(id);
         invariant_1(!INVALID_PROPERTY_ERRORS.hasOwnProperty(name), 'updatePropertyByID(...): %s', INVALID_PROPERTY_ERRORS[name]);
         DOMPropertyOperations_1.setValueForProperty(node, name, value)
     },
-    updatePropertiesByID: function(id, properties) {
+    updatePropertiesByID: function (id, properties) {
         for (var name in properties) {
             if (!properties.hasOwnProperty(name)) {
                 continue
@@ -1833,55 +2145,55 @@ var ReactDOMIDOperations = {
             ReactDOMIDOperations.updatePropertiesByID(id, name, properties[name])
         }
     },
-    updateStylesByID: function(id, styles) {
+    updateStylesByID: function (id, styles) {
         var node = ReactDOMNodeCache_1.getCachedNodeByID(id);
         CSSPropertyOperations_1.setValueForStyles(node, styles)
     },
-    updateInnerHTMLByID: function(id, html) {
+    updateInnerHTMLByID: function (id, html) {
         var node = ReactDOMNodeCache_1.getCachedNodeByID(id);
         node.innerHTML = (html && html.__html || '').replace(/^ /g, '&nbsp;')
     },
-    updateTextContentByID: function(id, content) {
+    updateTextContentByID: function (id, content) {
         var node = ReactDOMNodeCache_1.getCachedNodeByID(id);
         node[textContentAccessor] = content
     },
-    dangerouslyReplaceNodeWithMarkupByID: function(id, markup) {
+    dangerouslyReplaceNodeWithMarkupByID: function (id, markup) {
         var node = ReactDOMNodeCache_1.getCachedNodeByID(id);
         DOMChildrenOperations_1.dangerouslyReplaceNodeWithMarkup(node, markup);
         ReactDOMNodeCache_1.purgeEntireCache()
     },
-    manageChildrenByParentID: function(parentID, domOperations) {
+    manageChildrenByParentID: function (parentID, domOperations) {
         var parent = ReactDOMNodeCache_1.getCachedNodeByID(parentID);
         DOMChildrenOperations_1.manageChildren(parent, domOperations);
         ReactDOMNodeCache_1.purgeEntireCache()
     },
-    setTextNodeValueAtIndexByParentID: function(parentID, index, value) {
+    setTextNodeValueAtIndexByParentID: function (parentID, index, value) {
         var parent = ReactDOMNodeCache_1.getCachedNodeByID(parentID);
         DOMChildrenOperations_1.setTextNodeValueAtIndex(parent, index, value)
     }
 };
 var ReactDOMIDOperations_1 = ReactDOMIDOperations;
 var ReactOwner = {
-    isValidOwner: function(object) {
+    isValidOwner: function (object) {
         return !!(object && typeof object.attachRef === 'function' && typeof object.detachRef === 'function')
     },
-    addComponentAsRefTo: function(component, ref, owner) {
+    addComponentAsRefTo: function (component, ref, owner) {
         invariant_1(ReactOwner.isValidOwner(owner), 'addComponentAsRefTo(...): Only a ReactOwner can have refs.');
         owner.attachRef(ref, component)
     },
-    removeComponentAsRefFrom: function(component, ref, owner) {
+    removeComponentAsRefFrom: function (component, ref, owner) {
         invariant_1(ReactOwner.isValidOwner(owner), 'removeComponentAsRefFrom(...): Only a ReactOwner can have refs.');
         if (owner.refs[ref] === component) {
             owner.detachRef(ref)
         }
     },
     Mixin: {
-        attachRef: function(ref, component) {
+        attachRef: function (ref, component) {
             invariant_1(component.isOwnedBy(this), 'attachRef(%s, ...): Only a component\'s owner can store a ref to it.', ref);
             var refs = this.refs || (this.refs = {});
             refs[ref] = component
         },
-        detachRef: function(ref) {
+        detachRef: function (ref) {
             delete this.refs[ref]
         }
     }
@@ -1894,17 +2206,17 @@ function getActiveElement() {
     } catch (e) {}
 }
 var ReactInputSelection = {
-    hasSelectionCapabilities: function(elem) {
+    hasSelectionCapabilities: function (elem) {
         return elem && ((elem.nodeName === 'INPUT' && elem.type === 'text') || elem.nodeName === 'TEXTAREA' || elem.contentEditable === 'true')
     },
-    getSelectionInformation: function() {
+    getSelectionInformation: function () {
         var focusedElem = getActiveElement();
         return {
             focusedElem: focusedElem,
             selectionRange: ReactInputSelection.hasSelectionCapabilities(focusedElem) ? ReactInputSelection.getSelection(focusedElem) : null
         }
     },
-    restoreSelection: function(priorSelectionInformation) {
+    restoreSelection: function (priorSelectionInformation) {
         var curFocusedElem = getActiveElement();
         var priorFocusedElem = priorSelectionInformation.focusedElem;
         var priorSelectionRange = priorSelectionInformation.selectionRange;
@@ -1915,7 +2227,7 @@ var ReactInputSelection = {
             priorFocusedElem.focus()
         }
     },
-    getSelection: function(input) {
+    getSelection: function (input) {
         var range;
         if (input.contentEditable === 'true' && window.getSelection) {
             range = window.getSelection().getRangeAt(0);
@@ -1966,7 +2278,7 @@ var ReactInputSelection = {
             }
         }
     },
-    setSelection: function(input, rangeObj) {
+    setSelection: function (input, rangeObj) {
         var range;
         var start = rangeObj.start;
         var end = rangeObj.end;
@@ -2004,7 +2316,7 @@ var ReactInputSelection = {
     }
 };
 var ReactInputSelection_1 = ReactInputSelection;
-var mixInto = function(constructor, methodBag) {
+var mixInto = function (constructor, methodBag) {
     var methodName;
     for (methodName in methodBag) {
         if (!methodBag.hasOwnProperty(methodName)) {
@@ -2019,14 +2331,14 @@ function ReactOnDOMReady(initialCollection) {
     this._queue = initialCollection || null
 }
 mixInto_1(ReactOnDOMReady, {
-    enqueue: function(component, callback) {
+    enqueue: function (component, callback) {
         this._queue = this._queue || [];
         this._queue.push({
             component: component,
             callback: callback
         })
     },
-    notifyAll: function() {
+    notifyAll: function () {
         var queue = this._queue;
         if (queue) {
             this._queue = null;
@@ -2038,10 +2350,10 @@ mixInto_1(ReactOnDOMReady, {
             queue.length = 0
         }
     },
-    reset: function() {
+    reset: function () {
         this._queue = null
     },
-    destructor: function() {
+    destructor: function () {
         this.reset()
     }
 });
@@ -2054,13 +2366,14 @@ if (__DEV__) {
     MISSING_TRANSACTION = 'Cannot close transaction when there is none open.'
 }
 var Mixin$1 = {
-    reinitializeTransaction: function() {
+    reinitializeTransaction: function () {
         this.transactionWrappers = this.getTransactionWrappers();
         if (!this.wrapperInitData) {
             this.wrapperInitData = []
         } else {
             this.wrapperInitData.length = 0
-        } if (!this.timingMetrics) {
+        }
+        if (!this.timingMetrics) {
             this.timingMetrics = {}
         }
         this.timingMetrics.methodInvocationTime = 0;
@@ -2068,7 +2381,8 @@ var Mixin$1 = {
             this.timingMetrics.wrapperInitTimes = []
         } else {
             this.timingMetrics.wrapperInitTimes.length = 0
-        } if (!this.timingMetrics.wrapperCloseTimes) {
+        }
+        if (!this.timingMetrics.wrapperCloseTimes) {
             this.timingMetrics.wrapperCloseTimes = []
         } else {
             this.timingMetrics.wrapperCloseTimes.length = 0
@@ -2077,10 +2391,10 @@ var Mixin$1 = {
     },
     _isInTransaction: false,
     getTransactionWrappers: null,
-    isInTransaction: function() {
+    isInTransaction: function () {
         return !!this._isInTransaction
     },
-    perform: function(method, scope, a, b, c, d, e, f) {
+    perform: function (method, scope, a, b, c, d, e, f) {
         throwIf_1(this.isInTransaction(), DUAL_TRANSACTION);
         var memberStart = Date.now();
         var err = null;
@@ -2104,7 +2418,7 @@ var Mixin$1 = {
         }
         return ret
     },
-    initializeAll: function() {
+    initializeAll: function () {
         this._isInTransaction = true;
         var transactionWrappers = this.transactionWrappers;
         var wrapperInitTimes = this.timingMetrics.wrapperInitTimes;
@@ -2127,7 +2441,7 @@ var Mixin$1 = {
             throw err;
         }
     },
-    closeAll: function() {
+    closeAll: function () {
         throwIf_1(!this.isInTransaction(), MISSING_TRANSACTION);
         var transactionWrappers = this.transactionWrappers;
         var wrapperCloseTimes = this.timingMetrics.wrapperCloseTimes;
@@ -2165,20 +2479,20 @@ var SELECTION_RESTORATION = {
     close: ReactInputSelection_1.restoreSelection
 };
 var EVENT_SUPPRESSION = {
-    initialize: function() {
+    initialize: function () {
         var currentlyEnabled = ReactEvent_1.isEnabled();
         ReactEvent_1.setEnabled(false);
         return currentlyEnabled
     },
-    close: function(previouslyEnabled) {
+    close: function (previouslyEnabled) {
         ReactEvent_1.setEnabled(previouslyEnabled)
     }
 };
 var ON_DOM_READY_QUEUEING = {
-    initialize: function() {
+    initialize: function () {
         this.reactOnDOMReady.reset()
     },
-    close: function() {
+    close: function () {
         this.reactOnDOMReady.notifyAll()
     }
 };
@@ -2189,17 +2503,17 @@ function ReactReconcileTransaction() {
     this.reactOnDOMReady = ReactOnDOMReady_1.getPooled(null)
 }
 var Mixin = {
-    getTransactionWrappers: function() {
+    getTransactionWrappers: function () {
         if (ExecutionEnvironment_1.canUseDOM) {
             return TRANSACTION_WRAPPERS
         } else {
             return []
         }
     },
-    getReactOnDOMReady: function() {
+    getReactOnDOMReady: function () {
         return this.reactOnDOMReady
     },
-    destructor: function() {
+    destructor: function () {
         ReactOnDOMReady_1.release(this.reactOnDOMReady);
         this.reactOnDOMReady = null
     }
@@ -2214,20 +2528,20 @@ var ComponentLifeCycle = keyMirror_1({
     UNMOUNTED: null
 });
 var ReactComponent = {
-    isValidComponent: function(object) {
+    isValidComponent: function (object) {
         return !!(object && typeof object.mountComponentIntoNode === 'function' && typeof object.receiveProps === 'function')
     },
     LifeCycle: ComponentLifeCycle,
     DOMIDOperations: ReactDOMIDOperations_1,
     ReactReconcileTransaction: ReactReconcileTransaction_1,
-    setDOMOperations: function(DOMIDOperations) {
+    setDOMOperations: function (DOMIDOperations) {
         ReactComponent.DOMIDOperations = DOMIDOperations
     },
-    setReactReconcileTransaction: function(ReactReconcileTransaction) {
+    setReactReconcileTransaction: function (ReactReconcileTransaction) {
         ReactComponent.ReactReconcileTransaction = ReactReconcileTransaction
     },
     Mixin: {
-        getDOMNode: function() {
+        getDOMNode: function () {
             invariant_1(ExecutionEnvironment_1.canUseDOM, 'getDOMNode(): The DOM is not supported in the current environment.');
             invariant_1(this._lifeCycleState === ComponentLifeCycle.MOUNTED, 'getDOMNode(): A component must be mounted to have a DOM node.');
             var rootNode = this._rootNode;
@@ -2240,16 +2554,16 @@ var ReactComponent = {
             }
             return rootNode
         },
-        setProps: function(partialProps) {
+        setProps: function (partialProps) {
             this.replaceProps(merge_1(this.props, partialProps))
         },
-        replaceProps: function(props) {
+        replaceProps: function (props) {
             invariant_1(!this.props[OWNER], 'replaceProps(...): You called `setProps` or `replaceProps` on a component with an owner. This is an anti-pattern since props will get reactively updated when rendered. Instead, change the owner\'s `render` method to pass the correct value as props to the component where it is created.');
             var transaction = ReactComponent.ReactReconcileTransaction.getPooled();
             transaction.perform(this.receiveProps, this, props, transaction);
             ReactComponent.ReactReconcileTransaction.release(transaction)
         },
-        construct: function(initialProps, children) {
+        construct: function (initialProps, children) {
             this.props = initialProps || {};
             if (typeof children !== 'undefined') {
                 this.props.children = children
@@ -2257,7 +2571,7 @@ var ReactComponent = {
             this.props[OWNER] = ReactCurrentOwner_1.current;
             this._lifeCycleState = ComponentLifeCycle.UNMOUNTED
         },
-        mountComponent: function(rootID, transaction) {
+        mountComponent: function (rootID, transaction) {
             invariant_1(this._lifeCycleState === ComponentLifeCycle.UNMOUNTED, 'mountComponent(%s, ...): Can only mount an unmounted component.', rootID);
             var props = this.props;
             if (props.ref != null) {
@@ -2266,7 +2580,7 @@ var ReactComponent = {
             this._rootNodeID = rootID;
             this._lifeCycleState = ComponentLifeCycle.MOUNTED
         },
-        unmountComponent: function() {
+        unmountComponent: function () {
             invariant_1(this._lifeCycleState === ComponentLifeCycle.MOUNTED, 'unmountComponent(): Can only unmount a mounted component.');
             var props = this.props;
             if (props.ref != null) {
@@ -2276,7 +2590,7 @@ var ReactComponent = {
             this._rootNodeID = null;
             this._lifeCycleState = ComponentLifeCycle.UNMOUNTED
         },
-        receiveProps: function(nextProps, transaction) {
+        receiveProps: function (nextProps, transaction) {
             invariant_1(this._lifeCycleState === ComponentLifeCycle.MOUNTED, 'receiveProps(...): Can only update a mounted component.');
             var props = this.props;
             if (nextProps[OWNER] !== props[OWNER] || nextProps.ref !== props.ref) {
@@ -2288,12 +2602,12 @@ var ReactComponent = {
                 }
             }
         },
-        mountComponentIntoNode: function(rootID, container) {
+        mountComponentIntoNode: function (rootID, container) {
             var transaction = ReactComponent.ReactReconcileTransaction.getPooled();
             transaction.perform(this._mountComponentIntoNode, this, rootID, container, transaction);
             ReactComponent.ReactReconcileTransaction.release(transaction)
         },
-        _mountComponentIntoNode: function(rootID, container, transaction) {
+        _mountComponentIntoNode: function (rootID, container, transaction) {
             var renderStart = Date.now();
             var markup = this.mountComponent(rootID, transaction);
             ReactMount_1.totalInstantiationTime += (Date.now() - renderStart);
@@ -2313,13 +2627,13 @@ var ReactComponent = {
             }
             ReactMount_1.totalInjectionTime += (Date.now() - injectionStart)
         },
-        unmountComponentFromNode: function(container) {
+        unmountComponentFromNode: function (container) {
             this.unmountComponent();
             while (container.lastChild) {
                 container.removeChild(container.lastChild)
             }
         },
-        isOwnedBy: function(owner) {
+        isOwnedBy: function (owner) {
             return this.props[OWNER] === owner
         }
     }
@@ -2332,11 +2646,11 @@ function logDeprecated(msg) {
         console && console.warn && console.warn(msg)
     }
 }
-ReactComponent.Mixin.update = function(props) {
+ReactComponent.Mixin.update = function (props) {
     logDeprecated('this.update() is deprecated. Use this.setProps()');
     this.setProps(props)
 };
-ReactComponent.Mixin.updateAll = function(props) {
+ReactComponent.Mixin.updateAll = function (props) {
     logDeprecated('this.updateAll() is deprecated. Use this.replaceProps()');
     this.replaceProps(props)
 };
@@ -2366,7 +2680,7 @@ function copyProperties(obj, a, b, c, d, e, f) {
 var copyProperties_1 = copyProperties;
 
 function makeEmptyFunction(arg) {
-    return function() {
+    return function () {
         return arg
     }
 }
@@ -2377,14 +2691,14 @@ copyProperties_1(emptyFunction, {
     thatReturnsFalse: makeEmptyFunction(false),
     thatReturnsTrue: makeEmptyFunction(true),
     thatReturnsNull: makeEmptyFunction(null),
-    thatReturnsThis: function() {
+    thatReturnsThis: function () {
         return this
     },
-    thatReturnsArgument: function(arg) {
+    thatReturnsArgument: function (arg) {
         return arg
     },
-    mustImplement: function(module, property) {
-        return function() {
+    mustImplement: function (module, property) {
+        return function () {
             if (__DEV__) {
                 throw new Error(module + '.' + property + ' must be implemented!');
             }
@@ -2410,7 +2724,7 @@ function joinClasses(className) {
 var joinClasses_1 = joinClasses;
 
 function createTransferStrategy(mergeStrategy) {
-    return function(props, key, value) {
+    return function (props, key, value) {
         if (!props.hasOwnProperty(key)) {
             props[key] = value
         } else {
@@ -2426,7 +2740,7 @@ var TransferStrategies = {
 var ReactPropTransferer = {
     TransferStrategies: TransferStrategies,
     Mixin: {
-        transferPropsTo: function(component) {
+        transferPropsTo: function (component) {
             var props = {};
             for (var thatKey in component.props) {
                 if (component.props.hasOwnProperty(thatKey)) {
@@ -2470,17 +2784,17 @@ var ReactCompositeComponentInterface = {
     updateComponent: SpecPolicy.OVERRIDE_BASE
 };
 var RESERVED_SPEC_KEYS = {
-    displayName: function(Constructor, displayName) {
+    displayName: function (Constructor, displayName) {
         Constructor.displayName = displayName
     },
-    mixins: function(Constructor, mixins) {
+    mixins: function (Constructor, mixins) {
         if (mixins) {
             for (var i = 0; i < mixins.length; i++) {
                 mixSpecIntoComponent(Constructor, mixins[i])
             }
         }
     },
-    props: function(Constructor, props) {
+    props: function (Constructor, props) {
         Constructor.propDeclarations = props
     }
 };
@@ -2531,13 +2845,13 @@ var CompositeLifeCycle = keyMirror_1({
     RECEIVING_STATE: null
 });
 var ReactCompositeComponentMixin = {
-    construct: function(initialProps, children) {
+    construct: function (initialProps, children) {
         ReactComponent_1.Mixin.construct.call(this, initialProps, children);
         this.state = null;
         this._pendingState = null;
         this._compositeLifeCycleState = null
     },
-    mountComponent: function(rootID, transaction) {
+    mountComponent: function (rootID, transaction) {
         ReactComponent_1.Mixin.mountComponent.call(this, rootID, transaction);
         this._lifeCycleState = ReactComponent_1.LifeCycle.UNMOUNTED;
         this._compositeLifeCycleState = CompositeLifeCycle.MOUNTING;
@@ -2564,7 +2878,7 @@ var ReactCompositeComponentMixin = {
         this._lifeCycleState = ReactComponent_1.LifeCycle.MOUNTED;
         return this._renderedComponent.mountComponent(rootID, transaction)
     },
-    unmountComponent: function() {
+    unmountComponent: function () {
         this._compositeLifeCycleState = CompositeLifeCycle.UNMOUNTING;
         if (this.componentWillUnmount) {
             this.componentWillUnmount()
@@ -2577,7 +2891,7 @@ var ReactCompositeComponentMixin = {
             this.refs = null
         }
     },
-    receiveProps: function(nextProps, transaction) {
+    receiveProps: function (nextProps, transaction) {
         if (this.constructor.propDeclarations) {
             this._assertValidProps(nextProps)
         }
@@ -2592,10 +2906,10 @@ var ReactCompositeComponentMixin = {
         this._receivePropsAndState(nextProps, nextState, transaction);
         this._compositeLifeCycleState = null
     },
-    setState: function(partialState) {
+    setState: function (partialState) {
         this.replaceState(merge_1(this._pendingState || this.state, partialState))
     },
-    replaceState: function(completeState) {
+    replaceState: function (completeState) {
         var compositeLifeCycleState = this._compositeLifeCycleState;
         invariant_1(this._lifeCycleState === ReactComponent_1.LifeCycle.MOUNTED || compositeLifeCycleState === CompositeLifeCycle.MOUNTING, 'replaceState(...): Can only update a mounted (or mounting) component.');
         invariant_1(compositeLifeCycleState !== CompositeLifeCycle.RECEIVING_STATE && compositeLifeCycleState !== CompositeLifeCycle.UNMOUNTING, 'replaceState(...): Cannot update while unmounting component or during an existing state transition (such as within `render`).');
@@ -2610,7 +2924,7 @@ var ReactCompositeComponentMixin = {
             this._compositeLifeCycleState = null
         }
     },
-    _receivePropsAndState: function(nextProps, nextState, transaction) {
+    _receivePropsAndState: function (nextProps, nextState, transaction) {
         if (!this.shouldComponentUpdate || this.shouldComponentUpdate(nextProps, nextState)) {
             this._performComponentUpdate(nextProps, nextState, transaction)
         } else {
@@ -2618,7 +2932,7 @@ var ReactCompositeComponentMixin = {
             this.state = nextState
         }
     },
-    _performComponentUpdate: function(nextProps, nextState, transaction) {
+    _performComponentUpdate: function (nextProps, nextState, transaction) {
         var prevProps = this.props;
         var prevState = this.state;
         if (this.componentWillUpdate) {
@@ -2631,7 +2945,7 @@ var ReactCompositeComponentMixin = {
             transaction.getReactOnDOMReady().enqueue(this, this.componentDidUpdate.bind(this, prevProps, prevState))
         }
     },
-    updateComponent: function(transaction) {
+    updateComponent: function (transaction) {
         var currentComponent = this._renderedComponent;
         var nextComponent = this._renderValidatedComponent();
         if (currentComponent.constructor === nextComponent.constructor) {
@@ -2647,19 +2961,19 @@ var ReactCompositeComponentMixin = {
             this._renderedComponent = nextComponent
         }
     },
-    forceUpdate: function() {
+    forceUpdate: function () {
         var transaction = ReactComponent_1.ReactReconcileTransaction.getPooled();
         transaction.perform(this._performComponentUpdate, this, this.props, this.state, transaction);
         ReactComponent_1.ReactReconcileTransaction.release(transaction)
     },
-    _renderValidatedComponent: function() {
+    _renderValidatedComponent: function () {
         ReactCurrentOwner_1.current = this;
         var renderedComponent = this.render();
         ReactCurrentOwner_1.current = null;
         invariant_1(ReactComponent_1.isValidComponent(renderedComponent), '%s.render(): A valid ReactComponent must be returned.', this.constructor.displayName || 'ReactCompositeComponent');
         return renderedComponent
     },
-    _assertValidProps: function(props) {
+    _assertValidProps: function (props) {
         var propDeclarations = this.constructor.propDeclarations;
         var componentName = this.constructor.displayName;
         for (var propName in propDeclarations) {
@@ -2669,7 +2983,7 @@ var ReactCompositeComponentMixin = {
             }
         }
     },
-    _bindAutoBindMethods: function() {
+    _bindAutoBindMethods: function () {
         for (var autoBindKey in this.__reactAutoBindMap) {
             if (!this.__reactAutoBindMap.hasOwnProperty(autoBindKey)) {
                 continue
@@ -2678,7 +2992,7 @@ var ReactCompositeComponentMixin = {
             this[autoBindKey] = this._bindAutoBindMethod(method)
         }
     },
-    _bindAutoBindMethod: function(method) {
+    _bindAutoBindMethod: function (method) {
         var component = this;
         var hasWarned = false;
 
@@ -2696,7 +3010,7 @@ var ReactCompositeComponentMixin = {
         return autoBound
     }
 };
-var ReactCompositeComponentBase = function() {};
+var ReactCompositeComponentBase = function () {};
 mixInto_1(ReactCompositeComponentBase, ReactComponent_1.Mixin);
 mixInto_1(ReactCompositeComponentBase, ReactOwner_1.Mixin);
 mixInto_1(ReactCompositeComponentBase, ReactPropTransferer_1.Mixin);
@@ -2704,22 +3018,22 @@ mixInto_1(ReactCompositeComponentBase, ReactCompositeComponentMixin);
 var ReactCompositeComponent = {
     LifeCycle: CompositeLifeCycle,
     Base: ReactCompositeComponentBase,
-    createClass: function(spec) {
-        var Constructor = function(initialProps, children) {
+    createClass: function (spec) {
+        var Constructor = function (initialProps, children) {
             this.construct(initialProps, children)
         };
         Constructor.prototype = new ReactCompositeComponentBase();
         Constructor.prototype.constructor = Constructor;
         mixSpecIntoComponent(Constructor, spec);
         invariant_1(Constructor.prototype.render, 'createClass(...): Class specification must implement a `render` method.');
-        var ConvenienceConstructor = function(props, children) {
+        var ConvenienceConstructor = function (props, children) {
             return new Constructor(props, children)
         };
         ConvenienceConstructor.componentConstructor = Constructor;
         ConvenienceConstructor.originalSpec = spec;
         return ConvenienceConstructor
     },
-    autoBind: function(method) {
+    autoBind: function (method) {
         function unbound() {
             invariant_1(false, 'React.autoBind(...): Attempted to invoke an auto-bound method that was not correctly defined on the class specification.')
         }
@@ -2733,21 +3047,21 @@ function shouldManageExisting(curChild, newChild) {
     return curChild && newChild && curChild.constructor === newChild.constructor
 }
 var ReactMultiChildMixin = {
-    enqueueMarkupAt: function(markup, insertAt) {
+    enqueueMarkupAt: function (markup, insertAt) {
         this.domOperations = this.domOperations || [];
         this.domOperations.push({
             insertMarkup: markup,
             finalIndex: insertAt
         })
     },
-    enqueueMove: function(originalIndex, finalIndex) {
+    enqueueMove: function (originalIndex, finalIndex) {
         this.domOperations = this.domOperations || [];
         this.domOperations.push({
             moveFrom: originalIndex,
             finalIndex: finalIndex
         })
     },
-    enqueueUnmountChildByName: function(name, removeChild) {
+    enqueueUnmountChildByName: function (name, removeChild) {
         if (ReactComponent_1.isValidComponent(removeChild)) {
             this.domOperations = this.domOperations || [];
             this.domOperations.push({
@@ -2757,13 +3071,13 @@ var ReactMultiChildMixin = {
             delete this._renderedChildren[name]
         }
     },
-    processChildDOMOperationsQueue: function() {
+    processChildDOMOperationsQueue: function () {
         if (this.domOperations) {
             ReactComponent_1.DOMIDOperations.manageChildrenByParentID(this._rootNodeID, this.domOperations);
             this.domOperations = null
         }
     },
-    unmountMultiChild: function() {
+    unmountMultiChild: function () {
         var renderedChildren = this._renderedChildren;
         for (var name in renderedChildren) {
             if (renderedChildren.hasOwnProperty(name) && renderedChildren[name]) {
@@ -2773,7 +3087,7 @@ var ReactMultiChildMixin = {
         }
         this._renderedChildren = null
     },
-    mountMultiChild: function(children, transaction) {
+    mountMultiChild: function (children, transaction) {
         var accum = '';
         var index = 0;
         for (var name in children) {
@@ -2788,7 +3102,7 @@ var ReactMultiChildMixin = {
         this.domOperations = null;
         return accum
     },
-    updateMultiChild: function(nextChildren, transaction) {
+    updateMultiChild: function (nextChildren, transaction) {
         if (!nextChildren && !this._renderedChildren) {
             return
         } else if (nextChildren && !this._renderedChildren) {
@@ -2853,18 +3167,18 @@ var ReactMultiChild = {
     Mixin: ReactMultiChildMixin
 };
 var ReactMultiChild_1 = ReactMultiChild;
-var ReactTextComponent = function(initialText) {
+var ReactTextComponent = function (initialText) {
     this.construct({
         text: initialText
     })
 };
 mixInto_1(ReactTextComponent, ReactComponent_1.Mixin);
 mixInto_1(ReactTextComponent, {
-    mountComponent: function(rootID) {
+    mountComponent: function (rootID) {
         ReactComponent_1.Mixin.mountComponent.call(this, rootID);
         return ('<span id="' + rootID + '">' + escapeTextForBrowser_1(this.props.text) + '</span>')
     },
-    receiveProps: function(nextProps, transaction) {
+    receiveProps: function (nextProps, transaction) {
         if (nextProps.text !== this.props.text) {
             this.props.text = nextProps.text;
             ReactComponent_1.DOMIDOperations.updateTextContentByID(this._rootNodeID, nextProps.text)
@@ -2877,7 +3191,7 @@ if (__DEV__) {
     INVALID_CHILD = 'You may not pass a child of that type to a React component. It is a common mistake to try to pass a standard browser DOM element as a child of a React component.'
 }
 var ONLY_CHILD_NAME = '0';
-var flattenChildrenImpl = function(res, children, nameSoFar) {
+var flattenChildrenImpl = function (res, children, nameSoFar) {
     if (Array.isArray(children)) {
         for (var i = 0; i < children.length; i++) {
             flattenChildrenImpl(res, children[i], nameSoFar + '[' + i + ']')
@@ -2949,12 +3263,12 @@ function ReactNativeComponent(tag, omitClose) {
     this.tagName = tag.toUpperCase()
 }
 ReactNativeComponent.Mixin = {
-    mountComponent: function(rootID, transaction) {
+    mountComponent: function (rootID, transaction) {
         ReactComponent_1.Mixin.mountComponent.call(this, rootID, transaction);
         assertValidProps(this.props);
         return (this._createOpenTagMarkup() + this._createContentMarkup(transaction) + this._tagClose)
     },
-    _createOpenTagMarkup: function() {
+    _createOpenTagMarkup: function () {
         var props = this.props;
         var ret = this._tagOpen;
         for (var propKey in props) {
@@ -2982,7 +3296,7 @@ ReactNativeComponent.Mixin = {
         }
         return ret + ' id="' + this._rootNodeID + '">'
     },
-    _createContentMarkup: function(transaction) {
+    _createContentMarkup: function (transaction) {
         var innerHTML = this.props.dangerouslySetInnerHTML;
         if (innerHTML != null) {
             if (innerHTML.__html != null) {
@@ -2999,7 +3313,7 @@ ReactNativeComponent.Mixin = {
         }
         return ''
     },
-    receiveProps: function(nextProps, transaction) {
+    receiveProps: function (nextProps, transaction) {
         invariant_1(this._rootNodeID, 'Trying to control a native dom element without a backing id');
         assertValidProps(nextProps);
         ReactComponent_1.Mixin.receiveProps.call(this, nextProps, transaction);
@@ -3007,7 +3321,7 @@ ReactNativeComponent.Mixin = {
         this._updateDOMChildren(nextProps, transaction);
         this.props = nextProps
     },
-    _updateDOMProperties: function(nextProps) {
+    _updateDOMProperties: function (nextProps) {
         var lastProps = this.props;
         for (var propKey in nextProps) {
             var nextProp = nextProps[propKey];
@@ -3049,7 +3363,7 @@ ReactNativeComponent.Mixin = {
             }
         }
     },
-    _updateDOMChildren: function(nextProps, transaction) {
+    _updateDOMChildren: function (nextProps, transaction) {
         var thisPropsContentType = typeof this.props.content;
         var thisPropsContentEmpty = this.props.content == null || thisPropsContentType === 'boolean';
         var nextPropsContentType = typeof nextProps.content;
@@ -3074,7 +3388,7 @@ ReactNativeComponent.Mixin = {
             this.updateMultiChild(flattenChildren_1(nextProps.children), transaction)
         }
     },
-    unmountComponent: function() {
+    unmountComponent: function () {
         ReactComponent_1.Mixin.unmountComponent.call(this);
         this.unmountMultiChild();
         ReactEvent_1.deleteAllListeners(this._rootNodeID)
@@ -3101,12 +3415,12 @@ function objMapKeyVal(obj, func, context) {
 var objMapKeyVal_1 = objMapKeyVal;
 
 function createDOMComponentClass(tag, omitClose) {
-    var Constructor = function(initialProps, children) {
+    var Constructor = function (initialProps, children) {
         this.construct(initialProps, children)
     };
     Constructor.prototype = new ReactNativeComponent_1(tag, omitClose);
     Constructor.prototype.constructor = Constructor;
-    return function(props, children) {
+    return function (props, children) {
         return new Constructor(props, children)
     }
 }
@@ -3186,7 +3500,7 @@ var ReactDOM = objMapKeyVal_1({
     text: false
 }, createDOMComponentClass);
 var injection = {
-    injectComponentClasses: function(componentClasses) {
+    injectComponentClasses: function (componentClasses) {
         mergeInto_1(ReactDOM, componentClasses)
     }
 };
@@ -3194,10 +3508,10 @@ ReactDOM.injection = injection;
 var ReactDOM_1 = ReactDOM;
 var form = ReactDOM_1.form;
 var ReactDOMForm = ReactCompositeComponent_1.createClass({
-    render: function() {
+    render: function () {
         return this.transferPropsTo(form(null, this.props.children))
     },
-    componentDidMount: function(node) {
+    componentDidMount: function (node) {
         ReactEvent_1.trapBubbledEvent(EventConstants_1.topLevelTypes.topSubmit, 'submit', node)
     }
 });
@@ -3228,7 +3542,7 @@ var abstractEventTypes = {
         })
     }
 };
-var extractAbstractEvents = function(topLevelType, nativeEvent, renderedTargetID, renderedTarget) {
+var extractAbstractEvents = function (topLevelType, nativeEvent, renderedTargetID, renderedTarget) {
     if (topLevelType === topLevelTypes$1.topMouseOver && (nativeEvent.relatedTarget || nativeEvent.fromElement)) {
         return
     }
@@ -3242,7 +3556,8 @@ var extractAbstractEvents = function(topLevelType, nativeEvent, renderedTargetID
     } else {
         to = renderedTarget;
         from = ExecutionEnvironment_1.global
-    } if (from === to) {
+    }
+    if (from === to) {
         return
     }
     var fromID = from ? getDOMNodeID_1(from) : '';
@@ -3451,14 +3766,14 @@ var SimpleEventPlugin = {
             }
         }
     },
-    executeDispatch: function(abstractEvent, listener, domID) {
+    executeDispatch: function (abstractEvent, listener, domID) {
         var returnValue = listener(abstractEvent, domID);
         if (returnValue === false) {
             abstractEvent.stopPropagation();
             abstractEvent.preventDefault()
         }
     },
-    extractAbstractEvents: function(topLevelType, nativeEvent, renderedTargetID, renderedTarget) {
+    extractAbstractEvents: function (topLevelType, nativeEvent, renderedTargetID, renderedTarget) {
         var data;
         var abstractEventType = SimpleEventPlugin.topLevelTypesToAbstract[topLevelType];
         if (!abstractEventType) {
@@ -3531,7 +3846,7 @@ var ReactDefaultInjection = {
 ReactDefaultInjection.inject();
 var React = {
     DOM: ReactDOM_1,
-    initializeTouchEvents: function(shouldUseTouch) {
+    initializeTouchEvents: function (shouldUseTouch) {
         ReactMount_1.useTouchEvents = shouldUseTouch
     },
     autoBind: ReactCompositeComponent_1.autoBind,
