@@ -1627,11 +1627,19 @@ var extractAbstractEvents$1 = function (topLevelType, nativeEvent, renderedTarge
     }
     return abstractEvents
 };
+
+// --------------
+// `enqueueAbstractEvents`
+// 合并`abstractEvents`到`abstractEventQueue`
 var enqueueAbstractEvents = function (abstractEvents) {
     if (abstractEvents) {
         abstractEventQueue = accumulate_1(abstractEventQueue, abstractEvents)
     }
 };
+
+// --------------
+// `executeDispatchesAndRelease`
+// 通过`getPluginModuleForAbstractEvent`拿到`executeDispatch`，然后按顺序执行`abstractEvent`的回调函数，最后再释放
 var executeDispatchesAndRelease = function (abstractEvent) {
     if (abstractEvent) {
         var PluginModule = getPluginModuleForAbstractEvent(abstractEvent);
@@ -1640,6 +1648,10 @@ var executeDispatchesAndRelease = function (abstractEvent) {
         AbstractEvent_1.release(abstractEvent)
     }
 };
+
+// --------------
+// `processAbstractEventQueue`
+// 循环执行 `abstractEventQueue`，最后再释放
 var processAbstractEventQueue = function () {
     var processingAbstractEventQueue = abstractEventQueue;
     abstractEventQueue = null;
@@ -1649,15 +1661,15 @@ var processAbstractEventQueue = function () {
     }
 };
 var EventPluginHub = {
-    registrationNames: registrationNames$2,
-    registrationNamesArr: registrationNamesArr,
-    putListener: CallbackRegistry_1.putListener,
-    getListener: CallbackRegistry_1.getListener,
-    deleteAllListeners: deleteAllListeners,
-    extractAbstractEvents: extractAbstractEvents$1,
-    enqueueAbstractEvents: enqueueAbstractEvents,
-    processAbstractEventQueue: processAbstractEventQueue,
-    injection: injection$1
+    registrationNames: registrationNames$2,// 一个对象，用于存储每种事件的`PluginModule`
+    registrationNamesArr: registrationNamesArr,// 一个数组，存储每个事件的名
+    putListener: CallbackRegistry_1.putListener,// 针对ID 添加事件
+    getListener: CallbackRegistry_1.getListener,// 针对ID 获取事件
+    deleteAllListeners: deleteAllListeners,// 删除所有事件
+    extractAbstractEvents: extractAbstractEvents$1,// 传入 `topLevelType` 、 `nativeEvent` 、 `renderedTargetID` 、 `renderedTarget`，然后解析，最后合并成 `abstractEvents` 返回
+    enqueueAbstractEvents: enqueueAbstractEvents,// 合并`abstractEvents`到`abstractEventQueue`
+    processAbstractEventQueue: processAbstractEventQueue,// 循环执行 `abstractEventQueue`，最后再释放
+    injection: injection$1// 一个注入对象，框架运行结束前会调用执行
 };
 if (ExecutionEnvironment_1.canUseDOM) {
     window.EventPluginHub = EventPluginHub
@@ -1686,6 +1698,9 @@ var EventListener = {
 };
 var EventListener_1 = EventListener;
 
+// --------------
+// `normalizeEvent`
+// 传入原始事件，做属性兼容
 function normalizeEvent(eventParam) {
     var normalized = eventParam || window.event;
     var hasTargetProperty = 'target' in normalized;
@@ -1698,11 +1713,18 @@ function normalizeEvent(eventParam) {
     return normalized
 }
 
+// --------------
+// `createNormalizedCallback`
+// 传入回调函数，二次生成回调函数，参数事件做兼容处理
 function createNormalizedCallback(cb) {
     return function (unfixedNativeEvent) {
         cb(normalizeEvent(unfixedNativeEvent))
     }
 }
+
+// --------------
+// `NormalizedEventListener`
+// 事件的监听
 var NormalizedEventListener = {
     listen: function (el, handlerBaseName, cb) {
         EventListener_1.listen(el, handlerBaseName, createNormalizedCallback(cb))
@@ -1717,6 +1739,9 @@ if (ExecutionEnvironment_1.canUseDOM) {
     testNode = document.createElement('div')
 }
 
+// --------------
+// `isEventSupported`
+// 传入事件名`eventNameSuffix`，最后判断是否存在该事件
 function isEventSupported(eventNameSuffix, capture) {
     if (!testNode || (capture && !testNode.addEventListener)) {
         return false
@@ -1743,14 +1768,23 @@ var capture = NormalizedEventListener_1.capture;
 var _isListening = false;
 if (__DEV__);
 
+// --------------
+// `trapBubbledEvent`
+// 以冒泡来进行事件监听
 function trapBubbledEvent(topLevelType, handlerBaseName, onWhat) {
     listen(onWhat, handlerBaseName, ReactEvent.TopLevelCallbackCreator.createTopLevelCallback(topLevelType))
 }
 
+// --------------
+// `trapCapturedEvent`
+// 以捕获来进行事件监听
 function trapCapturedEvent(topLevelType, handlerBaseName, onWhat) {
     capture(onWhat, handlerBaseName, ReactEvent.TopLevelCallbackCreator.createTopLevelCallback(topLevelType))
 }
 
+// --------------
+// `registerDocumentScrollListener`
+// 监听window的滚动事件
 function registerDocumentScrollListener() {
     listen(window, 'scroll', function (nativeEvent) {
         if (nativeEvent.target === window) {
@@ -1759,6 +1793,9 @@ function registerDocumentScrollListener() {
     })
 }
 
+// --------------
+// `registerDocumentResizeListener`
+// 监听window的resize事件
 function registerDocumentResizeListener() {
     listen(window, 'resize', function (nativeEvent) {
         if (nativeEvent.target === window) {
@@ -1767,6 +1804,9 @@ function registerDocumentResizeListener() {
     })
 }
 
+// --------------
+// `listenAtTopLevel`
+// 在最顶层设置各种事件
 function listenAtTopLevel(touchNotMouse) {
     invariant_1(!_isListening, 'listenAtTopLevel(...): Cannot setup top-level listener more than once.');
     var mountAt = document;
@@ -1806,21 +1846,33 @@ function listenAtTopLevel(touchNotMouse) {
     }
 }
 
+// --------------
+// `handleTopLevel`
+// 顶层的事件回调处理方法
 function handleTopLevel(topLevelType, nativeEvent, renderedTargetID, renderedTarget) {
     var abstractEvents = EventPluginHub_1.extractAbstractEvents(topLevelType, nativeEvent, renderedTargetID, renderedTarget);
     EventPluginHub_1.enqueueAbstractEvents(abstractEvents);
     EventPluginHub_1.processAbstractEventQueue()
 }
 
+// --------------
+// `setEnabled`
+// 设置事件是否由顶层进行触发
 function setEnabled(enabled) {
     invariant_1(ExecutionEnvironment_1.canUseDOM, 'setEnabled(...): Cannot toggle event listening in a Worker thread. This is likely a bug in the framework. Please report immediately.');
     ReactEvent.TopLevelCallbackCreator.setEnabled(enabled)
 }
 
+// --------------
+// `isEnabled`
+// 判断是否由顶层处罚
 function isEnabled() {
     return ReactEvent.TopLevelCallbackCreator.isEnabled()
 }
 
+// --------------
+// `ensureListening`
+// 确保顶层事件的监听执行
 function ensureListening(touchNotMouse, TopLevelCallbackCreator) {
     invariant_1(ExecutionEnvironment_1.canUseDOM, 'ensureListening(...): Cannot toggle event listening in a Worker thread. This is likely a bug in the framework. Please report immediately.');
     if (!_isListening) {
@@ -1830,20 +1882,23 @@ function ensureListening(touchNotMouse, TopLevelCallbackCreator) {
     }
 }
 var ReactEvent = {
-    TopLevelCallbackCreator: null,
-    handleTopLevel: handleTopLevel,
-    setEnabled: setEnabled,
-    isEnabled: isEnabled,
-    ensureListening: ensureListening,
-    registrationNames: registrationNames$1,
-    putListener: EventPluginHub_1.putListener,
-    getListener: EventPluginHub_1.getListener,
-    deleteAllListeners: EventPluginHub_1.deleteAllListeners,
-    trapBubbledEvent: trapBubbledEvent,
-    trapCapturedEvent: trapCapturedEvent
+    TopLevelCallbackCreator: null,// ReactEventTopLevelCallback会被注入
+    handleTopLevel: handleTopLevel,// 事件回调的处理函数
+    setEnabled: setEnabled,// 设置事件是否由顶层进行触发
+    isEnabled: isEnabled,// 判断是否由顶层处罚
+    ensureListening: ensureListening,// 确保顶层事件的监听执行
+    registrationNames: registrationNames$1,// 一个对象，用于存储每种事件的`PluginModule`
+    putListener: EventPluginHub_1.putListener,// 针对ID 添加事件
+    getListener: EventPluginHub_1.getListener,// 针对ID 获取事件
+    deleteAllListeners: EventPluginHub_1.deleteAllListeners,// 删除所有事件
+    trapBubbledEvent: trapBubbledEvent,// 以冒泡来进行事件监听
+    trapCapturedEvent: trapCapturedEvent// 以捕获来进行事件监听
 };
 var ReactEvent_1 = ReactEvent;
 
+// --------------
+// `getDOMNodeID`
+// 传入dom元素`domNode`，获取它的ID
 function getDOMNodeID(domNode) {
     if (domNode.getAttributeNode) {
         var attributeNode = domNode.getAttributeNode('id');
@@ -1857,23 +1912,38 @@ var SEPARATOR = '.';
 var SEPARATOR_LENGTH = SEPARATOR.length;
 var MAX_TREE_DEPTH = 100;
 
+// --------------
+// `isMarker`
+// 判断字符串`id`的第`index`字符，是否为`.`，或者长度是否为`index`
 function isMarker(id, index) {
     return id.charAt(index) === SEPARATOR || index === id.length
 }
 
+// --------------
+// `isValidID`
+// 判断`id`是否为rt的id
 function isValidID(id) {
     return id === '' || (id.charAt(0) === SEPARATOR && id.charAt(id.length - 1) !== SEPARATOR)
 }
 
+// --------------
+// `isRenderedByReact`
+// 提供dom元素`node`，判断它是否由rt生成的
 function isRenderedByReact(node) {
     var id = getDOMNodeID_1(node);
     return id && id.charAt(0) === SEPARATOR
 }
 
+// --------------
+// `parentID`
+// 通过`id`来获取父级的`id`
 function parentID(id) {
     return id ? id.substr(0, id.lastIndexOf(SEPARATOR)) : ''
 }
 
+// --------------
+// `traverseParentPath`
+// 向下或者向上拿取`id`，然后通过`cb`来调用
 function traverseParentPath(start, stop, cb, arg, skipFirst, skipLast) {
     start = start || '';
     stop = stop || '';
@@ -1893,8 +1963,16 @@ function traverseParentPath(start, stop, cb, arg, skipFirst, skipLast) {
         invariant_1(depth++ < MAX_TREE_DEPTH, 'traverseParentPath(%s, %s, ...): Detected an infinite loop while traversing the React DOM ID tree. This may be due to malformed IDs: %s', start, stop)
     }
 }
+
+// --------------
+// `ReactInstanceHandles`
+// 涉及到rt的`id`操作
 var ReactInstanceHandles = {
     separator: SEPARATOR,
+
+    // --------------
+    // `getFirstReactDOM`
+    // 获取`node`最顶部的元素的`id`
     getFirstReactDOM: function (node) {
         var current = node;
         while (current && current.parentNode !== current) {
@@ -1905,6 +1983,10 @@ var ReactInstanceHandles = {
         }
         return null
     },
+
+    // --------------
+    // `findComponentRoot`
+    // 从`ancestorNode`及其后辈元素中寻找 id 值为 `id` 的元素
     findComponentRoot: function (ancestorNode, id) {
         var child = ancestorNode.firstChild;
         while (child) {
@@ -1916,6 +1998,10 @@ var ReactInstanceHandles = {
             child = child.nextSibling
         }
     },
+
+    // --------------
+    // `getFirstCommonAncestorID`
+    // 获取`oneID`和`twoID`，第一层的公用的祖先元素
     getFirstCommonAncestorID: function (oneID, twoID) {
         var minLength = Math.min(oneID.length, twoID.length);
         if (minLength === 0) {
@@ -1933,13 +2019,25 @@ var ReactInstanceHandles = {
         invariant_1(isValidID(longestCommonID), 'getFirstCommonAncestorID(%s, %s): Expected a valid React DOM ID: %s', oneID, twoID, longestCommonID);
         return longestCommonID
     },
+
+    // --------------
+    // `getReactRootID`
+    // 生成`root`元素的`id`
     getReactRootID: function (mountPointCount) {
         return '.reactRoot[' + mountPointCount + ']'
     },
+
+    // --------------
+    // `getReactRootIDFromNodeID`
+    // 通过正则表达式，获取`id`的祖先id
     getReactRootIDFromNodeID: function (id) {
         var regexResult = /\.reactRoot\[[^\]]+\]/.exec(id);
         return regexResult && regexResult[0]
     },
+
+    // --------------
+    // `traverseEnterLeave`
+    // 鼠标的进入和离开，从下到上或从上到下的执行`cb`
     traverseEnterLeave: function (leaveID, enterID, cb, upArg, downArg) {
         var longestCommonID = ReactInstanceHandles.getFirstCommonAncestorID(leaveID, enterID);
         if (longestCommonID !== leaveID) {
@@ -1949,12 +2047,21 @@ var ReactInstanceHandles = {
             traverseParentPath(longestCommonID, enterID, cb, downArg, true, false)
         }
     },
+
+
+    // --------------
+    // `traverseTwoPhase`
+    // 以`targetID`为基准，两端寻找`id`来触发事件
     traverseTwoPhase: function (targetID, cb, arg) {
         if (targetID) {
             traverseParentPath('', targetID, cb, arg, true, false);
             traverseParentPath(targetID, '', cb, arg, false, true)
         }
     },
+
+    // --------------
+    // `nextDescendantID`
+    // `destinationID`比`ancestorID`长，获取`ancestorID`基于`destinationID`等下一个`id`
     nextDescendantID: function (ancestorID, destinationID) {
         invariant_1(isValidID(ancestorID) && isValidID(destinationID), 'nextDescendantID(%s, %s): Received an invalid React DOM ID.', ancestorID, destinationID);
         var longestCommonID = ReactInstanceHandles.getFirstCommonAncestorID(ancestorID, destinationID);
@@ -1971,8 +2078,12 @@ var ReactInstanceHandles = {
         return destinationID.substr(0, i)
     }
 };
-var ReactInstanceHandles_1 = ReactInstanceHandles;
+var ReactInstanceHandles_1 = ReactInstanceHandles;// 涉及到rt的`id`操作
 var _topLevelListenersEnabled = true;
+
+// --------------
+// `ReactEventTopLevelCallback`
+// 顶部事件的操作对象
 var ReactEventTopLevelCallback = {
     setEnabled: function (enabled) {
         _topLevelListenersEnabled = !!enabled
@@ -1995,10 +2106,16 @@ var ReactEventTopLevelCallback = {
 };
 var ReactEventTopLevelCallback_1 = ReactEventTopLevelCallback;
 
+// --------------
+// `ge`
+// `arg`不是字符串，则直接返回`arg`；不存在`root`的时候，则直接通过`arg`作为id来获取；含有`root`的时候，去它的子元素中寻找
 function ge(arg, root, tag) {
     return typeof arg != 'string' ? arg : !root ? document.getElementById(arg) : _geFromSubtree(arg, root, tag)
 }
 
+// --------------
+// `_geFromSubtree`
+// 从`root`及它的子元素中，寻找`tag`标签对应id为`id`的元素
 function _geFromSubtree(id, root, tag) {
     var elem, children, ii;
     if (_getNodeID(root) == id) {
@@ -2022,12 +2139,18 @@ function _geFromSubtree(id, root, tag) {
     return null
 }
 
+// --------------
+// `_getNodeID`
+// 获取元素`node`的id
 function _getNodeID(node) {
     var id = node.getAttributeNode && node.getAttributeNode('id');
     return id ? id.value : null
 }
 var ge_1 = ge;
 
+// --------------
+// `$`
+// 把`arg`当作id获取元素
 function $(arg) {
     var element = ge_1(arg);
     if (!element) {
@@ -2041,23 +2164,54 @@ function $(arg) {
     return element
 }
 var $_1 = $;
+
+// --------------
+// `globalMountPointCounter`
+// 按递增的一个变量，用于生成`id`
 var globalMountPointCounter = 0;
+
+// --------------
+// `instanceByReactRootID`
+// 以rt的`id`作为key，`component`对象作为value的一个对象
 var instanceByReactRootID = {};
+
+// --------------
+// `containersByReactRootID`
+// 以根元素的`id`作为key，进行保存根组件，value值时dom元素
 var containersByReactRootID = {};
 
+// --------------
+// `getReactRootID`
+// 获取`container`第一个子元素的`id`
 function getReactRootID(container) {
     return container.firstChild && container.firstChild.id
 }
+
+// --------------
+// `ReactMount`
+// 与渲染相关的对象
 var ReactMount = {
-    totalInstantiationTime: 0,
-    totalInjectionTime: 0,
-    useTouchEvents: false,
+    totalInstantiationTime: 0,// mountComponent方法所耗费的时间
+    totalInjectionTime: 0,// mountComponent开始前，到生成html字符串，最后插入到元素的过程所用的时间
+    useTouchEvents: false,// 是否启用触摸的事件方法
+
+    // --------------
+    // `scrollMonitor`
+    // 用来执行一个回调函数
     scrollMonitor: function (container, renderCallback) {
         renderCallback()
     },
+
+    // --------------
+    // `prepareTopLevelEvents`
+    // 确保顶部的事件监听
     prepareTopLevelEvents: function (TopLevelCallbackCreator) {
         ReactEvent_1.ensureListening(ReactMount.useTouchEvents, TopLevelCallbackCreator)
     },
+
+    // --------------
+    // `renderComponent`
+    // 传入组件`nextComponent`和dom元素`container`,执行事件的准备，最后生成html，并插入到`container`中
     renderComponent: function (nextComponent, container) {
         var prevComponent = instanceByReactRootID[getReactRootID(container)];
         if (prevComponent) {
@@ -2077,17 +2231,33 @@ var ReactMount = {
         nextComponent.mountComponentIntoNode(reactRootID, container);
         return nextComponent
     },
+
+    // --------------
+    // `createComponentRenderer`
+    // `renderComponent`方法的二次适配，先传入`component`，后续再传入`container`
     createComponentRenderer: function (component) {
         return function (container) {
             return ReactMount.renderComponent(component, container)
         }
     },
+
+    // --------------
+    // `constructAndRenderComponent`
+    // 传入component的构造函数`constructor`和属性`props`以及`container`，最终进行渲染
     constructAndRenderComponent: function (constructor, props, container) {
         return ReactMount.renderComponent(constructor(props), container)
     },
+
+    // --------------
+    // `constructAndRenderComponentByID`
+    // 把`constructAndRenderComponent`的`container`适配为了`id`
     constructAndRenderComponentByID: function (constructor, props, id) {
         return ReactMount.constructAndRenderComponent(constructor, props, $_1(id))
     },
+
+    // --------------
+    // `registerContainer`
+    // 把`container`缓存到`containersByReactRootID`中
     registerContainer: function (container) {
         var reactRootID = getReactRootID(container);
         if (reactRootID) {
