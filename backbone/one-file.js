@@ -2269,6 +2269,10 @@ var ReactMount = {
         containersByReactRootID[reactRootID] = container;
         return reactRootID
     },
+
+    // --------------
+    // `unmountAndReleaseReactRootNode`
+    // 提供`container`，获取到组件，再通过组件`component`释放资源，最后删除其他缓存
     unmountAndReleaseReactRootNode: function (container) {
         var reactRootID = getReactRootID(container);
         var component = instanceByReactRootID[reactRootID];
@@ -2276,22 +2280,43 @@ var ReactMount = {
         delete instanceByReactRootID[reactRootID];
         delete containersByReactRootID[reactRootID]
     },
+
+    // --------------
+    // `findReactContainerForID`
+    // 通过当前的`id`获取到它的最顶层的`dom`元素
     findReactContainerForID: function (id) {
         var reatRootID = ReactInstanceHandles_1.getReactRootIDFromNodeID(id);
         return containersByReactRootID[reatRootID]
     },
+
+    // --------------
+    // `findReactRenderedDOMNodeSlow`
+    // 删除 domID对应的所有事件回调
     findReactRenderedDOMNodeSlow: function (id) {
         var reactRoot = ReactMount.findReactContainerForID(id);
         return ReactInstanceHandles_1.findComponentRoot(reactRoot, id)
     }
 };
-var ReactMount_1 = ReactMount;
+
+var ReactMount_1 = ReactMount;// 与渲染相关的对象
 var nodeCache = {};
+
+// --------------
+// `ReactDOMNodeCache`
+// 关于dom元素node的缓存
 var ReactDOMNodeCache = {
+
+    // --------------
+    // `purgeEntireCache`
+    // 清空`nodeCache`对象，并返回
     purgeEntireCache: function () {
         nodeCache = {};
         return nodeCache
     },
+
+    // --------------
+    // `getCachedNodeByID`
+    // 提供`id`，查找到对应的dom元素，最后缓存到`nodeCache`中
     getCachedNodeByID: function (id) {
         return nodeCache[id] || (nodeCache[id] = document.getElementById(id) || ReactMount_1.findReactRenderedDOMNodeSlow(id))
     }
@@ -2299,6 +2324,9 @@ var ReactDOMNodeCache = {
 var ReactDOMNodeCache_1 = ReactDOMNodeCache;
 var contentKey = null;
 
+// --------------
+// `getTextContentAccessor`
+// 获取到dom元素中的文本操作属性是`innerText`还是`textContent`
 function getTextContentAccessor() {
     if (!contentKey && ExecutionEnvironment_1.canUseDOM) {
         contentKey = 'innerText' in document.createElement('div') ? 'innerText' : 'textContent'
@@ -2306,62 +2334,118 @@ function getTextContentAccessor() {
     return contentKey
 }
 var getTextContentAccessor_1 = getTextContentAccessor;
+
+// --------------
+// `INVALID_PROPERTY_ERRORS`
+// `content`、`dangerouslySetInnerHTML`、`style`三个属性不能直接用在`DOMPropertyOperations_1.setValueForProperty`的方法中
 var INVALID_PROPERTY_ERRORS = {
     content: '`content` must be set using `updateTextContentByID()`.',
     dangerouslySetInnerHTML: '`dangerouslySetInnerHTML` must be set using `updateInnerHTMLByID()`.',
     style: '`style` must be set using `updateStylesByID()`.'
 };
 var textContentAccessor = getTextContentAccessor_1() || 'NA';
+
+// --------------
+// `ReactDOMIDOperations`
+// 针对dom元素的id来操作dom元素
 var ReactDOMIDOperations = {
+
+    // --------------
+    // `updatePropertyByID`
+    // 提供`id`，`name`属性名，`value`属性值，更新`id`对应的值
     updatePropertyByID: function (id, name, value) {
         var node = ReactDOMNodeCache_1.getCachedNodeByID(id);
         invariant_1(!INVALID_PROPERTY_ERRORS.hasOwnProperty(name), 'updatePropertyByID(...): %s', INVALID_PROPERTY_ERRORS[name]);
         DOMPropertyOperations_1.setValueForProperty(node, name, value)
     },
+
+    // --------------
+    // `updatePropertiesByID`
+    // 传入`id`及属性对象`properties`，遍历更新`id`对应的属性
     updatePropertiesByID: function (id, properties) {
         for (var name in properties) {
             if (!properties.hasOwnProperty(name)) {
                 continue
             }
-            ReactDOMIDOperations.updatePropertiesByID(id, name, properties[name])
+            ReactDOMIDOperations.updatePropertyByID(id, name, properties[name])
         }
     },
+
+    // --------------
+    // `updateStylesByID`
+    // 更新`id`对应的行内样式styles
     updateStylesByID: function (id, styles) {
         var node = ReactDOMNodeCache_1.getCachedNodeByID(id);
         CSSPropertyOperations_1.setValueForStyles(node, styles)
     },
+
+    // --------------
+    // `updateInnerHTMLByID`
+    // 更新`id`对应的node的html
     updateInnerHTMLByID: function (id, html) {
         var node = ReactDOMNodeCache_1.getCachedNodeByID(id);
         node.innerHTML = (html && html.__html || '').replace(/^ /g, '&nbsp;')
     },
+
+    // --------------
+    // `updateTextContentByID`
+    // 更新`id`对应的node的文本为`content`
     updateTextContentByID: function (id, content) {
         var node = ReactDOMNodeCache_1.getCachedNodeByID(id);
         node[textContentAccessor] = content
     },
+
+    // --------------
+    // `dangerouslyReplaceNodeWithMarkupByID`
+    // 替换`id`对应的node内部html替换为`markup`
     dangerouslyReplaceNodeWithMarkupByID: function (id, markup) {
         var node = ReactDOMNodeCache_1.getCachedNodeByID(id);
         DOMChildrenOperations_1.dangerouslyReplaceNodeWithMarkup(node, markup);
         ReactDOMNodeCache_1.purgeEntireCache()
     },
+
+    // --------------
+    // `manageChildrenByParentID`
+    // 对`DOMChildrenOperations_1.manageChildren`方法进行了二次加工
     manageChildrenByParentID: function (parentID, domOperations) {
         var parent = ReactDOMNodeCache_1.getCachedNodeByID(parentID);
         DOMChildrenOperations_1.manageChildren(parent, domOperations);
         ReactDOMNodeCache_1.purgeEntireCache()
     },
+
+    // --------------
+    // `setTextNodeValueAtIndexByParentID`
+    // 设置id为`parentID`的第`index`个元素的值为`value`
     setTextNodeValueAtIndexByParentID: function (parentID, index, value) {
         var parent = ReactDOMNodeCache_1.getCachedNodeByID(parentID);
         DOMChildrenOperations_1.setTextNodeValueAtIndex(parent, index, value)
     }
 };
 var ReactDOMIDOperations_1 = ReactDOMIDOperations;
+
+// --------------
+// `ReactOwner`
+// 关于ref属性的操作
 var ReactOwner = {
+
+    // --------------
+    // `isValidOwner`
+    // 判断`object`是否支持ref的操作
     isValidOwner: function (object) {
         return !!(object && typeof object.attachRef === 'function' && typeof object.detachRef === 'function')
     },
+
+    // --------------
+    // `addComponentAsRefTo`
+    // 给`owner`添加`ref`属性为`component`
     addComponentAsRefTo: function (component, ref, owner) {
         invariant_1(ReactOwner.isValidOwner(owner), 'addComponentAsRefTo(...): Only a ReactOwner can have refs.');
         owner.attachRef(ref, component)
     },
+
+    // --------------
+    // `removeComponentAsRefFrom`
+    // 删除掉`owner`的`ref`属性`component`
     removeComponentAsRefFrom: function (component, ref, owner) {
         invariant_1(ReactOwner.isValidOwner(owner), 'removeComponentAsRefFrom(...): Only a ReactOwner can have refs.');
         if (owner.refs[ref] === component) {
@@ -2381,15 +2465,30 @@ var ReactOwner = {
 };
 var ReactOwner_1 = ReactOwner;
 
+// --------------
+// `getActiveElement`
+// 获取当前的激活元素
 function getActiveElement() {
     try {
         return document.activeElement
     } catch (e) {}
 }
+
+// --------------
+// `ReactInputSelection`
+// 关于文字选择和退回选择的操作类
 var ReactInputSelection = {
+
+    // --------------
+    // `hasSelectionCapabilities`
+    // 判断元素`elem`是否支持内容编辑
     hasSelectionCapabilities: function (elem) {
         return elem && ((elem.nodeName === 'INPUT' && elem.type === 'text') || elem.nodeName === 'TEXTAREA' || elem.contentEditable === 'true')
     },
+
+    // --------------
+    // `getSelectionInformation`
+    // 获取当前激活元素的选择区域
     getSelectionInformation: function () {
         var focusedElem = getActiveElement();
         return {
@@ -2397,6 +2496,10 @@ var ReactInputSelection = {
             selectionRange: ReactInputSelection.hasSelectionCapabilities(focusedElem) ? ReactInputSelection.getSelection(focusedElem) : null
         }
     },
+
+    // --------------
+    // `restoreSelection`
+    // 退回选择
     restoreSelection: function (priorSelectionInformation) {
         var curFocusedElem = getActiveElement();
         var priorFocusedElem = priorSelectionInformation.focusedElem;
@@ -2408,6 +2511,10 @@ var ReactInputSelection = {
             priorFocusedElem.focus()
         }
     },
+
+    // --------------
+    // `getSelection`
+    // 获取`input`的选择区域
     getSelection: function (input) {
         var range;
         if (input.contentEditable === 'true' && window.getSelection) {
@@ -2459,6 +2566,10 @@ var ReactInputSelection = {
             }
         }
     },
+
+    // --------------
+    // `setSelection`
+    // 根据`rangeObj`来设置`input`的选择区域
     setSelection: function (input, rangeObj) {
         var range;
         var start = rangeObj.start;
@@ -2497,6 +2608,10 @@ var ReactInputSelection = {
     }
 };
 var ReactInputSelection_1 = ReactInputSelection;
+
+// --------------
+// `mixInto`
+// 提供对象`methodBag`,拓展`constructor`的原型链
 var mixInto = function (constructor, methodBag) {
     var methodName;
     for (methodName in methodBag) {
@@ -2508,10 +2623,21 @@ var mixInto = function (constructor, methodBag) {
 };
 var mixInto_1 = mixInto;
 
+// --------------
+// `ReactOnDOMReady`
+// `ReactOnDOMReady`的构造函数，提供`_queue`的初始值`initialCollection`
 function ReactOnDOMReady(initialCollection) {
     this._queue = initialCollection || null
 }
+
+// --------------
+// `mixInto_1(ReactOnDOMReady`
+// 合并方法到`ReactOnDOMReady`的原型链
 mixInto_1(ReactOnDOMReady, {
+
+    // --------------
+    // `enqueue`
+    // 给实例属性`_queue`添加元素
     enqueue: function (component, callback) {
         this._queue = this._queue || [];
         this._queue.push({
@@ -2519,6 +2645,10 @@ mixInto_1(ReactOnDOMReady, {
             callback: callback
         })
     },
+
+    // --------------
+    // `notifyAll`
+    // 依次循环`_queue`属性，并调用`_queue`属性中的`callback`回调函数
     notifyAll: function () {
         var queue = this._queue;
         if (queue) {
@@ -2531,22 +2661,46 @@ mixInto_1(ReactOnDOMReady, {
             queue.length = 0
         }
     },
+
+    // --------------
+    // `reset`
+    // 重新清空`_queue`属性
     reset: function () {
         this._queue = null
     },
+
+    // --------------
+    // `destructor`
+    // 重新清空`_queue`属性
     destructor: function () {
         this.reset()
     }
 });
+
+// --------------
+// `PooledClass_1.addPoolingTo(ReactOnDOMReady);`
+// 给`ReactOnDOMReady`添加`instancePool`、`getPooled`、`poolSize`、`release`等静态方法
 PooledClass_1.addPoolingTo(ReactOnDOMReady);
 var ReactOnDOMReady_1 = ReactOnDOMReady;
 var DUAL_TRANSACTION = 'DUAL_TRANSACTION';
 var MISSING_TRANSACTION = 'MISSING_TRANSACTION';
 if (__DEV__) {
+
+    // --------------
+    // `DUAL_TRANSACTION`
+    // 二次调用`perform`的报错信息
     DUAL_TRANSACTION = 'Cannot initialize transaction when there is already an outstanding transaction. Common causes of this are trying to render a component when you are already rendering a component or attempting a state transition while in a render function. Another possibility is that you are rendering new content (or state transitioning) in a componentDidRender callback. If this is not the case, please report the issue immediately.';
+
+    // --------------
+    // `MISSING_TRANSACTION`
+    // 二次调用`closeAll`的报错信息
     MISSING_TRANSACTION = 'Cannot close transaction when there is none open.'
 }
 var Mixin$1 = {
+
+    // --------------
+    // `reinitializeTransaction`
+    // 用来初始化`perform`和`initializeAll`的一些时间统计属性
     reinitializeTransaction: function () {
         this.transactionWrappers = this.getTransactionWrappers();
         if (!this.wrapperInitData) {
@@ -2572,9 +2726,17 @@ var Mixin$1 = {
     },
     _isInTransaction: false,
     getTransactionWrappers: null,
+
+    // --------------
+    // `isInTransaction`
+    // 判断`perform`方法是否在执行中
     isInTransaction: function () {
         return !!this._isInTransaction
     },
+
+    // --------------
+    // `perform`
+    // 调用`perform`方法，并执行`method`方法
     perform: function (method, scope, a, b, c, d, e, f) {
         throwIf_1(this.isInTransaction(), DUAL_TRANSACTION);
         var memberStart = Date.now();
@@ -2599,6 +2761,10 @@ var Mixin$1 = {
         }
         return ret
     },
+
+    // --------------
+    // `initializeAll`
+    // `perform`方法调用前的准备函数
     initializeAll: function () {
         this._isInTransaction = true;
         var transactionWrappers = this.transactionWrappers;
@@ -2622,6 +2788,10 @@ var Mixin$1 = {
             throw err;
         }
     },
+
+    // --------------
+    // `closeAll`
+    // `perform`调用完毕后，相应的属性还原
     closeAll: function () {
         throwIf_1(!this.isInTransaction(), MISSING_TRANSACTION);
         var transactionWrappers = this.transactionWrappers;
@@ -2650,40 +2820,81 @@ var Mixin$1 = {
         }
     }
 };
+
+// --------------
+// `Transaction`
+// `Mixin`属性是`perform`等方法混入的对象
 var Transaction = {
     Mixin: Mixin$1,
     OBSERVED_ERROR: {}
 };
 var Transaction_1 = Transaction;
+
+
 var SELECTION_RESTORATION = {
-    initialize: ReactInputSelection_1.getSelectionInformation,
-    close: ReactInputSelection_1.restoreSelection
+    initialize: ReactInputSelection_1.getSelectionInformation,// 获取当前激活元素的选择区域
+    close: ReactInputSelection_1.restoreSelection// 退回选择
 };
+
+// --------------
+// `EVENT_SUPPRESSION`
+// 用来操作事件的停止和启动
 var EVENT_SUPPRESSION = {
+
+    // --------------
+    // `initialize`
+    // 执行的时候，停用事件触发
     initialize: function () {
         var currentlyEnabled = ReactEvent_1.isEnabled();
         ReactEvent_1.setEnabled(false);
         return currentlyEnabled
     },
+
+    // --------------
+    // `close`
+    // 执行完毕的时候，恢复事件触发
     close: function (previouslyEnabled) {
         ReactEvent_1.setEnabled(previouslyEnabled)
     }
 };
+
+// --------------
+// `ON_DOM_READY_QUEUEING`
+// 用于操作`reactOnDOMReady`属性
 var ON_DOM_READY_QUEUEING = {
+
+    // --------------
+    // `initialize`
+    // 重新清空`reactOnDOMReady`属性的`_queue`属性
     initialize: function () {
         this.reactOnDOMReady.reset()
     },
+
+    // --------------
+    // `close`
+    // 依次循环`_queue`属性，并调用`_queue`属性中的`callback`回调函数
     close: function () {
         this.reactOnDOMReady.notifyAll()
     }
 };
+
+// --------------
+// `TRANSACTION_WRAPPERS`
+// 添加三个元素，都含有`initialize`、`close`属性
 var TRANSACTION_WRAPPERS = [SELECTION_RESTORATION, EVENT_SUPPRESSION, ON_DOM_READY_QUEUEING];
 
+// --------------
+// `ReactReconcileTransaction`
+// `ReactReconcileTransaction`的构造函数，用于插入dom的执行函数
 function ReactReconcileTransaction() {
     this.reinitializeTransaction();
-    this.reactOnDOMReady = ReactOnDOMReady_1.getPooled(null)
+    this.reactOnDOMReady = ReactOnDOMReady_1.getPooled(null)// 实例化`reactOnDOMReady`属性
 }
 var Mixin = {
+
+    // --------------
+    // `getTransactionWrappers`
+    // 获取`wrappers`
     getTransactionWrappers: function () {
         if (ExecutionEnvironment_1.canUseDOM) {
             return TRANSACTION_WRAPPERS
@@ -2691,37 +2902,83 @@ var Mixin = {
             return []
         }
     },
+
+    // --------------
+    // `getReactOnDOMReady`
+    // 获取对象的`reactOnDOMReady`属性
     getReactOnDOMReady: function () {
         return this.reactOnDOMReady
     },
+
+    // --------------
+    // `destructor`
+    // 释放`reactOnDOMReady`属性
     destructor: function () {
         ReactOnDOMReady_1.release(this.reactOnDOMReady);
         this.reactOnDOMReady = null
     }
 };
-mixInto_1(ReactReconcileTransaction, Transaction_1.Mixin);
-mixInto_1(ReactReconcileTransaction, Mixin);
-PooledClass_1.addPoolingTo(ReactReconcileTransaction);
+mixInto_1(ReactReconcileTransaction, Transaction_1.Mixin);// 拓展ReactReconcileTransaction，使它含有perform、closeAll等方法
+
+mixInto_1(ReactReconcileTransaction, Mixin);// 拓展ReactReconcileTransaction，添加getTransactionWrappers、getReactOnDOMReady、destructor等方法
+
+PooledClass_1.addPoolingTo(ReactReconcileTransaction);// 添加instancePool、getPooled、poolSize、release等静态属性
 var ReactReconcileTransaction_1 = ReactReconcileTransaction;
 var OWNER = '{owner}';
+
+// --------------
+// `ComponentLifeCycle`
+// 生命周期的两个属性
 var ComponentLifeCycle = keyMirror_1({
     MOUNTED: null,
     UNMOUNTED: null
 });
+
+// --------------
+// `ReactComponent`
+// 关于Rt组件的类
 var ReactComponent = {
+
+    // --------------
+    // `isValidComponent`
+    // 判断是否是标准的`Component`，主要是判断是否含有`mountComponentIntoNode`属性和`receiveProps`属性
     isValidComponent: function (object) {
         return !!(object && typeof object.mountComponentIntoNode === 'function' && typeof object.receiveProps === 'function')
     },
+
+    // --------------
+    // `LifeCycle`
+    // 包含`MOUNTED`和`UNMOUNTED`两个属性
     LifeCycle: ComponentLifeCycle,
+
+    // --------------
+    // `DOMIDOperations`
+    // 针对dom元素的id来操作dom元素
     DOMIDOperations: ReactDOMIDOperations_1,
+
+    // --------------
+    // `ReactReconcileTransaction`
+    // `ReactReconcileTransaction`的构造函数，用于插入dom的执行函数
     ReactReconcileTransaction: ReactReconcileTransaction_1,
+
+    // --------------
+    // `setDOMOperations`
+    // 重新设置组件的`DOMIDOperations`属性
     setDOMOperations: function (DOMIDOperations) {
         ReactComponent.DOMIDOperations = DOMIDOperations
     },
+
+    // --------------
+    // `setReactReconcileTransaction`
+    // 重新设置组件的`ReactReconcileTransaction`属性
     setReactReconcileTransaction: function (ReactReconcileTransaction) {
         ReactComponent.ReactReconcileTransaction = ReactReconcileTransaction
     },
     Mixin: {
+
+        // --------------
+        // `getDOMNode`
+        // 获取当前组件对应的渲染dom元素
         getDOMNode: function () {
             invariant_1(ExecutionEnvironment_1.canUseDOM, 'getDOMNode(): The DOM is not supported in the current environment.');
             invariant_1(this._lifeCycleState === ComponentLifeCycle.MOUNTED, 'getDOMNode(): A component must be mounted to have a DOM node.');
@@ -2735,15 +2992,27 @@ var ReactComponent = {
             }
             return rootNode
         },
+
+        // --------------
+        // `setProps`
+        // 合并props，并重新渲染
         setProps: function (partialProps) {
             this.replaceProps(merge_1(this.props, partialProps))
         },
+
+        // --------------
+        // `replaceProps`
+        // 接收`props`，并重新渲染组件
         replaceProps: function (props) {
             invariant_1(!this.props[OWNER], 'replaceProps(...): You called `setProps` or `replaceProps` on a component with an owner. This is an anti-pattern since props will get reactively updated when rendered. Instead, change the owner\'s `render` method to pass the correct value as props to the component where it is created.');
             var transaction = ReactComponent.ReactReconcileTransaction.getPooled();
             transaction.perform(this.receiveProps, this, props, transaction);
             ReactComponent.ReactReconcileTransaction.release(transaction)
         },
+
+        // --------------
+        // `construct`
+        // 初始化组件，相当于构造函数，生成`props`、`_lifeCycleState`、`props.children`、`props[OWNER]`等属性
         construct: function (initialProps, children) {
             this.props = initialProps || {};
             if (typeof children !== 'undefined') {
@@ -2752,6 +3021,10 @@ var ReactComponent = {
             this.props[OWNER] = ReactCurrentOwner_1.current;
             this._lifeCycleState = ComponentLifeCycle.UNMOUNTED
         },
+
+        // --------------
+        // `mountComponent`
+        // 给`props[OWNER]`添加key为`props.ref`，value为`this`的ref
         mountComponent: function (rootID, transaction) {
             invariant_1(this._lifeCycleState === ComponentLifeCycle.UNMOUNTED, 'mountComponent(%s, ...): Can only mount an unmounted component.', rootID);
             var props = this.props;
@@ -2761,6 +3034,10 @@ var ReactComponent = {
             this._rootNodeID = rootID;
             this._lifeCycleState = ComponentLifeCycle.MOUNTED
         },
+
+        // --------------
+        // `unmountComponent`
+        // 重置ref的相关属性
         unmountComponent: function () {
             invariant_1(this._lifeCycleState === ComponentLifeCycle.MOUNTED, 'unmountComponent(): Can only unmount a mounted component.');
             var props = this.props;
@@ -2771,6 +3048,10 @@ var ReactComponent = {
             this._rootNodeID = null;
             this._lifeCycleState = ComponentLifeCycle.UNMOUNTED
         },
+
+        // --------------
+        // `receiveProps`
+        // 移除`nextProps`和`props`的`ref`
         receiveProps: function (nextProps, transaction) {
             invariant_1(this._lifeCycleState === ComponentLifeCycle.MOUNTED, 'receiveProps(...): Can only update a mounted component.');
             var props = this.props;
@@ -2783,11 +3064,19 @@ var ReactComponent = {
                 }
             }
         },
+
+        // --------------
+        // `mountComponentIntoNode`
+        // 提供`rootID`和`container`，渲染好DOM之后，再释放`transaction`
         mountComponentIntoNode: function (rootID, container) {
             var transaction = ReactComponent.ReactReconcileTransaction.getPooled();
             transaction.perform(this._mountComponentIntoNode, this, rootID, container, transaction);
             ReactComponent.ReactReconcileTransaction.release(transaction)
         },
+
+        // --------------
+        // `_mountComponentIntoNode`
+        // 提供`rootID`和`container`以及`transaction`，最后生成`html`文本，并替换掉`container`的html文本
         _mountComponentIntoNode: function (rootID, container, transaction) {
             var renderStart = Date.now();
             var markup = this.mountComponent(rootID, transaction);
@@ -2808,18 +3097,29 @@ var ReactComponent = {
             }
             ReactMount_1.totalInjectionTime += (Date.now() - injectionStart)
         },
+
+        // --------------
+        // `unmountComponentFromNode`
+        // 释放掉渲染的资源
         unmountComponentFromNode: function (container) {
             this.unmountComponent();
             while (container.lastChild) {
                 container.removeChild(container.lastChild)
             }
         },
+
+        // --------------
+        // `isOwnedBy`
+        // 判断`owner`是否为当前`props`的owner
         isOwnedBy: function (owner) {
             return this.props[OWNER] === owner
         }
     }
 };
 
+// --------------
+// `logDeprecated`
+// 控制台打印警告提示`msg`
 function logDeprecated(msg) {
     if (__DEV__) {
         throw new Error(msg);
@@ -2827,16 +3127,27 @@ function logDeprecated(msg) {
         console && console.warn && console.warn(msg)
     }
 }
+
+// --------------
+// `ReactComponent.Mixin.update`
+// 废弃的方法，用`setProps`代替
 ReactComponent.Mixin.update = function (props) {
     logDeprecated('this.update() is deprecated. Use this.setProps()');
     this.setProps(props)
 };
+
+// --------------
+// `ReactComponent.Mixin.updateAll`
+// 废弃的方法，用`replaceProps`代替
 ReactComponent.Mixin.updateAll = function (props) {
     logDeprecated('this.updateAll() is deprecated. Use this.replaceProps()');
     this.replaceProps(props)
 };
 var ReactComponent_1 = ReactComponent;
 
+// --------------
+// `copyProperties`
+// 把`a`、`b`、`c`、`d`、`e`合并到`obj`对象中
 function copyProperties(obj, a, b, c, d, e, f) {
     obj = obj || {};
     if (__DEV__) {
@@ -2860,22 +3171,28 @@ function copyProperties(obj, a, b, c, d, e, f) {
 }
 var copyProperties_1 = copyProperties;
 
+// --------------
+// `makeEmptyFunction`
+// 用来创建返回参数的函数
 function makeEmptyFunction(arg) {
     return function () {
         return arg
     }
 }
 
+// --------------
+// `emptyFunction`
+// 创建`emptyFunction`函数，并循环赋值不同属性
 function emptyFunction() {}
 copyProperties_1(emptyFunction, {
     thatReturns: makeEmptyFunction,
-    thatReturnsFalse: makeEmptyFunction(false),
-    thatReturnsTrue: makeEmptyFunction(true),
-    thatReturnsNull: makeEmptyFunction(null),
-    thatReturnsThis: function () {
+    thatReturnsFalse: makeEmptyFunction(false),// 返回 false
+    thatReturnsTrue: makeEmptyFunction(true),// 返回 true
+    thatReturnsNull: makeEmptyFunction(null),// 返回 null
+    thatReturnsThis: function () { // 返回 this
         return this
     },
-    thatReturnsArgument: function (arg) {
+    thatReturnsArgument: function (arg) {// 返回 arg
         return arg
     },
     mustImplement: function (module, property) {
@@ -2888,6 +3205,9 @@ copyProperties_1(emptyFunction, {
 });
 var emptyFunction_1 = emptyFunction;
 
+// --------------
+// `joinClasses`
+// 传入多个参数，并用空格连起来
 function joinClasses(className) {
     if (!className) {
         className = ''
@@ -2904,6 +3224,9 @@ function joinClasses(className) {
 }
 var joinClasses_1 = joinClasses;
 
+// --------------
+// `createTransferStrategy`
+// 传入回调函数，并为`props`生成对应的key-value
 function createTransferStrategy(mergeStrategy) {
     return function (props, key, value) {
         if (!props.hasOwnProperty(key)) {
@@ -2913,14 +3236,23 @@ function createTransferStrategy(mergeStrategy) {
         }
     }
 }
+
+// --------------
+// `TransferStrategies`
+// 高阶函数的函数对象
 var TransferStrategies = {
-    ref: emptyFunction_1,
-    className: createTransferStrategy(joinClasses_1),
-    style: createTransferStrategy(merge_1)
+    ref: emptyFunction_1,// 创建`emptyFunction`函数，并循环赋值不同属性
+    className: createTransferStrategy(joinClasses_1),// 传入回调函数，并为`props`生成对应的key-value
+    style: createTransferStrategy(merge_1)// 把`one`、`two`合并到`result`，并返回
 };
+
 var ReactPropTransferer = {
     TransferStrategies: TransferStrategies,
     Mixin: {
+
+        // --------------
+        // `transferPropsTo`
+        // 把`component`的属性整理后重新赋值
         transferPropsTo: function (component) {
             var props = {};
             for (var thatKey in component.props) {
@@ -2945,11 +3277,19 @@ var ReactPropTransferer = {
     }
 };
 var ReactPropTransferer_1 = ReactPropTransferer;
+
+// --------------
+// `SpecPolicy`
+// `DEFINE_ONCE`、`DEFINE_MANY`、`OVERRIDE_BASE`的属性对象
 var SpecPolicy = keyMirror_1({
     DEFINE_ONCE: null,
     DEFINE_MANY: null,
     OVERRIDE_BASE: null
 });
+
+// --------------
+// `ReactCompositeComponentInterface`
+// 用于混入`component`时的对象
 var ReactCompositeComponentInterface = {
     mixins: SpecPolicy.DEFINE_MANY,
     props: SpecPolicy.DEFINE_ONCE,
@@ -2964,10 +3304,22 @@ var ReactCompositeComponentInterface = {
     componentWillUnmount: SpecPolicy.DEFINE_MANY,
     updateComponent: SpecPolicy.OVERRIDE_BASE
 };
+
+// --------------
+// `RESERVED_SPEC_KEYS`
+// 二次处理`component`的方法
 var RESERVED_SPEC_KEYS = {
+
+    // --------------
+    // `displayName`
+    // `displayName`处理displayName属性
     displayName: function (Constructor, displayName) {
         Constructor.displayName = displayName
     },
+
+    // --------------
+    // `mixins`
+    // 当遇到`mixins`属性的时候，需要递归
     mixins: function (Constructor, mixins) {
         if (mixins) {
             for (var i = 0; i < mixins.length; i++) {
@@ -2975,11 +3327,18 @@ var RESERVED_SPEC_KEYS = {
             }
         }
     },
+
+    // --------------
+    // `props`
+    // props属性则赋值到`propDeclarations`
     props: function (Constructor, props) {
         Constructor.propDeclarations = props
     }
 };
 
+// --------------
+// `mixSpecIntoComponent`
+// 合并`spec`到`Constructor`中
 function mixSpecIntoComponent(Constructor, spec) {
     var proto = Constructor.prototype;
     for (var name in spec) {
@@ -3012,6 +3371,9 @@ function mixSpecIntoComponent(Constructor, spec) {
     }
 }
 
+// --------------
+// `createChainedFunction`
+// 把`one`、`two`集中到一个函数处理
 function createChainedFunction(one, two) {
     return function chainedFunction(a, b, c, d, e, tooMany) {
         invariant_1(typeof tooMany === 'undefined', 'Chained function can only take a maximum of 5 arguments.');
@@ -3019,19 +3381,35 @@ function createChainedFunction(one, two) {
         two.call(this, a, b, c, d, e)
     }
 }
+
+// --------------
+// `CompositeLifeCycle`
+// 正在构建时的状态对象
 var CompositeLifeCycle = keyMirror_1({
     MOUNTING: null,
     UNMOUNTING: null,
     RECEIVING_PROPS: null,
     RECEIVING_STATE: null
 });
+
+// --------------
+// `ReactCompositeComponentMixin`
+// Rt的`createClass`创建对象的一个混入类
 var ReactCompositeComponentMixin = {
+
+    // --------------
+    // `construct`
+    // 初始化函数
     construct: function (initialProps, children) {
         ReactComponent_1.Mixin.construct.call(this, initialProps, children);
         this.state = null;
         this._pendingState = null;
         this._compositeLifeCycleState = null
     },
+
+    // --------------
+    // `mountComponent`
+    // 把rootID对应的子元素的rt组件实例化之后，再进行mount
     mountComponent: function (rootID, transaction) {
         ReactComponent_1.Mixin.mountComponent.call(this, rootID, transaction);
         this._lifeCycleState = ReactComponent_1.LifeCycle.UNMOUNTED;
@@ -3059,6 +3437,10 @@ var ReactCompositeComponentMixin = {
         this._lifeCycleState = ReactComponent_1.LifeCycle.MOUNTED;
         return this._renderedComponent.mountComponent(rootID, transaction)
     },
+
+    // --------------
+    // `unmountComponent`
+    // 卸载渲染
     unmountComponent: function () {
         this._compositeLifeCycleState = CompositeLifeCycle.UNMOUNTING;
         if (this.componentWillUnmount) {
@@ -3072,6 +3454,10 @@ var ReactCompositeComponentMixin = {
             this.refs = null
         }
     },
+
+    // --------------
+    // `receiveProps`
+    // 接收`nextProps`，并重新渲染
     receiveProps: function (nextProps, transaction) {
         if (this.constructor.propDeclarations) {
             this._assertValidProps(nextProps)
@@ -3087,9 +3473,17 @@ var ReactCompositeComponentMixin = {
         this._receivePropsAndState(nextProps, nextState, transaction);
         this._compositeLifeCycleState = null
     },
+
+    // --------------
+    // `setState`
+    // 接收`partialState`，并重新渲染
     setState: function (partialState) {
         this.replaceState(merge_1(this._pendingState || this.state, partialState))
     },
+
+    // --------------
+    // `replaceState`
+    // 接收`completeState`，并重新渲染
     replaceState: function (completeState) {
         var compositeLifeCycleState = this._compositeLifeCycleState;
         invariant_1(this._lifeCycleState === ReactComponent_1.LifeCycle.MOUNTED || compositeLifeCycleState === CompositeLifeCycle.MOUNTING, 'replaceState(...): Can only update a mounted (or mounting) component.');
@@ -3173,6 +3567,7 @@ var ReactCompositeComponentMixin = {
             this[autoBindKey] = this._bindAutoBindMethod(method)
         }
     },
+
     _bindAutoBindMethod: function (method) {
         var component = this;
         var hasWarned = false;
@@ -3191,14 +3586,23 @@ var ReactCompositeComponentMixin = {
         return autoBound
     }
 };
+
+// --------------
+// `ReactCompositeComponentBase`
+// 用于创建`Component`构造函数原型链的初始方法
 var ReactCompositeComponentBase = function () {};
-mixInto_1(ReactCompositeComponentBase, ReactComponent_1.Mixin);
-mixInto_1(ReactCompositeComponentBase, ReactOwner_1.Mixin);
-mixInto_1(ReactCompositeComponentBase, ReactPropTransferer_1.Mixin);
-mixInto_1(ReactCompositeComponentBase, ReactCompositeComponentMixin);
+
+mixInto_1(ReactCompositeComponentBase, ReactComponent_1.Mixin);// ReactCompositeComponentBase合并ReactComponent_1.Mixin到它的原型链
+mixInto_1(ReactCompositeComponentBase, ReactOwner_1.Mixin);// ReactCompositeComponentBase合并ReactOwner_1.Mixin到它的原型链
+mixInto_1(ReactCompositeComponentBase, ReactPropTransferer_1.Mixin);// ReactCompositeComponentBase合并ReactPropTransferer_1.Mixin到它的原型链
+mixInto_1(ReactCompositeComponentBase, ReactCompositeComponentMixin);// ReactCompositeComponentBase合并ReactCompositeComponentMixin到它的原型链
 var ReactCompositeComponent = {
     LifeCycle: CompositeLifeCycle,
     Base: ReactCompositeComponentBase,
+
+    // --------------
+    // `createClass`
+    // 传入属性，生成构造函数返回
     createClass: function (spec) {
         var Constructor = function (initialProps, children) {
             this.construct(initialProps, children)
@@ -3214,6 +3618,10 @@ var ReactCompositeComponent = {
         ConvenienceConstructor.originalSpec = spec;
         return ConvenienceConstructor
     },
+
+    // --------------
+    // `autoBind`
+    // 二次加工`method`函数，赋值到`unbound`的`__reactAutoBind`属性中
     autoBind: function (method) {
         function unbound() {
             invariant_1(false, 'React.autoBind(...): Attempted to invoke an auto-bound method that was not correctly defined on the class specification.')
@@ -3438,17 +3846,28 @@ function assertValidProps(props) {
     invariant_1(props.style == null || typeof props.style === 'object', 'The `style` prop expects a mapping from style properties to values, not a string.')
 }
 
+// --------------
+// `ReactNativeComponent`
+// Rt的Dom构造函数扩展方法，React.DOM.XXX的一个扩展
 function ReactNativeComponent(tag, omitClose) {
     this._tagOpen = '<' + tag + ' ';
     this._tagClose = omitClose ? '' : '</' + tag + '>';
     this.tagName = tag.toUpperCase()
 }
 ReactNativeComponent.Mixin = {
+
+    // --------------
+    // `mountComponent`
+    // 提供`rootID`和`transaction`，生成html字符串并返回
     mountComponent: function (rootID, transaction) {
         ReactComponent_1.Mixin.mountComponent.call(this, rootID, transaction);
         assertValidProps(this.props);
         return (this._createOpenTagMarkup() + this._createContentMarkup(transaction) + this._tagClose)
     },
+
+    // --------------
+    // `_createOpenTagMarkup`
+    // 生成包含属性的开始标签html字符串
     _createOpenTagMarkup: function () {
         var props = this.props;
         var ret = this._tagOpen;
@@ -3477,6 +3896,10 @@ ReactNativeComponent.Mixin = {
         }
         return ret + ' id="' + this._rootNodeID + '">'
     },
+
+    // --------------
+    // `_createContentMarkup`
+    // 生成子孙元素对应的html字符串
     _createContentMarkup: function (transaction) {
         var innerHTML = this.props.dangerouslySetInnerHTML;
         if (innerHTML != null) {
@@ -3595,6 +4018,9 @@ function objMapKeyVal(obj, func, context) {
 }
 var objMapKeyVal_1 = objMapKeyVal;
 
+// --------------
+// `createDOMComponentClass`
+// 传入`tag`标签名和`omitClose`，来创建Rt.dom的方法
 function createDOMComponentClass(tag, omitClose) {
     var Constructor = function (initialProps, children) {
         this.construct(initialProps, children)
@@ -3605,6 +4031,10 @@ function createDOMComponentClass(tag, omitClose) {
         return new Constructor(props, children)
     }
 }
+
+// --------------
+// `ReactDOM`
+// dom和svg元素对应的key，value表示是否是单闭合标签
 var ReactDOM = objMapKeyVal_1({
     a: false,
     abbr: false,
@@ -3681,6 +4111,10 @@ var ReactDOM = objMapKeyVal_1({
     text: false
 }, createDOMComponentClass);
 var injection = {
+
+    // --------------
+    // `injectComponentClasses`
+    // 把`componentClasses`合并到`ReactDOM`中
     injectComponentClasses: function (componentClasses) {
         mergeInto_1(ReactDOM, componentClasses)
     }
@@ -3688,6 +4122,10 @@ var injection = {
 ReactDOM.injection = injection;
 var ReactDOM_1 = ReactDOM;
 var form = ReactDOM_1.form;
+
+// --------------
+// `ReactDOMForm`
+// 创建了一个Rt的`component`的构造函数
 var ReactDOMForm = ReactCompositeComponent_1.createClass({
     render: function () {
         return this.transferPropsTo(form(null, this.props.children))
@@ -3697,6 +4135,10 @@ var ReactDOMForm = ReactCompositeComponent_1.createClass({
     }
 });
 var ReactDOMForm_1 = ReactDOMForm;
+
+// --------------
+// `deleteAllListeners`
+// `injection$1.EventPluginOrder`的属性
 var DefaultEventPluginOrder = [keyOf_1({
     ResponderEventPlugin: null
 }), keyOf_1({
@@ -3709,8 +4151,16 @@ var DefaultEventPluginOrder = [keyOf_1({
     AnalyticsEventPlugin: null
 })];
 var DefaultEventPluginOrder_1 = DefaultEventPluginOrder;
+
+// --------------
+// `topLevelTypes$1`
+// 顶部事件类型topXXX
 var topLevelTypes$1 = EventConstants_1.topLevelTypes;
 var getFirstReactDOM = ReactInstanceHandles_1.getFirstReactDOM;
+
+// --------------
+// `abstractEventTypes$1`
+// 当顶部事件触发解析时，用来解析`onMouseEnter`和`onMouseLeave`的对象
 var abstractEventTypes = {
     mouseEnter: {
         registrationName: keyOf_1({
