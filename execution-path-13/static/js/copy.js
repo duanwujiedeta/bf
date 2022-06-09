@@ -1,7 +1,7 @@
 var fs = require('fs');
 //写文件
 function writeFile(data) {
-  fs.writeFile('./middle-cp.js', data, function (err) {
+  fs.writeFile('./todomvc-cp.js', data, function (err) {
     if (err) {
       throw err;
     } else {
@@ -13,7 +13,7 @@ function writeFile(data) {
 // 复制文件
 function copyFile() {
   console.log('----------开始读取文件---------')
-  var data = fs.readFileSync('./middle.js');
+  var data = fs.readFileSync('./todomvc.js');
   console.log(data);
   writeFile(data);
   console.log('----------读取结束---------')
