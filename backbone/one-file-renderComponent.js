@@ -97,6 +97,10 @@ var processStyleName = memoizeStringOnly_1(function(styleName) {
     return escapeTextForBrowser_1(hyphenate_1(styleName))
 });
 var CSSPropertyOperations = {
+
+    // --------------
+    // `createMarkupForStyles`
+    // `渲染dom时触发`，传入对象`styles`，生成行内样式
     createMarkupForStyles: function(styles) {
         var serialized = '';
         for (var styleName in styles) {
@@ -469,6 +473,10 @@ var processAttributeNameAndPrefix = memoizeStringOnly_1(function(name) {
     return escapeTextForBrowser_1(name) + '="'
 });
 var DOMPropertyOperations = {
+
+    // --------------
+    // `createMarkupForProperty`
+    // `渲染dom时触发`，传入`key`-name和对应的value，生成html的 XXX=XXX行内属性
     createMarkupForProperty: function(name, value) {
         if (DOMProperty_1.isStandardName[name]) {
             if (value == null || DOMProperty_1.hasBooleanValue[name] && !value) {
@@ -760,6 +768,10 @@ AbstractEvent.persistentCloneOf = function(abstractEvent) {
 var AbstractEvent_1 = AbstractEvent;
 var listenerBank = {};
 var CallbackRegistry = {
+
+    // --------------
+    // `putListener`
+    // `渲染dom时触发`，生成html头部的时候，如果含有`registrationNames`的属性，则记录一个回调函数
     putListener: function(id, registrationName, listener) {
         var bankForRegistrationName = listenerBank[registrationName] || (listenerBank[registrationName] = {});
         bankForRegistrationName[id] = listener
@@ -1948,6 +1960,9 @@ var mixInto = function(constructor, methodBag) {
 };
 var mixInto_1 = mixInto;
 
+// --------------
+// `ReactOnDOMReady`
+// `渲染dom时触发`，初始化后作为`ReactReconcileTransaction`对象的`reactOnDOMReady`属性
 function ReactOnDOMReady(initialCollection) {
     this._queue = initialCollection || null
 }
@@ -1987,6 +2002,10 @@ if (__DEV__) {
     MISSING_TRANSACTION = 'Cannot close transaction when there is none open.'
 }
 var Mixin$1 = {
+
+    // --------------
+    // `reinitializeTransaction`
+    // `渲染dom时触发`，`ReactReconcileTransaction`构造函数执行时调用的初始化方法之一
     reinitializeTransaction: function() {
         this.transactionWrappers = this.getTransactionWrappers();
         if (!this.wrapperInitData) {
@@ -2013,6 +2032,10 @@ var Mixin$1 = {
     isInTransaction: function() {
         return !!this._isInTransaction
     },
+
+    // --------------
+    // `perform`
+    // `渲染dom时触发`，`ReactReconcileTransaction`实例的调用方法,`a`是rt的id；`b`是对应的`dom`元素；`c`是`ReactReconcileTransaction`实例
     perform: function(method, scope, a, b, c, d, e, f) {
         throwIf_1(this.isInTransaction(), DUAL_TRANSACTION);
         var memberStart = Date.now();
@@ -2037,6 +2060,10 @@ var Mixin$1 = {
         }
         return ret
     },
+
+    // --------------
+    // `initializeAll`
+    // `渲染dom时触发`，生成对应的`wrapperInitData`、`wrapperInitTimes`等属性
     initializeAll: function() {
         this._isInTransaction = true;
         var transactionWrappers = this.transactionWrappers;
@@ -2115,13 +2142,24 @@ var ON_DOM_READY_QUEUEING = {
         this.reactOnDOMReady.notifyAll()
     }
 };
+
+// --------------
+// `TRANSACTION_WRAPPERS`
+// `渲染dom时触发`，彼时循环调用每个元素对应的`initialize`方法
 var TRANSACTION_WRAPPERS = [SELECTION_RESTORATION, EVENT_SUPPRESSION, ON_DOM_READY_QUEUEING];
 
+// --------------
+// `ReactReconcileTransaction`
+// `渲染dom时触发`，`_mountComponentIntoNode`的执行器类
 function ReactReconcileTransaction() {
     this.reinitializeTransaction();
     this.reactOnDOMReady = ReactOnDOMReady_1.getPooled(null)
 }
 var Mixin = {
+
+    // --------------
+    // `getTransactionWrappers`
+    // `渲染dom时触发`，用于生成对应的`ReactReconcileTransaction`对象的`transactionWrappers`属性
     getTransactionWrappers: function() {
         if (ExecutionEnvironment_1.canUseDOM) {
             return TRANSACTION_WRAPPERS
@@ -2190,6 +2228,10 @@ var ReactComponent = {
             this.props[OWNER] = ReactCurrentOwner_1.current;
             this._lifeCycleState = ComponentLifeCycle.UNMOUNTED
         },
+
+        // --------------
+        // `mountComponent`
+        // `渲染dom时触发`，`rootID`是rt生成的id；生成`ref`,`_rootNodeID`,`_lifeCycleState`等属性
         mountComponent: function(rootID, transaction) {
             invariant_1(this._lifeCycleState === ComponentLifeCycle.UNMOUNTED, 'mountComponent(%s, ...): Can only mount an unmounted component.', rootID);
             var props = this.props;
@@ -2230,9 +2272,13 @@ var ReactComponent = {
             transaction.perform(this._mountComponentIntoNode, this, rootID, container, transaction);
             ReactComponent.ReactReconcileTransaction.release(transaction)
         },
+
+        // --------------
+        // `_mountComponentIntoNode`
+        // `渲染dom时触发`，`rootID`是rt生成的id;`container`要挂载的dom元素;`transaction`是`ReactReconcileTransaction`实例
         _mountComponentIntoNode: function(rootID, container, transaction) {
             var renderStart = Date.now();
-            var markup = this.mountComponent(rootID, transaction);
+            var markup = this.mountComponent(rootID, transaction);// ReactCompositeComponentMixin.mountComponent
             ReactMount_1.totalInstantiationTime += (Date.now() - renderStart);
             var injectionStart = Date.now();
             var parent = container.parentNode;
@@ -2474,6 +2520,10 @@ var ReactCompositeComponentMixin = {
         this._pendingState = null;
         this._compositeLifeCycleState = null
     },
+
+    // --------------
+    // `mountComponent`
+    // `渲染dom时触发`，`rootID`对应的rt生成的id
     mountComponent: function(rootID, transaction) {
         ReactComponent_1.Mixin.mountComponent.call(this, rootID, transaction);
         this._lifeCycleState = ReactComponent_1.LifeCycle.UNMOUNTED;
@@ -2589,6 +2639,10 @@ var ReactCompositeComponentMixin = {
         transaction.perform(this._performComponentUpdate, this, this.props, this.state, transaction);
         ReactComponent_1.ReactReconcileTransaction.release(transaction)
     },
+
+    // --------------
+    // `_renderValidatedComponent`
+    // `渲染dom时触发`，执行`component`的`render`方法，并返回它的返回值
     _renderValidatedComponent: function() {
         ReactCurrentOwner_1.current = this;
         var renderedComponent = this.render();
@@ -2710,13 +2764,17 @@ var ReactMultiChildMixin = {
         }
         this._renderedChildren = null
     },
+
+    // --------------
+    // `mountMultiChild`
+    // `渲染dom时触发`，提供数组`children`，生成平级的html字符串
     mountMultiChild: function(children, transaction) {
         var accum = '';
         var index = 0;
         for (var name in children) {
             var child = children[name];
             if (children.hasOwnProperty(name) && child) {
-                accum += child.mountComponent(this._rootNodeID + '.' + name, transaction);
+                accum += child.mountComponent(this._rootNodeID + '.' + name, transaction);// 去生成html字符串，含有递归逻辑
                 child._domIndex = index;
                 index++
             }
@@ -2814,6 +2872,10 @@ if (__DEV__) {
     INVALID_CHILD = 'You may not pass a child of that type to a React component. It is a common mistake to try to pass a standard browser DOM element as a child of a React component.'
 }
 var ONLY_CHILD_NAME = '0';
+
+// --------------
+// `flattenChildrenImpl`
+// `渲染dom时触发`，`res`是一个空对象，用作返回；`children`是`props`的属性；`nameSoFar`是字符串，用作生成子元素id;该方法使得`children`根据key为rt的id，value为`component`的res，`component`的children为字符串，主要是为了生成rt的id和把子组件对象化
 var flattenChildrenImpl = function(res, children, nameSoFar) {
     if (Array.isArray(children)) {
         for (var i = 0; i < children.length; i++) {
@@ -2844,6 +2906,9 @@ var flattenChildrenImpl = function(res, children, nameSoFar) {
     }
 };
 
+// --------------
+// `flattenChildren`
+// `渲染dom时触发`，传入`props`的`children`属性，给`flattenChildrenImpl`方法平铺生成
 function flattenChildren(children) {
     if (children === null || children === undefined) {
         return children
@@ -2886,11 +2951,19 @@ function ReactNativeComponent(tag, omitClose) {
     this.tagName = tag.toUpperCase()
 }
 ReactNativeComponent.Mixin = {
+
+    // --------------
+    // `mountComponent`
+    // `渲染dom时触发`，由组件的`render`方法返回的对象对应的方法；用于生成`dom`的html字符串
     mountComponent: function(rootID, transaction) {
         ReactComponent_1.Mixin.mountComponent.call(this, rootID, transaction);
         assertValidProps(this.props);
         return (this._createOpenTagMarkup() + this._createContentMarkup(transaction) + this._tagClose)
     },
+
+    // --------------
+    // `_createOpenTagMarkup`
+    // `渲染dom时触发`，生成`dom`元素的行内样式、属性等头部的html
     _createOpenTagMarkup: function() {
         var props = this.props;
         var ret = this._tagOpen;
@@ -2919,6 +2992,10 @@ ReactNativeComponent.Mixin = {
         }
         return ret + ' id="' + this._rootNodeID + '">'
     },
+
+    // --------------
+    // `_createContentMarkup`
+    // `渲染dom时触发`，从`props`中依次选取`dangerouslySetInnerHTML`、`content`、`children`来生成html字符串
     _createContentMarkup: function(transaction) {
         var innerHTML = this.props.dangerouslySetInnerHTML;
         if (innerHTML != null) {
