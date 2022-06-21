@@ -18,6 +18,8 @@
         <el-button @click="addItem">添加S</el-button>
         <el-button>清空列表</el-button>
         <el-button @click="saveInConsole">保存列表</el-button>
+        <el-button @click="hideen = !hideen">HIDE EN</el-button>
+        <el-button @click="hidecn = !hidecn">HIED CN</el-button>
       </div>
       <div class="head-content">
         <el-table
@@ -31,12 +33,12 @@
         >
           <el-table-column prop="date" label="EN-WORDS">
             <template slot-scope="scope">
-              {{ scope.row.enWord }}
+              <div v-show="!hideen">{{ scope.row.enWord }}</div>
             </template>
           </el-table-column>
           <el-table-column prop="name" label="CN-WORDS">
             <template slot-scope="scope">
-              {{ scope.row.cnWord }}
+              <div v-show="!hidecn">{{ scope.row.cnWord }}</div>
             </template>
           </el-table-column>
           <el-table-column prop="address" label="是否显示">
@@ -73,6 +75,8 @@ export default {
   data() {
     return {
       list: [],
+      hideen: false,
+      hidecn: false,
       form: {
         enWord: "",
         cnWord: "",
