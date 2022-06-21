@@ -25,6 +25,7 @@
         <el-table
           :data="list"
           style="width: 100%"
+          height="100%"
           :row-key="
             (row) => {
               row.enWord;
@@ -74,7 +75,7 @@
 export default {
   data() {
     return {
-      list: [],
+      list: [{"enWord":"delta airline","cnWord":"达美航空公司","isShow":true},{"enWord":"depart for","cnWord":"出发去","isShow":true},{"enWord":"proceed to gate 27","cnWord":"前往 27 号登机口","isShow":true},{"enWord":"passenger","cnWord":"乘客","isShow":true},{"enWord":"flight 1425","cnWord":"1425航班","isShow":true},{"enWord":"thank you for your patience","cnWord":"感谢您的耐心等待","isShow":true},{"enWord":"regret to","cnWord":"后悔","isShow":true},{"enWord":"aircraft maintenance","cnWord":"飞机维修","isShow":true},{"enWord":"dedicated assistance counter","cnWord":"专门的援助柜台","isShow":true},{"enWord":"the departure gate","cnWord":"登机口","isShow":true},{"enWord":"preboarding announcement","cnWord":"登机前公告","isShow":true},{"enWord":"assistance","cnWord":"协助","isShow":true},{"enWord":"in approximately 10 minutes time","cnWord":"在大约 10 分钟的时间内","isShow":true},{"enWord":"seattle","cnWord":"西雅图","isShow":true},{"enWord":"captain","cnWord":"队长","isShow":true}],
       hideen: false,
       hidecn: false,
       form: {
@@ -109,7 +110,7 @@ export default {
 #app-index {
   width: 100%;
   height: 100%;
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
   position: relative;
   display: flex;
@@ -117,9 +118,10 @@ export default {
   .header-session {
     display: flex;
     flex-direction: column;
-    height: 560px;
+    height: 100%;
   }
   .header {
+    position: fixed;
     height: 76px;
     top: 0px;
     width: 100%;
@@ -131,7 +133,8 @@ export default {
     align-items: center;
   }
   .head-content {
-    min-height: 484px;
+    margin-top:76px;
+    min-height: 850px;
     display: flex;
     flex-direction: column;
     justify-content: center;
