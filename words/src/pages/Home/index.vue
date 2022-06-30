@@ -4,12 +4,14 @@
       <div class="header">
         <el-input
           v-model="form.enWord"
-          style="width: 250px; margin-right: 15px"
+          type="textarea"
+          style="width: 350px; margin-right: 15px"
           placeholder="EN-Word"
         ></el-input>
         <el-input
           v-model="form.cnWord"
-          style="width: 250px; margin-right: 15px"
+          type="textarea"
+          style="width: 350px; margin-right: 15px"
           placeholder="CN-Word"
         ></el-input>
         <el-checkbox v-model="form.isShow" style="margin-right: 15px"
@@ -42,14 +44,14 @@
               <div v-show="!hidecn">{{ scope.row.cnWord }}</div>
             </template>
           </el-table-column>
-          <el-table-column prop="address" label="是否显示">
+          <!-- <el-table-column prop="address" label="是否显示">
             <template slot-scope="scope">
               <el-checkbox
                 v-model="scope.row.isShow"
                 style="margin-right: 15px"
               ></el-checkbox>
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column prop="address" label="操作">
             <template slot-scope="scope">
               <el-button @click="delItem(scope.$index, scope.row)"
@@ -72,10 +74,23 @@
 </template>
 
 <script>
+// import aline from "./airline.json"
 export default {
   data() {
     return {
-      list: [{"enWord":"delta airline","cnWord":"达美航空公司","isShow":true},{"enWord":"depart for","cnWord":"出发去","isShow":true},{"enWord":"proceed to gate 27","cnWord":"前往 27 号登机口","isShow":true},{"enWord":"passenger","cnWord":"乘客","isShow":true},{"enWord":"flight 1425","cnWord":"1425航班","isShow":true},{"enWord":"thank you for your patience","cnWord":"感谢您的耐心等待","isShow":true},{"enWord":"regret to","cnWord":"后悔","isShow":true},{"enWord":"aircraft maintenance","cnWord":"飞机维修","isShow":true},{"enWord":"dedicated assistance counter","cnWord":"专门的援助柜台","isShow":true},{"enWord":"the departure gate","cnWord":"登机口","isShow":true},{"enWord":"preboarding announcement","cnWord":"登机前公告","isShow":true},{"enWord":"assistance","cnWord":"协助","isShow":true},{"enWord":"in approximately 10 minutes time","cnWord":"在大约 10 分钟的时间内","isShow":true},{"enWord":"seattle","cnWord":"西雅图","isShow":true},{"enWord":"captain","cnWord":"队长","isShow":true}],
+      list: [
+        {
+          enWord: "ReactCompositeComponentBase",
+          cnWord:
+            "ReactComponent.Mixin、ReactOwner.Mixin、ReactPropTransferer.Mixin、ReactCompositeComponentMixin",
+          isShow: true,
+        },
+        {
+          enWord: "constructor 4 states props with 2",
+          cnWord: "",
+          isShow: true,
+        },
+      ],
       hideen: false,
       hidecn: false,
       form: {
@@ -133,7 +148,7 @@ export default {
     align-items: center;
   }
   .head-content {
-    margin-top:76px;
+    margin-top: 76px;
     min-height: 850px;
     display: flex;
     flex-direction: column;

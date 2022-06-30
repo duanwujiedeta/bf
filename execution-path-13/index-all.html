@@ -11,16 +11,17 @@
 
 <body>
   <!-- 该文件用于记录一些行，以便 index-all.html 能够避免开来，不运行指定行 -->
-  <div id="todoapp"></div>
-  <div id="benchmark"></div>
-
-  <div class="container">
+  <!-- <div id="todoapp"></div>
+  <div id="benchmark"></div> -->
+  <div id="container">
+  </div>
+  <div class="container" id="container1">
     <div id="input"></div>
     <button id="run">▷ Run</button>
     <div id="output"></div>
   </div>
 
-  <div>
+  <!--   <div>
     <h1>Basic Example</h1>
     <div id="container">
       <p>
@@ -45,7 +46,7 @@
       Learn more at
       <a href="http://facebook.github.io/react" target="_blank">facebook.github.io/react</a>.
     </p>
-  </div>
+  </div> -->
 
   <script type="text/javascript" src="./static/js/iroh-browser.js"></script>
 
@@ -505,13 +506,13 @@ factorial(9);`);
       // run script
       eval.call(window, stage.script);
       setTimeout(function () {
-        addScript("./static/js/after.js");
+        addScript("./static/js/after.js", true);
       }, 100);
     }
 
     // run.click();
 
-    function addScript(src) {
+    function addScript(src, act) {
       var secScript = document.createElement("script");
       secScript.setAttribute("type", "text/javascript");
       secScript.setAttribute("src", src);
@@ -520,7 +521,8 @@ factorial(9);`);
       shouldDeb = true;
       // hasClear = true;
       setTimeout(function () {
-        runRt();
+        act && addScript("./static/js/base.js");
+        act && document.getElementById("container1").remove();
       }, 100)
     }
   </script>
@@ -555,7 +557,7 @@ factorial(9);`);
       }
     }
   </script>
-  <script type="text/javascript" src="./static/js/todomvc.js"></script>
+  <!-- <script type="text/javascript" src="./static/js/todomvc.js"></script> -->
   <style>
     .CodeMirror {
       border: 1px solid rgba(0, 0, 0, 0.1);
