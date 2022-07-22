@@ -1,0 +1,12 @@
+{
+    "presets": [
+        ["@babel/preset-env", {} /* 这个对象是该预设的参数选项 */ ],
+        "@babel/preset-react"
+    ]
+    /* ,"plugins": ["pluginA", ["pluginA"],
+        ["pluginA", {}]
+    ] */ //该插件的配置包含了 插件的   `名称` 和 `参数`
+    /* 
+    ,"plugins": ["@babel/plugin-transform-flow-strip-types"] // 用于转换 flow 语法
+    */
+}
