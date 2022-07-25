@@ -10,7 +10,7 @@ export default {
         // esModule: true,
         dir: './build', //如果有多个入口，则需要指定该选项
         format: 'iife',// iife 选项的时候不支持多个入口，只能单入口对应单出口,以至于某些就需要用代码控制，或者多配置文件控制
-        // entryFileNames: 'entry-[name].js', //用于控制输出文件名
+        entryFileNames: 'entry-[name].js', //用于控制输出文件名
         // sourcemap: true //添加来源指引
     },
     plugins: [
