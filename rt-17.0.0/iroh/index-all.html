@@ -29,6 +29,13 @@
     var hasClear = true;
     var strConfig = "";
     var lineNum = "";
+    var enterBgColorObj = {
+
+    };
+    // 16进制随机颜色
+    function randomColor() {
+      return "#" + Math.floor(Math.random() * 16777215).toString(16);
+    }
     function attachListeners(stage) {
       // if
       stage.addListener(Iroh.IF)
@@ -200,31 +207,31 @@
       // function
       stage.addListener(Iroh.FUNCTION)
         .on("enter", (e) => {
+          enterBgColorObj[e.name] = randomColor();
           shouldDeb = false;
-          luLog(" ".repeat(e.indent) + "%c ☕function enter☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "arguments:", e.arguments, e);
+          luLog(" ".repeat(e.indent) + "%c ☕function enter☕ start hash" + enterBgColorObj[e.name] + ":" + e.hash, "background: " + enterBgColorObj[e.name] + "; color: #fff; padding:1px 0;", "arguments:", e.arguments, e);
           luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
           luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
           shouldDeb = true;
           luLog(" ".repeat(e.indent) + "%c ☕function enter☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
 
         })
-      /*         .on("leave", (e) => {
-      
-               luLog(" ".repeat(e.indent) + "%c ☕function leave☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.name,e);
-               luLog(" ".repeat(e.indent) + "source:", e.getSource(),e);
-       luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start,e);
-               luLog(" ".repeat(e.indent) + "%c ☕function leave☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;",e);
-      
-              }) */
-      /* .on("return", (e) => {
-        shouldDeb = false;
-        luLog(" ".repeat(e.indent) + "%c ☕function return☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "return:", e.return, e);
-        luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
-        luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
-        shouldDeb = true;
-        luLog(" ".repeat(e.indent) + "%c ☕function return☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+        .on("leave", (e) => {
+          luLog(" ".repeat(e.indent) + "%c ☕function leave☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.name, e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          luLog(" ".repeat(e.indent) + "%c ☕function return☕ end hash" + enterBgColorObj[e.name] + ":" + e.hash, "background: " + enterBgColorObj[e.name] + "; color: #fff; padding:1px 0;", e);
 
-      }) */
+        })
+        .on("return", (e) => {
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕function return☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "return:", e.return, e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕function return☕ end hash" + enterBgColorObj[e.name] + ":" + e.hash, "background: " + enterBgColorObj[e.name] + "; color: #fff; padding:1px 0;", e);
+
+        })
 
       //VAR
       /*       stage.addListener(Iroh.VAR)
@@ -437,7 +444,7 @@
     };
   </script>
 
-  <script type="text/javascript" src="./static/js/before.js"></script>
+  <script type="text/javascript" src="./static/js/r-17.0.js"></script>
   <script>
     let value = "";
 
@@ -490,7 +497,7 @@ factorial(9);`);
       shouldDeb = true;
       // hasClear = true;
       setTimeout(function () {
-        act && addScript("./static/js/base.js");
+        act && addScript("./static/js/run.js");
         act && document.getElementById("container1").remove();
       }, 100)
     }
