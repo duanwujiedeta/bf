@@ -9,8 +9,9 @@ import App from './helpCenter.vue'
 import http from './util/http'
 import ElementUI from 'element-ui'
 import store from './store'
+import $ from "jquery";
 
-
+$("body").append(`<div id="lueycontent" style="display:none;"></div>`);
 //文件前缀
 
 Vue.use(http);
@@ -20,4 +21,4 @@ Vue.use(ElementUI);
 new Vue({
   store,
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#lueycontent')

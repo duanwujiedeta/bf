@@ -1,0 +1,31 @@
+{
+    "manifest_version": 2,
+    "name": "lueyNote",
+    "version": "1.0",
+    "description": "luey note",
+    "browser_action": {
+        "default_popup": "index.html"
+    },
+    "background": {
+        "scripts": [
+            "js/chunk-vendors.js",
+            "js/chunk-common.js",
+            "js/aboutus.js"
+        ]
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*/*"
+            ],
+            "js": [
+                "js/chunk-vendors.js",
+                "js/chunk-common.js",
+                "js/helpCenter.js"
+            ]
+        }
+    ],
+    "permissions": [
+        "contextMenus"
+    ]
+}

@@ -1,22 +1,12 @@
-//css
-import '@/assets/css/theme/index.css'
-import '@/assets/css/icon/icon.css'
-import '@/assets/css/dialog.less'
-//其他
-import Vue from 'vue'
-import App from './Aboutus.vue'
-// import './registerServiceWorker'
-import http from './util/http'
-import ElementUI from 'element-ui'
-import store from './store'
-
-//文件前缀
-
-Vue.use(http);
-ElementUI.Dialog.props.lockScroll.default=false;
-Vue.use(ElementUI);
-
-new Vue({
-  store,
-  render: h => h(App)
-}).$mount('#app')
+chrome.contextMenus.create({
+  'type':'normal',
+  'title':'使用Google翻译……',
+  'contexts':['selection'],
+  'id':'luey',
+  'onclick':translate
+});
+console.log("background");
+function translate(info, tab){
+  var url = 'http://translate.google.com.hk/#auto/zh-CN/'+info.selectionText ;
+  window.open(url, '_blank');
+}
