@@ -36,6 +36,14 @@ export default {
       is_after_login: false,
     };
   },
+  mounted() {
+    
+    /* let sUserAgent = navigator.userAgent;
+    this.ismobile = sUserAgent.indexOf('Android') > -1 || sUserAgent.indexOf('iPhone') > -1 || sUserAgent.indexOf('iPad') > -1 || sUserAgent.indexOf('iPod') > -1 || sUserAgent.indexOf('Symbian') > -1;
+    this.getAccountInfo(true); */
+    // this.getParams();
+    // this.showCreateCompany = true;
+  },
   methods: {
     startShopy() {
       if (this.$store.state.accountInfo.email) { //已登录
@@ -222,13 +230,6 @@ export default {
         config
       );
     }
-  },
-  mounted() {
-    let sUserAgent = navigator.userAgent;
-    this.ismobile = sUserAgent.indexOf('Android') > -1 || sUserAgent.indexOf('iPhone') > -1 || sUserAgent.indexOf('iPad') > -1 || sUserAgent.indexOf('iPod') > -1 || sUserAgent.indexOf('Symbian') > -1;
-    this.getAccountInfo(true);
-    // this.getParams();
-    // this.showCreateCompany = true;
   },
   computed: {
     showVideo() {

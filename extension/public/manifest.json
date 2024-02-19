@@ -6,18 +6,29 @@
     "browser_action": {
         "default_popup": "index.html"
     },
+    "commands": {
+        "select_panel": {
+            "description": "打开收藏页",
+            "global": true,
+            "suggested_key": {
+                "default": "Ctrl+Shift+A"
+            }
+        }
+    },
     "background": {
         "scripts": [
             "js/chunk-vendors.js",
             "js/chunk-common.js",
             "js/aboutus.js"
-        ]
+        ],
+        "persistent": true
     },
     "content_scripts": [
         {
             "matches": [
-                "*://*/*"
+                "\u003Call_urls>"
             ],
+            "run_at": "document_end",
             "js": [
                 "js/chunk-vendors.js",
                 "js/chunk-common.js",
@@ -26,6 +37,17 @@
         }
     ],
     "permissions": [
+        "\u003Call_urls>",
+        "clipboard",
+        "clipboardRead",
+        "clipboardWrite",
+        "storage",
+        "activeTab",
+        "scripting",
+        "*://*/*",
         "contextMenus"
+    ],
+    "web_accessible_resources": [
+        "*"
     ]
 }

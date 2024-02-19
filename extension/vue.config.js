@@ -2,23 +2,23 @@ module.exports = {
     filenameHashing:false,
     pages: {
         index: {
-            entry: 'src/main.js',
+            entry: 'src/main.js',// 按钮页面
             template: 'public/index.html',
             filename: 'index.html',
             // chunks: ["chunk-vendors", "chunk-common", "index"]
         },
         aboutus: {
-            entry: 'src/aboutus.js',
+            entry: 'src/aboutus.js',// 后台页面
             template: 'public/aboutus.html',
             filename: 'aboutus.html',
         },
         helpCenter: {
-            entry: 'src/helpCenter.js',
+            entry: 'src/helpCenter.js',// content页面
             template: 'public/helpCenter.html',
             filename: 'helpCenter.html',
         },
         pricing: {
-            entry: 'src/pricing.js',
+            entry: 'src/pricing.js',// 新窗口页面
             template: 'public/pricing.html',
             filename: 'pricing.html',
         },
