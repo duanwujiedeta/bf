@@ -1,0 +1,234 @@
+
+/* 头部---start */
+header{
+	height: 116px;
+	line-height: 116px;
+    top: 0;
+    z-index: 1;
+	width: 100%;
+}
+header .pull-left a,header .pull-right a{
+	color: #141414;
+	font-size: 16px;
+}
+header .pull-right a.login{
+    color: #187cd6;
+    font-weight: bold;
+}
+header .pull-right a.register{
+	display: inline-block;
+    border-left: 1px solid #ccc;
+    height: 14px;
+    line-height: 14px;
+    padding-left: 12px;
+    margin-left: 10px;
+}
+header .nav{
+	margin-left: 246px;
+}
+header .nav a{
+	margin-right: 58px;
+	font-size: 16px;
+}
+header .nav a.active{
+	font-weight: bold;
+}
+header.fixed{
+    position: fixed;
+    top: 0;
+    background:#fff;
+	box-shadow:0 5px 10px -5px #ccc;
+}
+/* 头部---end */
+
+/* 定价内容---start */
+.pricing-Container{
+    margin-top: 55px;
+}
+.pricing-Container h2{
+    font-size: 44px;
+    line-height: 44px;
+    color: #141414;
+    font-weight: bold;
+    text-align: center;
+}
+.pricing-Container h3{
+    font-size: 20px;
+    line-height: 20px;
+    color: #9B9B9B;
+    text-align: center;
+    margin: 30px 0;
+    font-weight: normal;
+}
+.pricing-Container .two-scheme{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 150px;
+}
+.pricing-Container .two-scheme div{
+    width: 280px;
+    height: 450px;
+    border-radius: 8px;
+    border: 2px solid #E3EDEF;
+    text-align: center;
+    padding: 40px 0 ;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.pricing-Container .two-scheme div:hover{
+    border-color: #187cd6;
+}
+.pricing-Container .two-scheme div:hover button{
+    background: #187cd6;
+    color: #fff;
+    font-weight: bold;
+}
+.pricing-Container .two-scheme div:hover button:hover{
+    background: #187cd6
+}
+.pricing-Container .two-scheme div p.name{
+    font-size: 22px;
+    color: #141414;
+    font-weight: bold;
+    line-height: 22px;
+}
+.pricing-Container .two-scheme div p.intro{
+    font-size: 14px;
+    line-height: 24px;
+    padding: 0 45px;
+    margin-top: 20px;
+}
+.pricing-Container .two-scheme div p.price{
+    font-size: 16px;
+    margin-top: 40px;
+}
+.pricing-Container .two-scheme div p.price span{
+    font-size: 40px;
+    color: #ee605f;
+    display: inline-block;
+    font-family: 'FjallaOne';
+}
+.pricing-Container .two-scheme div p.price span::first-letter{
+    font-size: 36px;
+}
+.pricing-Container .two-scheme div p.freeUse{
+    font-size: 16px;
+}
+.pricing-Container .two-scheme div p.freeUse b{
+    font-size: inherit;
+}
+.pricing-Container .two-scheme div button{
+    width: 250px;
+    height: 40px;
+    border-radius: 4px;
+    line-height: 40px;
+    border: 1px solid #e3edef;
+    outline: none;
+    font-size: 16px;
+    color: #187cd6;
+    background: none;
+    cursor: pointer;
+    margin-top: 34px;
+}
+.pricing-Container .two-scheme div.active button{
+    background: #187cd6;
+    color: #fff;
+    font-weight: bold;
+}
+.pricing-Container .two-scheme div.active button:hover{
+    background: #2fb7d6
+}
+.pricing-Container .two-scheme div.active{
+    border-color: #187cd6;
+}
+.pricing-Container .two-scheme div ul{
+    margin-top: 25px;
+    padding: 0 30px;
+}
+.pricing-Container .two-scheme div ul li{
+    overflow: hidden;
+    text-align: left;
+    font-size: 14px;
+    line-height: 16px;
+    margin-bottom: 20px;
+}
+.pricing-Container .two-scheme div ul li span{
+    float: right;
+}
+.pricing-Container .two-scheme div:nth-child(1) ul{
+    
+}
+.pricing-Container .two-scheme div:nth-child(2) ul{
+    padding-left: 42px;
+}
+.pricing-Container .two-scheme div ul li img{
+    float: left;
+    margin: 5px 9px 0 0;
+}
+.pricing-Container table {
+    width: 894px;
+    margin: 40px auto 120px;
+    border-collapse:collapse;
+    border:none;
+    text-align: center;
+}
+.pricing-Container table td,.pricing-Container table th{
+    border:solid #ededed 1px;
+}
+.pricing-Container table td{
+    padding: 15px;
+}
+.pricing-Container table td:first-child{
+    /*text-indent: 30px;*/
+    /*font-size: 16px;*/
+    text-align: left;
+}
+.pricing-Container table td:nth-child(2),.pricing-Container table td:nth-child(3){
+    /*text-indent: 55px;*/
+    /*padding: 30px 0 10px 0;*/
+}
+.pricing-Container table td p{
+    font-size: 16px;
+    line-height: 16px;
+    margin-bottom: 20px;
+}
+.pricing-Container table td p.disabled{
+    text-decoration: line-through;
+    color: #999;
+}
+.pricing-Container table td p span{
+    font-weight: bold;
+    font-size: 16px;
+}
+.pricing-Container table p.price{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 55px;
+    font-size: 20px;
+}
+.pricing-Container table p.price span{
+    font-size: 16px;
+    font-weight: bold;
+}
+.pricing-Container table p.price span b{
+    font-size: 30px;
+    display: inline-block;
+    font-family: 'FjallaOne';
+    font-weight: normal;
+}
+.pricing-Container table p.price span b::first-letter{
+    font-size: 26px;
+}
+.pricing-Container table p.price.active{
+    color: #ee605f;
+}
+.pricing-Container table p.price.active i{
+    color: #141414;
+    font-size: 16px;
+    font-style: normal;
+}
+/* 定价内容---end */

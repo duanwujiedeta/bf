@@ -1,0 +1,222 @@
+import kotlinx.coroutines.*
+
+fun main() {
+  for (i in 1..100) {
+    GlobalScope.launch(Dispatchers.Main) {
+      println("This is executed before delay $i")
+      stallForTime()
+      println("This is executed after delay $i")
+    }
+  }
+}
+
+suspend fun stallForTime() {
+  withContext(Dispatchers.Default) {
+    delay(2000L)
+  }
+}
+
+/* 
+先执行主线的，再执行协程的
+
+This is executed before delay 1
+This is executed before delay 2
+This is executed before delay 3
+This is executed before delay 4
+This is executed before delay 5
+This is executed before delay 6
+This is executed before delay 7
+This is executed before delay 8
+This is executed before delay 9
+This is executed before delay 10
+This is executed before delay 11
+This is executed before delay 12
+This is executed before delay 13
+This is executed before delay 14
+This is executed before delay 15
+This is executed before delay 16
+This is executed before delay 17
+This is executed before delay 18
+This is executed before delay 19
+This is executed before delay 20
+This is executed before delay 21
+This is executed before delay 22
+This is executed before delay 23
+This is executed before delay 24
+This is executed before delay 25
+This is executed before delay 26
+This is executed before delay 27
+This is executed before delay 28
+This is executed before delay 29
+This is executed before delay 30
+This is executed before delay 31
+This is executed before delay 32
+This is executed before delay 33
+This is executed before delay 34
+This is executed before delay 35
+This is executed before delay 36
+This is executed before delay 37
+This is executed before delay 38
+This is executed before delay 39
+This is executed before delay 40
+This is executed before delay 41
+This is executed before delay 42
+This is executed before delay 43
+This is executed before delay 44
+This is executed before delay 45
+This is executed before delay 46
+This is executed before delay 47
+This is executed before delay 48
+This is executed before delay 49
+This is executed before delay 50
+This is executed before delay 51
+This is executed before delay 52
+This is executed before delay 53
+This is executed before delay 54
+This is executed before delay 55
+This is executed before delay 56
+This is executed before delay 57
+This is executed before delay 58
+This is executed before delay 59
+This is executed before delay 60
+This is executed before delay 61
+This is executed before delay 62
+This is executed before delay 63
+This is executed before delay 64
+This is executed before delay 65
+This is executed before delay 66
+This is executed before delay 67
+This is executed before delay 68
+This is executed before delay 69
+This is executed before delay 70
+This is executed before delay 71
+This is executed before delay 72
+This is executed before delay 73
+This is executed before delay 74
+This is executed before delay 75
+This is executed before delay 76
+This is executed before delay 77
+This is executed before delay 78
+This is executed before delay 79
+This is executed before delay 80
+This is executed before delay 81
+This is executed before delay 82
+This is executed before delay 83
+This is executed before delay 84
+This is executed before delay 85
+This is executed before delay 86
+This is executed before delay 87
+This is executed before delay 88
+This is executed before delay 89
+This is executed before delay 90
+This is executed before delay 91
+This is executed before delay 92
+This is executed before delay 93
+This is executed before delay 94
+This is executed before delay 95
+This is executed before delay 96
+This is executed before delay 97
+This is executed before delay 98
+This is executed before delay 99
+This is executed before delay 100
+This is executed after delay 1
+This is executed after delay 2
+This is executed after delay 3
+This is executed after delay 4
+This is executed after delay 5
+This is executed after delay 6
+This is executed after delay 7
+This is executed after delay 8
+This is executed after delay 9
+This is executed after delay 10
+This is executed after delay 11
+This is executed after delay 12
+This is executed after delay 13
+This is executed after delay 14
+This is executed after delay 15
+This is executed after delay 16
+This is executed after delay 17
+This is executed after delay 18
+This is executed after delay 19
+This is executed after delay 20
+This is executed after delay 21
+This is executed after delay 22
+This is executed after delay 23
+This is executed after delay 24
+This is executed after delay 25
+This is executed after delay 26
+This is executed after delay 27
+This is executed after delay 28
+This is executed after delay 29
+This is executed after delay 30
+This is executed after delay 31
+This is executed after delay 32
+This is executed after delay 33
+This is executed after delay 34
+This is executed after delay 35
+This is executed after delay 36
+This is executed after delay 37
+This is executed after delay 38
+This is executed after delay 39
+This is executed after delay 40
+This is executed after delay 41
+This is executed after delay 42
+This is executed after delay 43
+This is executed after delay 44
+This is executed after delay 45
+This is executed after delay 46
+This is executed after delay 47
+This is executed after delay 48
+This is executed after delay 49
+This is executed after delay 50
+This is executed after delay 51
+This is executed after delay 52
+This is executed after delay 53
+This is executed after delay 54
+This is executed after delay 55
+This is executed after delay 56
+This is executed after delay 57
+This is executed after delay 58
+This is executed after delay 59
+This is executed after delay 60
+This is executed after delay 61
+This is executed after delay 62
+This is executed after delay 63
+This is executed after delay 64
+This is executed after delay 65
+This is executed after delay 66
+This is executed after delay 67
+This is executed after delay 68
+This is executed after delay 69
+This is executed after delay 70
+This is executed after delay 71
+This is executed after delay 72
+This is executed after delay 73
+This is executed after delay 74
+This is executed after delay 75
+This is executed after delay 76
+This is executed after delay 77
+This is executed after delay 78
+This is executed after delay 79
+This is executed after delay 80
+This is executed after delay 81
+This is executed after delay 82
+This is executed after delay 83
+This is executed after delay 84
+This is executed after delay 85
+This is executed after delay 86
+This is executed after delay 87
+This is executed after delay 88
+This is executed after delay 89
+This is executed after delay 90
+This is executed after delay 91
+This is executed after delay 92
+This is executed after delay 93
+This is executed after delay 94
+This is executed after delay 95
+This is executed after delay 96
+This is executed after delay 97
+This is executed after delay 98
+This is executed after delay 99
+This is executed after delay 100
+ */

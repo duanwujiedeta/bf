@@ -1,0 +1,112 @@
+
+/* 头部---start */
+header{
+	height: 116px;
+	line-height: 116px;
+    top: 0;
+    z-index: 1;
+	width: 100%;
+}
+header .pull-left a,header .pull-right a{
+	color: #141414;
+	font-size: 16px;
+}
+header .pull-right a.login{
+    color: #187cd6;
+    font-weight: bold;
+}
+header .pull-right a.register{
+	display: inline-block;
+    border-left: 1px solid #ccc;
+    height: 14px;
+    line-height: 14px;
+    padding-left: 12px;
+    margin-left: 10px;
+}
+header .nav{
+	margin-left: 246px;
+}
+header .nav a{
+	margin-right: 58px;
+	font-size: 16px;
+}
+header .nav a.active{
+	font-weight: bold;
+}
+header.fixed{
+    position: fixed;
+    top: 0;
+    background:#fff;
+	box-shadow:0 5px 10px -5px #ccc;
+}
+/* 头部---end */
+
+/* 公司信息---start */
+.Info .wrap{
+    width: 780px;
+    margin: 0 auto;
+}
+.Info h6{
+    font-size: 30px;
+    font-weight: bold;
+    color: #141414;
+    margin-bottom: 30px;
+    margin-top: 80px;
+}
+.Info p{
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 40px;
+    line-height: 32px;
+    letter-spacing: 1px;
+}
+.Info b{
+    font-size: 16px;
+}
+/* 公司信息---end */
+
+/* 帮助中心---start */
+.help-center p.title{
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    margin: 27px 0;
+}
+.help-center .center-item{
+    width: 640px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    border-bottom: 1px solid #e2e2e2;
+    font-size: 16px;
+    color: #141414;
+    padding: 20px 0;
+}
+.help-center .center-item .item-img{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    font-weight: bold;
+}
+
+.help-center .center-item .item-img span{
+    margin-right: 12px;
+    cursor: pointer;
+    background: url(../images/add.png) no-repeat;
+    width: 24px;
+    height: 24px;
+    background-size: 100%;
+}
+.help-center .center-item .item-img span.active{
+    background: url(../images/increase.png) no-repeat;
+}
+.help-center .center-item .item-text{
+    line-height: 24px;
+    padding: 0 36px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: none;
+    margin: 5px 0 10px 0;
+}
+/* 帮助中心---end */

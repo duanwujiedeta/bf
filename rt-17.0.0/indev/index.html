@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>test</title>
+  <script src="https://unpkg.com/prop-types@15.5.6/prop-types.js"></script>
+  <script src="https://unpkg.com/expect@1.20.2/umd/expect.min.js"></script>
+  <script src="./react.development.js"></script>
+  <script src="./react-dom.development.js"></script>
+  <!-- <script src="./ReactTransition-test.js"></script> -->
+</head>
+
+<body>
+  <div id="root"></div>
+  <script>
+    var handler = {
+      set(target, key, value) {
+        // if (key === 'length') return true //如果是数组，忽略更新length
+        debugger;
+        return Reflect.set(target, key, value)
+      },
+      get(target, key) {
+        if (typeof target[key] === 'object' && target[key] !== null) {
+          return new Proxy(target[key], handler)
+        }
+        return Reflect.get(target, key)
+      }
+    }
+    function makeProxy(obj) {
+      var ret = new Proxy(obj, handler);
+      return ret;
+    }
+  </script>
+  <script>
+    (function test() {
+      "use strict";
+
+      class Welcome extends React.Component {
+        constructor(props) {
+          super(props);
+          this.changeName = this.changeName.bind(this);
+          this.state = {
+            name: "lue",
+            chanEl: false
+          };
+        }
+        changeName() {
+          this.setState({
+            name: "luyy",
+            chanEl: true
+          });
+        }
+        render() {
+          if (this.state.chanEl) {
+            return /*#__PURE__*/ React.createElement(
+              "span",
+              {
+                onClick: this.changeName
+              },
+              "Hello, ",
+              this.state.name
+            );
+          }
+          return /*#__PURE__*/ React.createElement(
+            "h1",
+            {
+              onClick: this.changeName
+            },
+            "Hello, ",
+            this.state.name
+          );
+        }
+      }
+      var element = /*#__PURE__*/ React.createElement(Welcome, null);
+
+
+
+
+      ReactDOM.render(
+        element,
+        document.getElementById("root")
+      );
+
+
+    })();
+
+
+
+  </script>
+</body>
+
+</html>

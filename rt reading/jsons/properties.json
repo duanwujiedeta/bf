@@ -1,0 +1,1442 @@
+{
+    "children": {
+        "acceptsBooleans": false,
+        "attributeName": "children",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "children",
+        "type": 0,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "dangerouslySetInnerHTML": {
+        "acceptsBooleans": false,
+        "attributeName": "dangerouslySetInnerHTML",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "dangerouslySetInnerHTML",
+        "type": 0,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "defaultValue": {
+        "acceptsBooleans": false,
+        "attributeName": "defaultValue",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "defaultValue",
+        "type": 0,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "defaultChecked": {
+        "acceptsBooleans": false,
+        "attributeName": "defaultChecked",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "defaultChecked",
+        "type": 0,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "innerHTML": {
+        "acceptsBooleans": false,
+        "attributeName": "innerHTML",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "innerHTML",
+        "type": 0,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "suppressContentEditableWarning": {
+        "acceptsBooleans": false,
+        "attributeName": "suppressContentEditableWarning",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "suppressContentEditableWarning",
+        "type": 0,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "suppressHydrationWarning": {
+        "acceptsBooleans": false,
+        "attributeName": "suppressHydrationWarning",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "suppressHydrationWarning",
+        "type": 0,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "style": {
+        "acceptsBooleans": false,
+        "attributeName": "style",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "style",
+        "type": 0,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "acceptCharset": {
+        "acceptsBooleans": false,
+        "attributeName": "accept-charset",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "acceptCharset",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "className": {
+        "acceptsBooleans": false,
+        "attributeName": "class",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "className",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "htmlFor": {
+        "acceptsBooleans": false,
+        "attributeName": "for",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "htmlFor",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "httpEquiv": {
+        "acceptsBooleans": false,
+        "attributeName": "http-equiv",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "httpEquiv",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "contentEditable": {
+        "acceptsBooleans": true,
+        "attributeName": "contenteditable",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "contentEditable",
+        "type": 2,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "draggable": {
+        "acceptsBooleans": true,
+        "attributeName": "draggable",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "draggable",
+        "type": 2,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "spellCheck": {
+        "acceptsBooleans": true,
+        "attributeName": "spellcheck",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "spellCheck",
+        "type": 2,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "value": {
+        "acceptsBooleans": true,
+        "attributeName": "value",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "value",
+        "type": 2,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "autoReverse": {
+        "acceptsBooleans": true,
+        "attributeName": "autoReverse",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "autoReverse",
+        "type": 2,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "externalResourcesRequired": {
+        "acceptsBooleans": true,
+        "attributeName": "externalResourcesRequired",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "externalResourcesRequired",
+        "type": 2,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "focusable": {
+        "acceptsBooleans": true,
+        "attributeName": "focusable",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "focusable",
+        "type": 2,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "preserveAlpha": {
+        "acceptsBooleans": true,
+        "attributeName": "preserveAlpha",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "preserveAlpha",
+        "type": 2,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "allowFullScreen": {
+        "acceptsBooleans": true,
+        "attributeName": "allowfullscreen",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "allowFullScreen",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "async": {
+        "acceptsBooleans": true,
+        "attributeName": "async",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "async",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "autoFocus": {
+        "acceptsBooleans": true,
+        "attributeName": "autofocus",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "autoFocus",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "autoPlay": {
+        "acceptsBooleans": true,
+        "attributeName": "autoplay",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "autoPlay",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "controls": {
+        "acceptsBooleans": true,
+        "attributeName": "controls",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "controls",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "default": {
+        "acceptsBooleans": true,
+        "attributeName": "default",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "default",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "defer": {
+        "acceptsBooleans": true,
+        "attributeName": "defer",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "defer",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "disabled": {
+        "acceptsBooleans": true,
+        "attributeName": "disabled",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "disabled",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "disablePictureInPicture": {
+        "acceptsBooleans": true,
+        "attributeName": "disablepictureinpicture",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "disablePictureInPicture",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "disableRemotePlayback": {
+        "acceptsBooleans": true,
+        "attributeName": "disableremoteplayback",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "disableRemotePlayback",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "formNoValidate": {
+        "acceptsBooleans": true,
+        "attributeName": "formnovalidate",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "formNoValidate",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "hidden": {
+        "acceptsBooleans": true,
+        "attributeName": "hidden",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "hidden",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "loop": {
+        "acceptsBooleans": true,
+        "attributeName": "loop",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "loop",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "noModule": {
+        "acceptsBooleans": true,
+        "attributeName": "nomodule",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "noModule",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "noValidate": {
+        "acceptsBooleans": true,
+        "attributeName": "novalidate",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "noValidate",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "open": {
+        "acceptsBooleans": true,
+        "attributeName": "open",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "open",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "playsInline": {
+        "acceptsBooleans": true,
+        "attributeName": "playsinline",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "playsInline",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "readOnly": {
+        "acceptsBooleans": true,
+        "attributeName": "readonly",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "readOnly",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "required": {
+        "acceptsBooleans": true,
+        "attributeName": "required",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "required",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "reversed": {
+        "acceptsBooleans": true,
+        "attributeName": "reversed",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "reversed",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "scoped": {
+        "acceptsBooleans": true,
+        "attributeName": "scoped",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "scoped",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "seamless": {
+        "acceptsBooleans": true,
+        "attributeName": "seamless",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "seamless",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "itemScope": {
+        "acceptsBooleans": true,
+        "attributeName": "itemscope",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "itemScope",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "checked": {
+        "acceptsBooleans": true,
+        "attributeName": "checked",
+        "attributeNamespace": null,
+        "mustUseProperty": true,
+        "propertyName": "checked",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "multiple": {
+        "acceptsBooleans": true,
+        "attributeName": "multiple",
+        "attributeNamespace": null,
+        "mustUseProperty": true,
+        "propertyName": "multiple",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "muted": {
+        "acceptsBooleans": true,
+        "attributeName": "muted",
+        "attributeNamespace": null,
+        "mustUseProperty": true,
+        "propertyName": "muted",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "selected": {
+        "acceptsBooleans": true,
+        "attributeName": "selected",
+        "attributeNamespace": null,
+        "mustUseProperty": true,
+        "propertyName": "selected",
+        "type": 3,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "capture": {
+        "acceptsBooleans": true,
+        "attributeName": "capture",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "capture",
+        "type": 4,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "download": {
+        "acceptsBooleans": true,
+        "attributeName": "download",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "download",
+        "type": 4,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "cols": {
+        "acceptsBooleans": false,
+        "attributeName": "cols",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "cols",
+        "type": 6,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "rows": {
+        "acceptsBooleans": false,
+        "attributeName": "rows",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "rows",
+        "type": 6,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "size": {
+        "acceptsBooleans": false,
+        "attributeName": "size",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "size",
+        "type": 6,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "span": {
+        "acceptsBooleans": false,
+        "attributeName": "span",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "span",
+        "type": 6,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "rowSpan": {
+        "acceptsBooleans": false,
+        "attributeName": "rowspan",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "rowSpan",
+        "type": 5,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "start": {
+        "acceptsBooleans": false,
+        "attributeName": "start",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "start",
+        "type": 5,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "accentHeight": {
+        "acceptsBooleans": false,
+        "attributeName": "accent-height",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "accentHeight",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "alignmentBaseline": {
+        "acceptsBooleans": false,
+        "attributeName": "alignment-baseline",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "alignmentBaseline",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "arabicForm": {
+        "acceptsBooleans": false,
+        "attributeName": "arabic-form",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "arabicForm",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "baselineShift": {
+        "acceptsBooleans": false,
+        "attributeName": "baseline-shift",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "baselineShift",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "capHeight": {
+        "acceptsBooleans": false,
+        "attributeName": "cap-height",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "capHeight",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "clipPath": {
+        "acceptsBooleans": false,
+        "attributeName": "clip-path",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "clipPath",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "clipRule": {
+        "acceptsBooleans": false,
+        "attributeName": "clip-rule",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "clipRule",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "colorInterpolation": {
+        "acceptsBooleans": false,
+        "attributeName": "color-interpolation",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "colorInterpolation",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "colorInterpolationFilters": {
+        "acceptsBooleans": false,
+        "attributeName": "color-interpolation-filters",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "colorInterpolationFilters",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "colorProfile": {
+        "acceptsBooleans": false,
+        "attributeName": "color-profile",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "colorProfile",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "colorRendering": {
+        "acceptsBooleans": false,
+        "attributeName": "color-rendering",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "colorRendering",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "dominantBaseline": {
+        "acceptsBooleans": false,
+        "attributeName": "dominant-baseline",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "dominantBaseline",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "enableBackground": {
+        "acceptsBooleans": false,
+        "attributeName": "enable-background",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "enableBackground",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "fillOpacity": {
+        "acceptsBooleans": false,
+        "attributeName": "fill-opacity",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "fillOpacity",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "fillRule": {
+        "acceptsBooleans": false,
+        "attributeName": "fill-rule",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "fillRule",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "floodColor": {
+        "acceptsBooleans": false,
+        "attributeName": "flood-color",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "floodColor",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "floodOpacity": {
+        "acceptsBooleans": false,
+        "attributeName": "flood-opacity",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "floodOpacity",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "fontFamily": {
+        "acceptsBooleans": false,
+        "attributeName": "font-family",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "fontFamily",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "fontSize": {
+        "acceptsBooleans": false,
+        "attributeName": "font-size",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "fontSize",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "fontSizeAdjust": {
+        "acceptsBooleans": false,
+        "attributeName": "font-size-adjust",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "fontSizeAdjust",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "fontStretch": {
+        "acceptsBooleans": false,
+        "attributeName": "font-stretch",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "fontStretch",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "fontStyle": {
+        "acceptsBooleans": false,
+        "attributeName": "font-style",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "fontStyle",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "fontVariant": {
+        "acceptsBooleans": false,
+        "attributeName": "font-variant",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "fontVariant",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "fontWeight": {
+        "acceptsBooleans": false,
+        "attributeName": "font-weight",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "fontWeight",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "glyphName": {
+        "acceptsBooleans": false,
+        "attributeName": "glyph-name",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "glyphName",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "glyphOrientationHorizontal": {
+        "acceptsBooleans": false,
+        "attributeName": "glyph-orientation-horizontal",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "glyphOrientationHorizontal",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "glyphOrientationVertical": {
+        "acceptsBooleans": false,
+        "attributeName": "glyph-orientation-vertical",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "glyphOrientationVertical",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "horizAdvX": {
+        "acceptsBooleans": false,
+        "attributeName": "horiz-adv-x",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "horizAdvX",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "horizOriginX": {
+        "acceptsBooleans": false,
+        "attributeName": "horiz-origin-x",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "horizOriginX",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "imageRendering": {
+        "acceptsBooleans": false,
+        "attributeName": "image-rendering",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "imageRendering",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "letterSpacing": {
+        "acceptsBooleans": false,
+        "attributeName": "letter-spacing",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "letterSpacing",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "lightingColor": {
+        "acceptsBooleans": false,
+        "attributeName": "lighting-color",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "lightingColor",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "markerEnd": {
+        "acceptsBooleans": false,
+        "attributeName": "marker-end",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "markerEnd",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "markerMid": {
+        "acceptsBooleans": false,
+        "attributeName": "marker-mid",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "markerMid",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "markerStart": {
+        "acceptsBooleans": false,
+        "attributeName": "marker-start",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "markerStart",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "overlinePosition": {
+        "acceptsBooleans": false,
+        "attributeName": "overline-position",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "overlinePosition",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "overlineThickness": {
+        "acceptsBooleans": false,
+        "attributeName": "overline-thickness",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "overlineThickness",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "paintOrder": {
+        "acceptsBooleans": false,
+        "attributeName": "paint-order",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "paintOrder",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "panose-1": {
+        "acceptsBooleans": false,
+        "attributeName": "panose-1",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "panose-1",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "pointerEvents": {
+        "acceptsBooleans": false,
+        "attributeName": "pointer-events",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "pointerEvents",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "renderingIntent": {
+        "acceptsBooleans": false,
+        "attributeName": "rendering-intent",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "renderingIntent",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "shapeRendering": {
+        "acceptsBooleans": false,
+        "attributeName": "shape-rendering",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "shapeRendering",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "stopColor": {
+        "acceptsBooleans": false,
+        "attributeName": "stop-color",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "stopColor",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "stopOpacity": {
+        "acceptsBooleans": false,
+        "attributeName": "stop-opacity",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "stopOpacity",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "strikethroughPosition": {
+        "acceptsBooleans": false,
+        "attributeName": "strikethrough-position",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "strikethroughPosition",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "strikethroughThickness": {
+        "acceptsBooleans": false,
+        "attributeName": "strikethrough-thickness",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "strikethroughThickness",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "strokeDasharray": {
+        "acceptsBooleans": false,
+        "attributeName": "stroke-dasharray",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "strokeDasharray",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "strokeDashoffset": {
+        "acceptsBooleans": false,
+        "attributeName": "stroke-dashoffset",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "strokeDashoffset",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "strokeLinecap": {
+        "acceptsBooleans": false,
+        "attributeName": "stroke-linecap",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "strokeLinecap",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "strokeLinejoin": {
+        "acceptsBooleans": false,
+        "attributeName": "stroke-linejoin",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "strokeLinejoin",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "strokeMiterlimit": {
+        "acceptsBooleans": false,
+        "attributeName": "stroke-miterlimit",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "strokeMiterlimit",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "strokeOpacity": {
+        "acceptsBooleans": false,
+        "attributeName": "stroke-opacity",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "strokeOpacity",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "strokeWidth": {
+        "acceptsBooleans": false,
+        "attributeName": "stroke-width",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "strokeWidth",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "textAnchor": {
+        "acceptsBooleans": false,
+        "attributeName": "text-anchor",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "textAnchor",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "textDecoration": {
+        "acceptsBooleans": false,
+        "attributeName": "text-decoration",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "textDecoration",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "textRendering": {
+        "acceptsBooleans": false,
+        "attributeName": "text-rendering",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "textRendering",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "underlinePosition": {
+        "acceptsBooleans": false,
+        "attributeName": "underline-position",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "underlinePosition",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "underlineThickness": {
+        "acceptsBooleans": false,
+        "attributeName": "underline-thickness",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "underlineThickness",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "unicodeBidi": {
+        "acceptsBooleans": false,
+        "attributeName": "unicode-bidi",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "unicodeBidi",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "unicodeRange": {
+        "acceptsBooleans": false,
+        "attributeName": "unicode-range",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "unicodeRange",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "unitsPerEm": {
+        "acceptsBooleans": false,
+        "attributeName": "units-per-em",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "unitsPerEm",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "vAlphabetic": {
+        "acceptsBooleans": false,
+        "attributeName": "v-alphabetic",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "vAlphabetic",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "vHanging": {
+        "acceptsBooleans": false,
+        "attributeName": "v-hanging",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "vHanging",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "vIdeographic": {
+        "acceptsBooleans": false,
+        "attributeName": "v-ideographic",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "vIdeographic",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "vMathematical": {
+        "acceptsBooleans": false,
+        "attributeName": "v-mathematical",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "vMathematical",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "vectorEffect": {
+        "acceptsBooleans": false,
+        "attributeName": "vector-effect",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "vectorEffect",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "vertAdvY": {
+        "acceptsBooleans": false,
+        "attributeName": "vert-adv-y",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "vertAdvY",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "vertOriginX": {
+        "acceptsBooleans": false,
+        "attributeName": "vert-origin-x",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "vertOriginX",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "vertOriginY": {
+        "acceptsBooleans": false,
+        "attributeName": "vert-origin-y",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "vertOriginY",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "wordSpacing": {
+        "acceptsBooleans": false,
+        "attributeName": "word-spacing",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "wordSpacing",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "writingMode": {
+        "acceptsBooleans": false,
+        "attributeName": "writing-mode",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "writingMode",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "xmlnsXlink": {
+        "acceptsBooleans": false,
+        "attributeName": "xmlns:xlink",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "xmlnsXlink",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "xHeight": {
+        "acceptsBooleans": false,
+        "attributeName": "x-height",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "xHeight",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "xlinkActuate": {
+        "acceptsBooleans": false,
+        "attributeName": "xlink:actuate",
+        "attributeNamespace": "http://www.w3.org/1999/xlink",
+        "mustUseProperty": false,
+        "propertyName": "xlinkActuate",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "xlinkArcrole": {
+        "acceptsBooleans": false,
+        "attributeName": "xlink:arcrole",
+        "attributeNamespace": "http://www.w3.org/1999/xlink",
+        "mustUseProperty": false,
+        "propertyName": "xlinkArcrole",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "xlinkRole": {
+        "acceptsBooleans": false,
+        "attributeName": "xlink:role",
+        "attributeNamespace": "http://www.w3.org/1999/xlink",
+        "mustUseProperty": false,
+        "propertyName": "xlinkRole",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "xlinkShow": {
+        "acceptsBooleans": false,
+        "attributeName": "xlink:show",
+        "attributeNamespace": "http://www.w3.org/1999/xlink",
+        "mustUseProperty": false,
+        "propertyName": "xlinkShow",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "xlinkTitle": {
+        "acceptsBooleans": false,
+        "attributeName": "xlink:title",
+        "attributeNamespace": "http://www.w3.org/1999/xlink",
+        "mustUseProperty": false,
+        "propertyName": "xlinkTitle",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "xlinkType": {
+        "acceptsBooleans": false,
+        "attributeName": "xlink:type",
+        "attributeNamespace": "http://www.w3.org/1999/xlink",
+        "mustUseProperty": false,
+        "propertyName": "xlinkType",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "xmlBase": {
+        "acceptsBooleans": false,
+        "attributeName": "xml:base",
+        "attributeNamespace": "http://www.w3.org/XML/1998/namespace",
+        "mustUseProperty": false,
+        "propertyName": "xmlBase",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "xmlLang": {
+        "acceptsBooleans": false,
+        "attributeName": "xml:lang",
+        "attributeNamespace": "http://www.w3.org/XML/1998/namespace",
+        "mustUseProperty": false,
+        "propertyName": "xmlLang",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "xmlSpace": {
+        "acceptsBooleans": false,
+        "attributeName": "xml:space",
+        "attributeNamespace": "http://www.w3.org/XML/1998/namespace",
+        "mustUseProperty": false,
+        "propertyName": "xmlSpace",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "tabIndex": {
+        "acceptsBooleans": false,
+        "attributeName": "tabindex",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "tabIndex",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "crossOrigin": {
+        "acceptsBooleans": false,
+        "attributeName": "crossorigin",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "crossOrigin",
+        "type": 1,
+        "sanitizeURL": false,
+        "removeEmptyString": false
+    },
+    "xlinkHref": {
+        "acceptsBooleans": false,
+        "attributeName": "xlink:href",
+        "attributeNamespace": "http://www.w3.org/1999/xlink",
+        "mustUseProperty": false,
+        "propertyName": "xlinkHref",
+        "type": 1,
+        "sanitizeURL": true,
+        "removeEmptyString": false
+    },
+    "src": {
+        "acceptsBooleans": false,
+        "attributeName": "src",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "src",
+        "type": 1,
+        "sanitizeURL": true,
+        "removeEmptyString": true
+    },
+    "href": {
+        "acceptsBooleans": false,
+        "attributeName": "href",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "href",
+        "type": 1,
+        "sanitizeURL": true,
+        "removeEmptyString": true
+    },
+    "action": {
+        "acceptsBooleans": false,
+        "attributeName": "action",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "action",
+        "type": 1,
+        "sanitizeURL": true,
+        "removeEmptyString": true
+    },
+    "formAction": {
+        "acceptsBooleans": false,
+        "attributeName": "formaction",
+        "attributeNamespace": null,
+        "mustUseProperty": false,
+        "propertyName": "formAction",
+        "type": 1,
+        "sanitizeURL": true,
+        "removeEmptyString": true
+    }
+}

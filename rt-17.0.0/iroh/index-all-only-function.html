@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="./static/css/codemirror.css">
+  <link rel="stylesheet" href="./static/css/base.css">
+  <script src="./static/js/codemirror.js"></script>
+  <script src="./static/js/javascript.js"></script>
+</head>
+
+<body>
+  <div id="root">
+  </div>
+  <div class="container" id="container1">
+    <div id="input"></div>
+    <button id="run">▷ Run</button>
+    <div id="output"></div>
+  </div>
+
+  <script type="text/javascript" src="./static/js/iroh-browser.js"></script>
+
+  <!--
+    Here we add some listeners to the submitted code
+    e.g. to listen for calls, ifs etc.
+    https://www.jsjiami.com/jiemi.html
+  -->
+  <script>
+    var shouldDeb = false;
+    var hasClear = true;
+    var strConfig = "";
+    var lineNum = "";
+    var enterBgColorObj = {
+
+    };
+    // 16进制随机颜色
+    function randomColor() {
+      return "#" + Math.floor(Math.random() * 16777215).toString(16);
+    }
+    function attachListeners(stage) {
+      // if
+      /* stage.addListener(Iroh.IF)
+        .on("test", (e) => {
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕if test☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The if's condition value):", e.value, e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕if test☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        }) */
+      /*        .on("enter", (e) => {
+      
+               luLog(" ".repeat(e.indent) + "%c ☕if enter☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.value,e);
+               luLog(" ".repeat(e.indent) + "source:", e.getSource(),e);
+         luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start,e);
+               luLog(" ".repeat(e.indent) + "%c ☕if enter☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;",e);
+              })
+               .on("leave", (e) => {
+      
+               luLog(" ".repeat(e.indent) + "%c ☕if leave☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;",e);
+               luLog(" ".repeat(e.indent) + "source:", e.getSource(),e);
+         luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start,e);
+               luLog(" ".repeat(e.indent) + "%c ☕if leave☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;",e);
+              }) */
+
+      // else
+      /* stage.addListener(Iroh.ELSE)
+        .on("enter", (e) => {
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕else enter☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕else enter☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+        }) */
+      /*         .on("leave", (e) => {
+      
+               luLog(" ".repeat(e.indent) + "%c ☕else leave☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;",e);
+               luLog(" ".repeat(e.indent) + "source:", e.getSource(),e);
+         luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start,e);
+               luLog(" ".repeat(e.indent) + "%c ☕else leave☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;")
+      
+              }) */
+
+      // loop
+      /* stage.addListener(Iroh.LOOP)
+        .on("test", (e) => {
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕loop test☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The loop's condition value):", e.value, "kind(Indicates the loop kind e.g. WhileStatement):" + e.kind, e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕loop test☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+
+        }) */
+      /*         .on("enter", (e) => {
+      
+               luLog(" ".repeat(e.indent) + "%c ☕loop enter☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.value, e.kind,e);
+               luLog(" ".repeat(e.indent) + "source:", e.getSource(),e);
+         luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start,e);
+               luLog(" ".repeat(e.indent) + "%c ☕loop enter☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;",e);
+      
+              })
+              .on("leave", (e) => {
+      
+               luLog(" ".repeat(e.indent) + "%c ☕loop leave☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.kind,e);
+               luLog(" ".repeat(e.indent) + "source:", e.getSource(),e);
+         luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start,e);
+               luLog(" ".repeat(e.indent) + "%c ☕loop leave☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;",e);
+      
+              }) */
+
+      // break
+      /* stage.addListener(Iroh.BREAK)
+        .on("fire", (e) => {
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕break fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(Do break or not):", e.value, e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕break fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        }) */
+
+      // continue
+      /* stage.addListener(Iroh.CONTINUE)
+        .on("fire", (e) => {
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕continue fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(Do continue or not):", e.value, e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕continue fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        }) */
+
+      // switch
+      /* stage.addListener(Iroh.SWITCH)
+        .on("test", (e) => {
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕switch test☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The switch's tested value):", e.value, e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕switch test☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+        .on("enter", (e) => {
+
+          //luLog(" ".repeat(e.indent) + "switch",e);
+        })
+        .on("leave", (e) => {
+
+          //luLog(" ".repeat(e.indent) + "switch end",e);
+        }) */
+
+      // case, default
+      /* stage.addListener(Iroh.CASE)
+        .on("test", (e) => {
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕case test☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The case's tested value):", e.value, e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕case test☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+        .on("enter", (e) => {
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕case enter☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "default(Default case or not):", e.default, e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕case enter☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        }) */
+      /*         .on("leave", (e) => {
+      
+               luLog(" ".repeat(e.indent) + "%c ☕case leave☕ start hash:" + e.hash, "background: #2e0801e.getSource(,e); color: #fff; padding:1px 0;", e.default,e);
+               luLog(" ".repeat(e.indent) + "source:", e.getSource(),e);
+         luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start,e);
+               luLog(" ".repeat(e.indent) + "%c ☕case leave☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;",e);
+      
+              }) */
+
+      // function call
+      /* stage.addListener(Iroh.CALL)
+        .on("before", (e) => {
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕call before☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "arguments:", e.arguments, e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕call before☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+        .on("after", (e) => {
+
+          luLog(" ".repeat(e.indent) + "%c ☕call after☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "arguments:", e.arguments, e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          luLog(" ".repeat(e.indent) + "%c ☕call after☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        }) */
+
+      // function
+      stage.addListener(Iroh.FUNCTION)
+        .on("enter", (e) => {
+          enterBgColorObj[e.name] = randomColor();
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕function enter☕ start hash" + enterBgColorObj[e.name] + ":" + e.hash, "background: " + enterBgColorObj[e.name] + "; color: #fff; padding:1px 0;", "arguments:", e.arguments, e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕function enter☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+        /* .on("leave", (e) => {
+          luLog(" ".repeat(e.indent) + "%c ☕function leave☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.name, e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          luLog(" ".repeat(e.indent) + "%c ☕function return☕ end hash" + enterBgColorObj[e.name] + ":" + e.hash, "background: " + enterBgColorObj[e.name] + "; color: #fff; padding:1px 0;", e);
+
+        })
+        .on("return", (e) => {
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕function return☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "return:", e.return, e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕function return☕ end hash" + enterBgColorObj[e.name] + ":" + e.hash, "background: " + enterBgColorObj[e.name] + "; color: #fff; padding:1px 0;", e);
+
+        }) */
+
+      //VAR
+      /*       stage.addListener(Iroh.VAR)
+              .on("before", (e) => {
+      
+               luLog(" ".repeat(e.indent) + "%c ☕var before☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.name,e);
+               luLog(" ".repeat(e.indent) + "source:", e.getSource(),e);
+         luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start,e);
+               luLog(" ".repeat(e.indent) + "%c ☕var before☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;",e);
+      
+              })
+              .on("after", (e) => {
+      
+               luLog(" ".repeat(e.indent) + "%c ☕var after☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.name,e);
+               luLog(" ".repeat(e.indent) + "source:", e.getSource(),e);
+         luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start,e);
+               luLog(" ".repeat(e.indent) + "%c ☕var after☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;",e);
+      
+              }) */
+
+
+      //NEW
+      stage.addListener(Iroh.OP_NEW)
+        .on("before", (e) => {
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕OP_NEW before☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "name(Auto-generated constructor name):", e.name, e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          luLog(" ".repeat(e.indent) + "arguments:", e.arguments, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕var before☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+      /* .on("after", (e) => {
+        shouldDeb = false;
+        luLog(" ".repeat(e.indent) + "%c ☕OP_NEW after☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "return(The new's returned value):", e.return, e);
+        luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+        luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+        shouldDeb = true;
+        luLog(" ".repeat(e.indent) + "%c ☕OP_NEW after☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+      }) */
+
+
+      //TRY
+      /*       stage.addListener(Iroh.TRY)
+              .on("enter", (e) => {
+      
+               luLog(" ".repeat(e.indent) + "TRY enter",e);
+              })
+              .on("leave", (e) => {
+      
+               luLog(" ".repeat(e.indent) + "TRY leave",e);
+              }) */
+
+      //FINALLY
+      /*       stage.addListener(Iroh.FINALLY)
+              .on("enter", (e) => {
+      
+               luLog(" ".repeat(e.indent) + "FINALLY enter",e);
+              })
+              .on("leave", (e) => {
+      
+               luLog(" ".repeat(e.indent) + "FINALLY leave",e);
+              })
+       */
+      //ALLOC
+      /*       stage.addListener(Iroh.ALLOC)
+              .on("fire", (e) => {
+      
+               luLog(" ".repeat(e.indent) + "%c ☕alloc fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.value,e);
+               luLog(" ".repeat(e.indent) + "source:", e.getSource(),e);
+         luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start,e);
+               luLog(" ".repeat(e.indent) + "%c ☕alloc fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;",e);
+      
+              }) */
+
+      /* //THIS
+      stage.addListener(Iroh.THIS)
+        .on("fire", (e) => {
+          // if (e.getLocation().start.line == 2435) hasClear = true;
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕this fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "context(The context):", e.context, e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕this fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        }) */
+
+
+      //LITERAL
+      /*       stage.addListener(Iroh.LITERAL)
+              .on("fire", (e) => {
+      
+               luLog(" ".repeat(e.indent) + "%c ☕literal fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.value,e);
+               luLog(" ".repeat(e.indent) + "source:", e.getSource(),e);
+         luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start,e);
+               luLog(" ".repeat(e.indent) + "%c ☕literal fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;",e);
+      
+              }) */
+
+
+      //ASSIGN
+      /* stage.addListener(Iroh.ASSIGN)
+        .on("fire", (e) => {
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕assign fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The value to assign with):", e.value, e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          luLog(" ".repeat(e.indent) + "left:", e.object, e);
+          luLog(" ".repeat(e.indent) + "right:", e.property, e);
+          luLog(" ".repeat(e.indent) + "op:", e.op, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕assign fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+
+        }) */
+
+
+
+      /* //TERNARY
+      stage.addListener(Iroh.TERNARY)
+        .on("fire", (e) => {
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕ternary fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "return(The returned value):", e.result, e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          luLog(" ".repeat(e.indent) + "test:", e.test, e);
+          luLog(" ".repeat(e.indent) + "truthy:", e.truthy, e);
+          luLog(" ".repeat(e.indent) + "falsy:", e.falsy, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕ternary fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        }) */
+
+      //LOGICAL
+      /* stage.addListener(Iroh.LOGICAL)
+        .on("fire", (e) => {
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕logical fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "result(The result):", e.result, e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          luLog(" ".repeat(e.indent) + "left:", e.left, e);
+          luLog(" ".repeat(e.indent) + "right:", e.right, e);
+          luLog(" ".repeat(e.indent) + "op:", e.op, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕logical fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        }) */
+
+      //BINARY
+      /*       stage.addListener(Iroh.BINARY)
+              .on("fire", (e) => {
+      
+      
+               luLog(" ".repeat(e.indent) + "%c ☕binary fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "result(The result):", e.result,e);
+               luLog(" ".repeat(e.indent) + "source:", e.getSource(),e);
+               luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start,e);
+               luLog(" ".repeat(e.indent) + "left:", e.left,e);
+               luLog(" ".repeat(e.indent) + "right:", e.right,e);
+               luLog(" ".repeat(e.indent) + "op:", e.op,e);
+               luLog(" ".repeat(e.indent) + "%c ☕binary fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;",e);
+      
+      
+              }) */
+
+
+      //UNARY
+      /*       stage.addListener(Iroh.UNARY)
+              .on("fire", (e) => {
+      
+      
+               luLog(" ".repeat(e.indent) + "%c ☕unary fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "result(The result):", e.result,e);
+               luLog(" ".repeat(e.indent) + "source:", e.getSource(),e);
+               luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start,e);
+               luLog(" ".repeat(e.indent) + "value:", e.value,e);
+               luLog(" ".repeat(e.indent) + "op:", e.op,e);
+               luLog(" ".repeat(e.indent) + "%c ☕unary fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;",e);
+      
+      
+              }) */
+
+      /* //UPDATE
+      stage.addListener(Iroh.UPDATE)
+        .on("fire", (e) => {
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕unary fire☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "result(The result):", e.result, e);
+          luLog(" ".repeat(e.indent) + "source:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start:", e.getLocation().start, e);
+          luLog(" ".repeat(e.indent) + "prefix:", e.prefix, e);
+          luLog(" ".repeat(e.indent) + "op:", e.op, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕binary fire☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        }) */
+
+
+
+      // program
+      stage.addListener(Iroh.PROGRAM)
+        .on("enter", (e) => {
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "Program", e);
+        })
+        .on("leave", (e) => {
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "Program end", "->", e.return, e);
+        });
+    };
+  </script>
+
+  <script type="text/javascript" src="./static/js/r-17.0.js"></script>
+  <script>
+    let value = "";
+
+    let editorin = CodeMirror(document.getElementById("input"), {
+      mode: "text/javascript",
+      lineNumbers: true,
+      value: "",
+      width: 250
+    });
+    let editorout = CodeMirror(document.getElementById("output"), {
+      mode: "text/javascript",
+      lineNumbers: true,
+      value: ""
+    });
+    let docin = editorin.getDoc();
+    let docout = editorout.getDoc();
+
+    docin.setValue(`function factorial(n) {
+if (n === 0) return 1;
+return n * factorial(n - 1);
+};
+factorial(9);`);
+
+    run.onclick = (e) => {
+      let code = docin.getValue();
+      value = "";
+      docout.setValue(value);
+      runWithCode.call(window, code)
+    };
+    var stage;
+    function runWithCode(code) {
+      // initialise
+      stage = new Iroh.Stage(code);
+      attachListeners(stage);
+      // run script
+      eval.call(window, stage.script);
+      setTimeout(function () {
+        addScript("./static/js/after.js", true);
+      }, 100);
+    }
+
+    // run.click();
+
+    function addScript(src, act) {
+      var secScript = document.createElement("script");
+      secScript.setAttribute("type", "text/javascript");
+      secScript.setAttribute("src", src);
+      document.body.insertBefore(secScript, document.body.lastChild);
+      // console.clear();
+      shouldDeb = true;
+      // hasClear = true;
+      setTimeout(function () {
+        act && addScript("./static/js/run.js");
+        act && document.getElementById("container1").remove();
+      }, 100)
+    }
+  </script>
+
+  <script>
+    function luLog() {
+      var args = Array.prototype.slice.call(arguments);
+      var e = args.pop();
+      //添加过滤行号
+      var location = e && e.getLocation && e.getLocation();
+      var lineObj = location.start;
+      strConfig = "start>=" + location.start.line + "&&" + "start<=" + location.end.line;
+
+      if (lineObj) {
+        var start = lineObj.line;
+        /* if (start && start < 163 || 221 < start && start < 245 || 315 < start && start < 470 || 510 < start && start < 643 || 661 < start && start < 762 || 787 < start && start < 803 || 807 < start && start < 820|| 855 < start && start < 910 || 1022 < start && start < 1106 || 1234 < start && start < 1376 || 1391 < start && start < 1444 || 1565 < start && start < 1569 || 1592 < start && start < 1619 || 1699 < start && start < 1713 || 1779 < start && start < 1787 || 1896 < start && start < 1908 || 1938 < start && start < 1947 || 2235 < start && start < 2302 || 2343 < start && start < 2410 || 2417 < start && start < 2424 || 2590 < start && start < 2595 || 2764 < start && start < 2771 || 2825 < start && start < 2836 || 2973 < start && start < 2993 || 3003 < start && start < 3086 || 3094 < start && start < 3122 || 3149 < start && start < 3345 || (2078 < start && start < 2102 || 1947 < start && start < 2078 || 1908 < start && start < 1941 || 569 < start && start < 628)) {//不监听的行
+          return
+        } */
+        /* if (!(2078 < start && start < 2102 || 1947 < start && start < 2078 || 1908 < start && start < 1941 || 569 < start && start < 628)) {//针对 ReactReconcileTransaction
+          return
+        } */
+        /* if (!(2423 < start && start < 2622 || 2836 < start && start < 2978 || 2106 < start && start < 2218 || 1754 < start && start < 1781 || 2316 < start && start < 2343)) {// 针对  ReactNativeComponent   ReactCompositeCompnentMixin
+          return
+        } */
+        if (false) {// EventHub
+          return
+        }
+      }
+      console.log.apply(console, args);
+      if (shouldDeb && (hasClear || lineNum == location.start.line)) {
+        debugger
+      }
+    }
+  </script>
+  <!-- <script type="text/javascript" src="./static/js/todomvc.js"></script> -->
+  <style>
+    .CodeMirror {
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      height: 250px;
+    }
+
+    .container {
+      width: 50%;
+      position: absolute;
+      left: calc(50% - 300px);
+      top: 25px;
+    }
+
+    #input {
+      margin-bottom: 10px;
+    }
+
+    #output {
+      margin-top: 10px;
+    }
+  </style>
+
+</body>
+
+</html>

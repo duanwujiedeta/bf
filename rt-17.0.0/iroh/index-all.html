@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="./static/css/codemirror.css">
+  <link rel="stylesheet" href="./static/css/base.css">
+  <script src="./static/js/codemirror.js"></script>
+  <script src="./static/js/javascript.js"></script>
+</head>
+
+<body>
+  <div id="root">
+  </div>
+  <div class="container" id="container1">
+    <div id="input"></div>
+    <button id="run">▷ Run</button>
+    <div id="output"></div>
+  </div>
+
+  <script type="text/javascript" src="./static/js/iroh-browser.js"></script>
+
+  <!--
+    Here we add some listeners to the submitted code
+    e.g. to listen for calls, ifs etc.
+    https://www.jsjiami.com/jiemi.html
+  -->
+  <script>
+    var shouldDeb = false;
+    var hasClear = true;
+    var strConfig = "";
+    var lineNum = "";
+    // 16进制随机颜色
+    function randomColor() {
+      return "#" + Math.floor(Math.random() * 16777215).toString(16);
+    }
+    function changeLine(num) { //用于到特定的行暂停
+      if (num) {
+        lineNum = num;
+        hasClear = false;
+      } else {
+        hasClear = true;
+      }
+    }
+    function attachListeners(stage) {
+      // if
+      stage.addListener(Iroh.IF)
+        .on("test", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕if test（if 和 else if 条件测试）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The if's condition value):", e.value, e);
+          luLog(" ".repeat(e.indent) + "value（条件值）:", e.value, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕if test（if 和 else if 条件测试）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+        .on("enter", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕if enter（if 和 else if 条件进入，对应条件值）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.value, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕if enter（if 和 else if 条件进入）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+        })
+        .on("leave", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕if leave（if 和 else if 条件离开）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕if leave（if 和 else if 条件离开）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+        })
+
+      // else
+      stage.addListener(Iroh.ELSE)
+        .on("enter", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕else enter（else 条件进入）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕else enter（else 条件进入）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+        })
+      /* .on("leave", (e) => {
+        shouldDeb = false;
+        luLog(" ".repeat(e.indent) + "%c ☕else leave☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+        luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+        luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+        shouldDeb = true;
+        luLog(" ".repeat(e.indent) + "%c ☕else leave☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;")
+
+      }) */
+
+      // loop
+      stage.addListener(Iroh.LOOP)
+        .on("test", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕loop test（循环 条件测试）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The loop's condition value，循环的条件值):", e.value, "kind(Indicates the loop kind e.g. WhileStatement，循环的类型，如 for while 等):" + e.kind, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕loop test（循环 条件测试）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+
+        })
+        .on("enter", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕loop enter（循环 进入，额外打印，条件值，循环类型）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.value, e.kind, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕loop enter（循环 进入）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+        .on("leave", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕loop leave（循环 离开），循环类型☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.kind, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕loop leave（循环 离开）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+
+      // break
+      stage.addListener(Iroh.BREAK)
+        .on("fire", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕break fire（break 语法触发），额外值（是否满足 break 的条件）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(Do break or not):", e.value, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕break fire（break 语法触发）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+
+      // continue
+      stage.addListener(Iroh.CONTINUE)
+        .on("fire", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕continue fire（continue 语法触发），额外值（是否满足 continue 的条件）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(Do continue or not):", e.value, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕continue fire（continue 语法触发）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+
+      // switch
+      stage.addListener(Iroh.SWITCH)
+        .on("test", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕switch test（switch 条件判断），额外值（switch 判断的结果值）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The switch's tested value):", e.value, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕switch test（switch 条件判断）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+        .on("enter", (e) => {
+
+          // luLog(" ".repeat(e.indent) + "switch", e);
+        })
+        .on("leave", (e) => {
+
+          // luLog(" ".repeat(e.indent) + "switch end", e);
+        })
+
+      // case, default
+      stage.addListener(Iroh.CASE)
+        .on("test", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕case test（case 条件判断），额外值（ case 判断的结果值）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The case's tested value):", e.value, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕case test（case 条件判断）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+        .on("enter", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕case enter（case 条件进入），额外值（ 是否是默认的 default 值 ）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "default(Default case or not):", e.default, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕case enter（case 条件进入）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+        .on("leave", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕case leave（case 条件离开），额外值（ 是否是默认的 default 值 ☕ start hash:" + e.hash, "background: #2e0801e.getSource(,e); color: #fff; padding:1px 0;", e.default, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕case leave（case 条件离开）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+
+      // function call
+      stage.addListener(Iroh.CALL)
+        .on("before", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕call before（函数调用前），额外值（ 函数调用参数 ）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "arguments:", e.arguments, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕call before（函数调用前）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+        .on("after", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕call after（函数调用后），额外值（ 函数调用参数 ）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "arguments:", e.arguments, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕call after（函数调用后）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+
+      // function
+      stage.addListener(Iroh.FUNCTION)
+        .on("enter", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕function enter（函数 进入），额外值（ 函数调用参数 ）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "arguments:", e.arguments, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕function enter（函数 进入）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+        .on("leave", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕function leave（函数 离开）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.name, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕function leave（函数 离开）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+        .on("return", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕function return（函数 返回值），额外值（ 函数的返回值 ）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "return:", e.return, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕function return（函数 返回值）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+
+      //VAR
+      stage.addListener(Iroh.VAR)
+        /* .on("before", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕var before（var 定义前），额外值（var 定义的变量名）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.name, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕var before（var 定义前）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        }) */
+        .on("after", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕var after（var 定义后），额外值（var 定义的变量名对应的 值）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.value, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕var after（var 定义后）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+
+
+      //NEW
+      stage.addListener(Iroh.OP_NEW)
+        /* .on("before", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕OP_NEW before （new 调用前），额外值（new 对应的构造函数 名称）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "name(Auto-generated constructor name):", e.name, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          luLog(" ".repeat(e.indent) + "arguments:", e.arguments, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕var before（new 调用前）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        }) */
+        .on("after", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕OP_NEW after（new 调用后），额外值（new 后对应的 返回值）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "return(The new's returned value):", e.return, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕OP_NEW after（new 调用后）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+
+
+      //TRY
+      stage.addListener(Iroh.TRY)
+        .on("enter", (e) => {
+
+          // luLog(" ".repeat(e.indent) + "TRY enter", e);
+        })
+        .on("leave", (e) => {
+
+          // luLog(" ".repeat(e.indent) + "TRY leave", e);
+        })
+
+      //FINALLY
+      stage.addListener(Iroh.FINALLY)
+        .on("enter", (e) => {
+
+          // luLog(" ".repeat(e.indent) + "FINALLY enter", e);
+        })
+        .on("leave", (e) => {
+
+          // luLog(" ".repeat(e.indent) + "FINALLY leave", e);
+        })
+
+      //ALLOC
+      /* stage.addListener(Iroh.ALLOC)
+        .on("fire", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕alloc fire（数组或对象的定义 {}，[]），额外值（ 对应定义好的 值 ）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.value, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕alloc fire（数组或对象的定义 {}，[]）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        }) */
+
+      //THIS
+      /* stage.addListener(Iroh.THIS)
+        .on("fire", (e) => {
+          console.log("\n");
+          // if (e.getLocation().start.line == 2435) hasClear = true;
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕this fire（this的调用），额外值（ this 对应的上下文 ）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "context(The context):", e.context, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕this fire（this的调用）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        }) */
+
+
+      //LITERAL
+      /* stage.addListener(Iroh.LITERAL)
+        .on("fire", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕literal fire（字符串、数字、布尔值等的触发 '',1,true,..）,额外值（对应的值）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e.value, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕literal fire（字符串、数字、布尔值等的触发 '',1,true,..）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        }) */
+
+
+      //ASSIGN
+      stage.addListener(Iroh.ASSIGN)
+        .on("fire", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕assign fire(赋值的触发 a = 2 ,a += 2)，额外值（要被赋予的值）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "value(The value to assign with):", e.value, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          luLog(" ".repeat(e.indent) + "left（左边的值）:", e.object, e);
+          luLog(" ".repeat(e.indent) + "right（右边的值）:", e.property, e);
+          luLog(" ".repeat(e.indent) + "op（运算符）:", e.op, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕assign fire(赋值的触发 a = 2 ,a += 2)☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+
+        })
+
+
+
+      //TERNARY
+      stage.addListener(Iroh.TERNARY)
+        .on("fire", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕ternary fire(三木运算触发 true?1:0)，额外值（三木运算的返回值）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "return(The returned value):", e.result, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          luLog(" ".repeat(e.indent) + "test（三木的判断条件）:", e.test, e);
+          luLog(" ".repeat(e.indent) + "truthy（三木为 对 的触发）:", e.truthy, e);
+          luLog(" ".repeat(e.indent) + "falsy（三木为 错 的触发）:", e.falsy, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕ternary fire(三木运算触发 true?1:0)☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+
+      //LOGICAL
+      stage.addListener(Iroh.LOGICAL)
+        .on("fire", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕logical fire(逻辑运算符触发 与 或 非 等)，额外值（逻辑运算的返回值）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "result(The result):", e.result, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          luLog(" ".repeat(e.indent) + "left():", e.left, e);
+          luLog(" ".repeat(e.indent) + "right:", e.right, e);
+          luLog(" ".repeat(e.indent) + "op:", e.op, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕logical fire(逻辑运算符触发 与 或 非 等)☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+
+      //BINARY
+      stage.addListener(Iroh.BINARY)
+        .on("fire", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕binary fire（二进制运算，+ - * ..），额外值（二进制运算的返回值）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "result(The result):", e.result, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          luLog(" ".repeat(e.indent) + "left(运算左边):", e.left, e);
+          luLog(" ".repeat(e.indent) + "right(运算右边):", e.right, e);
+          luLog(" ".repeat(e.indent) + "op(运算符号):", e.op, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕binary fire（二进制运算，+ - * ..）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+
+        })
+
+
+      //UNARY
+      stage.addListener(Iroh.UNARY)
+        .on("fire", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+
+          luLog(" ".repeat(e.indent) + "%c ☕unary fire（单目运算），额外值（单目运算的结果值）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "result(The result):", e.result, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          luLog(" ".repeat(e.indent) + "value（单目运算的值）:", e.value, e);
+          luLog(" ".repeat(e.indent) + "op（单目运算的符号）:", e.op, e);
+          luLog(" ".repeat(e.indent) + "result（单目运算的结果）:", e.result, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕unary fire（单目运算）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+
+        })
+
+      //UPDATE
+      stage.addListener(Iroh.UPDATE)
+        .on("fire", (e) => {
+          console.log("\n");
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "%c ☕update fire（单运算符 ++object --object object++ object-- ..），（单运算符的结果值）☕ start hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", "result(The result):", e.result, e);
+          luLog(" ".repeat(e.indent) + "source（源代码）:", e.getSource(), e);
+          luLog(" ".repeat(e.indent) + "location start（开始行）:", e.getLocation().start, e);
+          luLog(" ".repeat(e.indent) + "prefix（前缀）:", e.prefix, e);
+          luLog(" ".repeat(e.indent) + "op（运算符）:", e.op, e);
+          luLog(" ".repeat(e.indent) + "result（结果）:", e.result, e);
+          shouldDeb = true;
+          luLog(" ".repeat(e.indent) + "%c ☕update fire（单运算符 ++object --object object++ object-- ..）☕ end hash:" + e.hash, "background: #2e0801; color: #fff; padding:1px 0;", e);
+
+        })
+
+
+
+      // program
+      stage.addListener(Iroh.PROGRAM)
+        .on("enter", (e) => {
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "Program", e);
+        })
+        .on("leave", (e) => {
+          shouldDeb = false;
+          luLog(" ".repeat(e.indent) + "Program end", "->", e.return, e);
+        });
+    };
+  </script>
+
+  <script type="text/javascript" src="./static/js/r-17.0.js"></script>
+  <script>
+    let value = "";
+
+    let editorin = CodeMirror(document.getElementById("input"), {
+      mode: "text/javascript",
+      lineNumbers: true,
+      value: "",
+      width: 250
+    });
+    let editorout = CodeMirror(document.getElementById("output"), {
+      mode: "text/javascript",
+      lineNumbers: true,
+      value: ""
+    });
+    let docin = editorin.getDoc();
+    let docout = editorout.getDoc();
+
+    docin.setValue(`function factorial(n) {
+if (n === 0) return 1;
+return n * factorial(n - 1);
+};
+factorial(9);`);
+
+    run.onclick = (e) => {
+      let code = docin.getValue();
+      value = "";
+      docout.setValue(value);
+      runWithCode.call(window, code)
+    };
+    var stage;
+    function runWithCode(code) {
+      // initialise
+      stage = new Iroh.Stage(code);
+      attachListeners(stage);
+      // run script
+      eval.call(window, stage.script);
+      setTimeout(function () {
+        addScript("./static/js/after.js", true);
+      }, 100);
+    }
+
+    // run.click();
+
+    function addScript(src, act) {
+      var secScript = document.createElement("script");
+      secScript.setAttribute("type", "text/javascript");
+      secScript.setAttribute("src", src);
+      document.body.insertBefore(secScript, document.body.lastChild);
+      // console.clear();
+      shouldDeb = true;
+      // hasClear = true;
+      setTimeout(function () {
+        act && addScript("./static/js/run.js");
+        act && document.getElementById("container1").remove();
+      }, 100)
+    }
+  </script>
+
+  <script>
+    function luLog() {
+      var args = Array.prototype.slice.call(arguments);
+      var e = args.pop();
+      //添加过滤行号
+      var location = e && e.getLocation && e.getLocation();// '{"start":{"line":1,"column":0},"end":{"line":19233,"column":32}}'
+      if (location && location.start) {
+        var start = location.start;
+        var x = start.line;
+        if (!(5698 < x && x < 5704 || 3652 < x && x < 3659 || 3629 < x && x < 3641 || 3641 < x && x < 3647 || 75 < x && x < 80 || 80 < x && x < 98 || 5148 < x && x < 5155 || 5003 < x && x < 5007 || 5514 < x && x < 5518 || 4788 < x && x < 4795)) {
+          return;
+        }
+      }
+      /* var lineObj = location.start;
+      strConfig = "start>=" + location.start.line + "&&" + "start<=" + location.end.line;
+
+      if (lineObj) {
+        var start = lineObj.line;
+        if (false) {// EventHub
+          return
+        }
+      } */
+      console.log.apply(console, args);
+      if (shouldDeb && (hasClear || lineNum == location.start.line)) {
+        debugger
+      }
+    }
+  </script>
+  <!-- <script type="text/javascript" src="./static/js/todomvc.js"></script> -->
+  <style>
+    .CodeMirror {
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      height: 250px;
+    }
+
+    .container {
+      width: 50%;
+      position: absolute;
+      left: calc(50% - 300px);
+      top: 25px;
+    }
+
+    #input {
+      margin-bottom: 10px;
+    }
+
+    #output {
+      margin-top: 10px;
+    }
+  </style>
+
+</body>
+
+</html>

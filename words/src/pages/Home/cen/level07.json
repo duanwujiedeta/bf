@@ -1,0 +1,607 @@
+[
+    {
+        "text": "giant (a very large company)",
+        "results": {
+            "GoogleWeb": {
+                "text": "giant (a very large company)",
+                "from": "英语",
+                "to": "中文(简体)",
+                "link": "https://translate.google.com/?sl=en&tl=zh-CN&text=giant%20(a%20very%20large%20company)&op=translate",
+                "result": [
+                    "巨人（一家非常大的公司）"
+                ],
+                "ttsURI": "https://translate.googleapis.com/translate_tts?client=gtx&tl=en&ie=UTF-8&q=giant%20(a%20very%20large%20company)"
+            },
+            "DeepLWeb": {
+                "text": "giant (a very large company)",
+                "from": "英语",
+                "link": "https://www.deepl.com/translator#en/zh/giant%20(a%20very%20large%20company)",
+                "dict": [
+                    {
+                        "terms": [
+                            "巨头"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "巨无霸"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "巨擘"
+                        ]
+                    }
+                ]
+            },
+            "BingDictWeb": {
+                "text": "giant (a very large company)",
+                "link": "https://www.bing.com/dict/search?q=giant%20(a%20very%20large%20company)&cc=cn",
+                "error": {
+                    "type": "API_SERVER_ERROR",
+                    "message": "无翻译结果。",
+                    "link": {
+                        "name": "查看解决方案",
+                        "url": "https://hcfy.app/docs/services/free#bingdict"
+                    }
+                }
+            }
+        },
+        "dir": {
+            "from": "英语",
+            "to": "中文(简体)"
+        },
+        "id": "1704639090614-17",
+        "date": 1704639090614,
+        "_id": "659aba728aedb281710f4bf0"
+    },
+    {
+        "text": "officials may have an impact",
+        "results": {
+            "GoogleWeb": {
+                "text": "officials may have an impact",
+                "from": "英语",
+                "to": "中文(简体)",
+                "link": "https://translate.google.com/?sl=en&tl=zh-CN&text=officials%20may%20have%20an%20impact&op=translate",
+                "result": [
+                    "官员可能会产生影响"
+                ],
+                "ttsURI": "https://translate.googleapis.com/translate_tts?client=gtx&tl=en&ie=UTF-8&q=officials%20may%20have%20an%20impact"
+            },
+            "DeepLWeb": {
+                "text": "officials may have an impact",
+                "from": "英语",
+                "link": "https://www.deepl.com/translator#en/zh/officials%20may%20have%20an%20impact",
+                "dict": [
+                    {
+                        "terms": [
+                            "官员可能产生影响"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "官员可能会产生影响"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "官员可能产生的影响"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "官员可能有影响"
+                        ]
+                    }
+                ]
+            },
+            "BingDictWeb": {
+                "text": "officials may have an impact",
+                "link": "https://www.bing.com/dict/search?q=officials%20may%20have%20an%20impact&cc=cn",
+                "error": {
+                    "type": "API_SERVER_ERROR",
+                    "message": "无翻译结果。",
+                    "link": {
+                        "name": "查看解决方案",
+                        "url": "https://hcfy.app/docs/services/free#bingdict"
+                    }
+                }
+            }
+        },
+        "dir": {
+            "from": "英语",
+            "to": "中文(简体)"
+        },
+        "id": "1704639172553-25",
+        "date": 1704639172553,
+        "_id": "659abac48aedb2956e0f4c05"
+    },
+    {
+        "text": "likelihood of the merger passing",
+        "results": {
+            "GoogleWeb": {
+                "text": "likelihood of the merger passing",
+                "from": "英语",
+                "to": "中文(简体)",
+                "link": "https://translate.google.com/?sl=en&tl=zh-CN&text=likelihood%20of%20the%20merger%20passing&op=translate",
+                "result": [
+                    "合并通过的可能性"
+                ],
+                "ttsURI": "https://translate.googleapis.com/translate_tts?client=gtx&tl=en&ie=UTF-8&q=likelihood%20of%20the%20merger%20passing"
+            },
+            "DeepLWeb": {
+                "text": "likelihood of the merger passing",
+                "from": "英语",
+                "link": "https://www.deepl.com/translator#en/zh/likelihood%20of%20the%20merger%20passing",
+                "dict": [
+                    {
+                        "terms": [
+                            "通过合并的可能性"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "合并通过的可能性"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "合并获得通过的可能性"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "合并案通过的可能性"
+                        ]
+                    }
+                ]
+            },
+            "BingDictWeb": {
+                "text": "likelihood of the merger passing",
+                "link": "https://www.bing.com/dict/search?q=likelihood%20of%20the%20merger%20passing&cc=cn",
+                "error": {
+                    "type": "API_SERVER_ERROR",
+                    "message": "无翻译结果。",
+                    "link": {
+                        "name": "查看解决方案",
+                        "url": "https://hcfy.app/docs/services/free#bingdict"
+                    }
+                }
+            }
+        },
+        "dir": {
+            "from": "英语",
+            "to": "中文(简体)"
+        },
+        "id": "1704639496168-46",
+        "date": 1704639496168,
+        "_id": "659abc088aedb22a970f4c73"
+    },
+    {
+        "text": "minus 28 degrees Celsius",
+        "results": {
+            "GoogleWeb": {
+                "text": "minus 28 degrees Celsius",
+                "from": "英语",
+                "to": "中文(简体)",
+                "link": "https://translate.google.com/?sl=en&tl=zh-CN&text=minus%2028%20degrees%20Celsius&op=translate",
+                "result": [
+                    "负28摄氏度"
+                ],
+                "ttsURI": "https://translate.googleapis.com/translate_tts?client=gtx&tl=en&ie=UTF-8&q=minus%2028%20degrees%20Celsius"
+            },
+            "DeepLWeb": {
+                "text": "minus 28 degrees Celsius",
+                "from": "英语",
+                "link": "https://www.deepl.com/translator#en/zh/minus%2028%20degrees%20Celsius",
+                "dict": [
+                    {
+                        "terms": [
+                            "零下 28 摄氏度"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "摄氏零下 28 度"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "零下28摄氏度"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "摄氏零下28度"
+                        ]
+                    }
+                ]
+            },
+            "BingDictWeb": {
+                "text": "minus 28 degrees Celsius",
+                "link": "https://www.bing.com/dict/search?q=minus%2028%20degrees%20Celsius&cc=cn",
+                "error": {
+                    "type": "API_SERVER_ERROR",
+                    "message": "无翻译结果。",
+                    "link": {
+                        "name": "查看解决方案",
+                        "url": "https://hcfy.app/docs/services/free#bingdict"
+                    }
+                }
+            }
+        },
+        "dir": {
+            "from": "英语",
+            "to": "中文(简体)"
+        },
+        "id": "1704639654520-52",
+        "date": 1704639654520,
+        "_id": "659abca68aedb2073c0f4c90"
+    },
+    {
+        "text": "a prominent Russian opposition figure",
+        "results": {
+            "GoogleWeb": {
+                "text": "a prominent Russian opposition figure",
+                "from": "英语",
+                "to": "中文(简体)",
+                "link": "https://translate.google.com/?sl=en&tl=zh-CN&text=a%20prominent%20Russian%20opposition%20figure&op=translate",
+                "result": [
+                    "俄罗斯著名反对派人物"
+                ],
+                "ttsURI": "https://translate.googleapis.com/translate_tts?client=gtx&tl=en&ie=UTF-8&q=a%20prominent%20Russian%20opposition%20figure"
+            },
+            "DeepLWeb": {
+                "text": "a prominent Russian opposition figure",
+                "from": "英语",
+                "link": "https://www.deepl.com/translator#en/zh/a%20prominent%20Russian%20opposition%20figure",
+                "dict": [
+                    {
+                        "terms": [
+                            "俄罗斯著名反对派人士"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "俄罗斯著名反对党人士"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "俄罗斯著名反对派人物"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "著名俄罗斯反对派人士"
+                        ]
+                    }
+                ]
+            },
+            "BingDictWeb": {
+                "text": "a prominent Russian opposition figure",
+                "link": "https://www.bing.com/dict/search?q=a%20prominent%20Russian%20opposition%20figure&cc=cn",
+                "error": {
+                    "type": "API_SERVER_ERROR",
+                    "message": "无翻译结果。",
+                    "link": {
+                        "name": "查看解决方案",
+                        "url": "https://hcfy.app/docs/services/free#bingdict"
+                    }
+                }
+            }
+        },
+        "dir": {
+            "from": "英语",
+            "to": "中文(简体)"
+        },
+        "id": "1704639904361-75",
+        "date": 1704639904361,
+        "_id": "659abda08aedb21f940f4cce"
+    },
+    {
+        "text": "take something by storm (have great success).",
+        "results": {
+            "GoogleWeb": {
+                "text": "take something by storm (have great success).",
+                "from": "英语",
+                "to": "中文(简体)",
+                "link": "https://translate.google.com/?sl=en&tl=zh-CN&text=take%20something%20by%20storm%20(have%20great%20success).&op=translate",
+                "result": [
+                    "掀起一场风暴（取得巨大成功）。"
+                ],
+                "ttsURI": "https://translate.googleapis.com/translate_tts?client=gtx&tl=en&ie=UTF-8&q=take%20something%20by%20storm%20(have%20great%20success)."
+            },
+            "DeepLWeb": {
+                "text": "take something by storm (have great success).",
+                "from": "英语",
+                "link": "https://www.deepl.com/translator#en/zh/take%20something%20by%20storm%20(have%20great%20success).",
+                "dict": [
+                    {
+                        "terms": [
+                            "风靡一时（取得巨大成功）。"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "掀起风暴（取得巨大成功）。"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "风靡一时（获得巨大成功）。"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "掀起风暴（获得巨大成功）。"
+                        ]
+                    }
+                ]
+            },
+            "BingDictWeb": {
+                "text": "take something by storm (have great success).",
+                "link": "https://www.bing.com/dict/search?q=take%20something%20by%20storm%20(have%20great%20success).&cc=cn",
+                "error": {
+                    "type": "API_SERVER_ERROR",
+                    "message": "无翻译结果。",
+                    "link": {
+                        "name": "查看解决方案",
+                        "url": "https://hcfy.app/docs/services/free#bingdict"
+                    }
+                }
+            }
+        },
+        "dir": {
+            "from": "英语",
+            "to": "中文(简体)"
+        },
+        "id": "1704640264968-118",
+        "date": 1704640264968,
+        "_id": "659abf098aedb209a10f4d41"
+    },
+    {
+        "text": "Local news outlets",
+        "results": {
+            "GoogleWeb": {
+                "text": "Local news outlets",
+                "from": "英语",
+                "to": "中文(简体)",
+                "link": "https://translate.google.com/?sl=en&tl=zh-CN&text=Local%20news%20outlets&op=translate",
+                "result": [
+                    "当地新闻媒体"
+                ],
+                "ttsURI": "https://translate.googleapis.com/translate_tts?client=gtx&tl=en&ie=UTF-8&q=Local%20news%20outlets"
+            },
+            "DeepLWeb": {
+                "text": "Local news outlets",
+                "from": "英语",
+                "link": "https://www.deepl.com/translator#en/zh/Local%20news%20outlets",
+                "dict": [
+                    {
+                        "terms": [
+                            "当地新闻机构"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "当地新闻媒体"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "本地新闻机构"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "地方新闻机构"
+                        ]
+                    }
+                ]
+            },
+            "BingDictWeb": {
+                "text": "Local news outlets",
+                "link": "https://www.bing.com/dict/search?q=Local%20news%20outlets&cc=cn",
+                "error": {
+                    "type": "API_SERVER_ERROR",
+                    "message": "无翻译结果。",
+                    "link": {
+                        "name": "查看解决方案",
+                        "url": "https://hcfy.app/docs/services/free#bingdict"
+                    }
+                }
+            }
+        },
+        "dir": {
+            "from": "英语",
+            "to": "中文(简体)"
+        },
+        "id": "1704640302912-127",
+        "date": 1704640302912,
+        "_id": "659abf2f8aedb24f810f4d56"
+    },
+    {
+        "text": "substantial market value",
+        "results": {
+            "GoogleWeb": {
+                "text": "substantial market value",
+                "from": "英语",
+                "to": "中文(简体)",
+                "link": "https://translate.google.com/?sl=en&tl=zh-CN&text=substantial%20market%20value&op=translate",
+                "result": [
+                    "巨大的市场价值"
+                ],
+                "ttsURI": "https://translate.googleapis.com/translate_tts?client=gtx&tl=en&ie=UTF-8&q=substantial%20market%20value"
+            },
+            "DeepLWeb": {
+                "text": "substantial market value",
+                "from": "英语",
+                "link": "https://www.deepl.com/translator#en/zh/substantial%20market%20value",
+                "dict": [
+                    {
+                        "terms": [
+                            "丰厚市值"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "丰厚的市场价值"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "丰厚的市值"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "巨大的市场价值"
+                        ]
+                    }
+                ]
+            },
+            "BingDictWeb": {
+                "text": "substantial market value",
+                "link": "https://www.bing.com/dict/search?q=substantial%20market%20value&cc=cn",
+                "error": {
+                    "type": "API_SERVER_ERROR",
+                    "message": "无翻译结果。",
+                    "link": {
+                        "name": "查看解决方案",
+                        "url": "https://hcfy.app/docs/services/free#bingdict"
+                    }
+                }
+            }
+        },
+        "dir": {
+            "from": "英语",
+            "to": "中文(简体)"
+        },
+        "id": "1704640787714-171",
+        "date": 1704640787714,
+        "_id": "659ac1138aedb232db0f4de2"
+    },
+    {
+        "text": "gets undressed",
+        "results": {
+            "GoogleWeb": {
+                "text": "gets undressed",
+                "from": "英语",
+                "to": "中文(简体)",
+                "link": "https://translate.google.com/?sl=en&tl=zh-CN&text=gets%20undressed&op=translate",
+                "result": [
+                    "脱衣服"
+                ],
+                "ttsURI": "https://translate.googleapis.com/translate_tts?client=gtx&tl=en&ie=UTF-8&q=gets%20undressed"
+            },
+            "DeepLWeb": {
+                "text": "gets undressed",
+                "from": "英语",
+                "link": "https://www.deepl.com/translator#en/zh/gets%20undressed",
+                "dict": [
+                    {
+                        "terms": [
+                            "脱衣服"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "脱掉衣服"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "脱衣"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "宽衣解带"
+                        ]
+                    }
+                ]
+            },
+            "BingDictWeb": {
+                "text": "gets undressed",
+                "link": "https://www.bing.com/dict/search?q=gets%20undressed&cc=cn",
+                "error": {
+                    "type": "API_SERVER_ERROR",
+                    "message": "无翻译结果。",
+                    "link": {
+                        "name": "查看解决方案",
+                        "url": "https://hcfy.app/docs/services/free#bingdict"
+                    }
+                }
+            }
+        },
+        "dir": {
+            "from": "英语",
+            "to": "中文(简体)"
+        },
+        "id": "1704641136344-206",
+        "date": 1704641136344,
+        "_id": "659ac2708aedb2ef2d0f4e58"
+    },
+    {
+        "text": "the first in line",
+        "results": {
+            "GoogleWeb": {
+                "text": "the first in line",
+                "from": "英语",
+                "to": "中文(简体)",
+                "link": "https://translate.google.com/?sl=en&tl=zh-CN&text=the%20first%20in%20line&op=translate",
+                "result": [
+                    "第一个"
+                ],
+                "ttsURI": "https://translate.googleapis.com/translate_tts?client=gtx&tl=en&ie=UTF-8&q=the%20first%20in%20line"
+            },
+            "DeepLWeb": {
+                "text": "the first in line",
+                "from": "英语",
+                "link": "https://www.deepl.com/translator#en/zh/the%20first%20in%20line",
+                "dict": [
+                    {
+                        "terms": [
+                            "排头兵"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "头号"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "当先"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "先头部队"
+                        ]
+                    }
+                ]
+            },
+            "BingDictWeb": {
+                "text": "the first in line",
+                "link": "https://www.bing.com/dict/search?q=the%20first%20in%20line&cc=cn",
+                "error": {
+                    "type": "API_SERVER_ERROR",
+                    "message": "无翻译结果。",
+                    "link": {
+                        "name": "查看解决方案",
+                        "url": "https://hcfy.app/docs/services/free#bingdict"
+                    }
+                }
+            }
+        },
+        "dir": {
+            "from": "英语",
+            "to": "中文(简体)"
+        },
+        "id": "1704641300449-220",
+        "date": 1704641300449,
+        "_id": "659ac3148aedb2d32d0f4e8e"
+    }
+]

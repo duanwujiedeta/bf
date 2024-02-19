@@ -1,0 +1,26 @@
+stages:
+  - build
+
+build-dev:
+  stage: build
+  script:
+    - |
+      curl -X POST https://jenkins-ops.xshoppy.top/job/xshoppy/job/xshoppy-open-partner-front/build \
+      --user admin:1126da9c3564c87918d374e9c14d147e1f \
+      --data-urlencode json='{"parameter": [{"name":"deploy_env", "value":"dev"}, {"name":"branch", "value":"dev"}]}'
+  tags:
+    - k8s
+  only:
+    - dev
+
+build-test:
+  stage: build
+  script:
+    - |
+      curl -X POST https://jenkins-ops.xshoppy.top/job/xshoppy/job/xshoppy-open-partner-front/build \
+      --user admin:1126da9c3564c87918d374e9c14d147e1f \
+      --data-urlencode json='{"parameter": [{"name":"deploy_env", "value":"fat"}, {"name":"branch", "value":"test"}]}'
+  tags:
+    - k8s
+  only:
+    - test

@@ -1,0 +1,32 @@
+[
+    {
+        "enWord": "ReactCompositeComponentBase",
+        "cnWord": "",
+        "isShow": true
+    },
+    {
+        "enWord": "",
+        "cnWord": "ReactComponent.Mixin",
+        "isShow": true
+    },
+    {
+        "enWord": "",
+        "cnWord": "ReactOwner.Mixin",
+        "isShow": true
+    },
+    {
+        "enWord": "",
+        "cnWord": "ReactPropTransferer.Mixin",
+        "isShow": true
+    },
+    {
+        "enWord": "",
+        "cnWord": "ReactCompositeComponentMixin",
+        "isShow": true
+    },
+    {
+        "enWord": "ReactCompositeComponentBase",
+        "cnWord": "ReactComponent.Mixin、ReactOwner.Mixin、ReactPropTransferer.Mixin、ReactCompositeComponentMixin",
+        "isShow": true
+    }
+]

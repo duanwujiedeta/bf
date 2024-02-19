@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="./static/css/codemirror.css">
+  <script src="./static/js/codemirror.js"></script>
+  <script src="./static/js/javascript.js"></script>
+</head>
+
+<body>
+
+  <div class="container">
+    <div id="input"></div>
+    <button id="run">▷ Run</button>
+    <div id="output"></div>
+  </div>
+
+  <script type="text/javascript" src="../build/public/iroh-browser.js"></script>
+
+  <!--
+    Here we add some listeners to the submitted code
+    e.g. to listen for calls, ifs etc.
+    https://www.jsjiami.com/jiemi.html
+  -->
+  <script>
+    function attachListeners(stage) {
+      // if
+      stage.addListener(Iroh.IF)
+      .on("enter", (e) => {
+        console.log(e.getSource());
+debugger;
+        console.log(" ".repeat(e.indent) + "if", e.value);
+      })
+      .on("leave", (e) => {
+        console.log(e.getSource());
+debugger;
+        console.log(" ".repeat(e.indent) + "if end");
+      });
+
+      // else
+      stage.addListener(Iroh.ELSE)
+      .on("enter", (e) => {
+        console.log(e.getSource());
+debugger;
+        console.log(" ".repeat(e.indent) + "else");
+      })
+      .on("leave", (e) => {
+        console.log(e.getSource());
+debugger;
+        console.log(" ".repeat(e.indent) + "else end");
+      });
+
+      // loop
+      stage.addListener(Iroh.LOOP)
+      .on("enter", (e) => {
+        console.log(e.getSource());
+debugger;
+        console.log(" ".repeat(e.indent) + "loop");
+      })
+      .on("leave", (e) => {
+        console.log(e.getSource());
+debugger;
+        console.log(" ".repeat(e.indent) + "loop end");
+      });
+
+      // switch
+      stage.addListener(Iroh.SWITCH)
+      .on("enter", (e) => {
+        console.log(e.getSource());
+debugger;
+        console.log(" ".repeat(e.indent) + "switch");
+      })
+      .on("leave", (e) => {
+        console.log(e.getSource());
+debugger;
+        console.log(" ".repeat(e.indent) + "switch end");
+      });
+
+      // case, default
+      stage.addListener(Iroh.CASE)
+      .on("enter", (e) => {
+        console.log(e.getSource());
+debugger;
+        console.log(" ".repeat(e.indent) + (e.default ? "default" : "case"), e.value);
+      })
+      .on("leave", (e) => {
+        console.log(e.getSource());
+debugger;
+        console.log(" ".repeat(e.indent) + (e.default ? "default" : "case") + " end");
+      });
+
+      // function call
+      stage.addListener(Iroh.CALL)
+      .on("before", (e) => {
+        console.log(e.getSource());
+debugger;
+        let external = e.external ? "#external" : "";
+        console.log(" ".repeat(e.indent) + "call", e.name, external, "(", e.arguments, ")");
+      })
+      .on("after", (e) => {
+        console.log(e.getSource());
+debugger;
+        let external = e.external ? "#external" : "";
+        console.log(" ".repeat(e.indent) + "call", e.name, "end", external, "->", [e.return]);
+      });
+
+      // function
+      stage.addListener(Iroh.FUNCTION)
+      .on("enter", (e) => {
+        console.log(e.getSource());
+debugger;
+        let sloppy = e.sloppy ? "#sloppy" : "";
+        if (e.sloppy) {
+          console.log(" ".repeat(e.indent) + "call", e.name, sloppy, "(", e.arguments, ")");
+        }
+      })
+      .on("leave", (e) => {
+        console.log(e.getSource());
+debugger;
+        let sloppy = e.sloppy ? "#sloppy" : "";
+        if (e.sloppy) {
+          console.log(" ".repeat(e.indent) + "call", e.name, "end", sloppy, "->", [void 0]);
+        }
+      })
+      .on("return", (e) => {
+        console.log(e.getSource());
+debugger;
+        let sloppy = e.sloppy ? "#sloppy" : "";
+        if (e.sloppy) {
+          console.log(" ".repeat(e.indent) + "call", e.name, "end", sloppy, "->", [e.return]);
+        }
+      });
+
+      // program
+      stage.addListener(Iroh.PROGRAM)
+      .on("enter", (e) => {
+        console.log(e.getSource());
+debugger;
+        console.log(" ".repeat(e.indent) + "Program");
+      })
+      .on("leave", (e) => {
+        console.log(e.getSource());
+debugger;
+        console.log(" ".repeat(e.indent) + "Program end", "->", e.return);
+      });
+    };
+  </script>
+
+  <script>
+
+    let value = "";
+
+    let editorin = CodeMirror(document.getElementById("input"), {
+      mode: "text/javascript",
+      lineNumbers: true,
+      value: "",
+      width: 250
+    });
+    let editorout = CodeMirror(document.getElementById("output"), {
+      mode: "text/javascript",
+      lineNumbers: true,
+      value: ""
+    });
+    let docin = editorin.getDoc();
+    let docout = editorout.getDoc();
+
+    docin.setValue(`function factorial(n) {
+  if (n === 0) return 1;
+  return n * factorial(n - 1);
+};
+factorial(9);`);
+
+    run.onclick = (e) => {
+      let code = docin.getValue();
+      value = "";
+      docout.setValue(value);
+
+      // initialise
+      let stage = new Iroh.Stage(code);
+      attachListeners(stage);
+      // run script
+      eval(stage.script);
+    };
+
+    // run.click();
+
+    function log() {
+      let val = "";
+      for (let ii = 0; ii < arguments.length; ++ii) {
+        let arg = arguments[ii];
+        if (arg instanceof Array) {
+          arg = arg.map((value) => {
+            if (value instanceof Function) return `[function ${value.name}]`;
+            return String(value);
+          });
+        }
+        else if (arg instanceof Object) arg = String(arg);
+        val += arg;
+        if (ii < arguments.length - 1) val += " ";
+      };
+      value += val + "\n";
+      docout.setValue(value);
+    };
+
+  </script>
+
+  <style>
+    .CodeMirror {
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      height: 250px;
+    }
+
+    .container {
+      width: 50%;
+      position: absolute;
+      left: calc(50% - 300px);
+      top: 25px;
+    }
+
+    #input {
+      margin-bottom: 10px;
+    }
+
+    #output {
+      margin-top: 10px;
+    }
+  </style>
+
+</body>
+
+</html>

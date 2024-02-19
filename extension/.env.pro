@@ -1,0 +1,7 @@
+MODE='pro'
+NODE_ENV='production'
+VUE_APP_BASE_URL = 'https://base-api..com/'
+VUE_APP_SHOP_HOST_URL = '.com/admin/'
+VUE_APP_QIYE_HOST_URL = 'https://bm..com'
+VUE_APP_SHOP_API_URL = 'https://api..com/'
+VUE_APP_SHOP_ADMIN_URL = 'https://api..com/'

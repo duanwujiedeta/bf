@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="renderer" content="webkit">
+    <!-- <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"> -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content=" SaaS平台结合多方位营销方式，为跨境企业提供从产品-建站-海外营销的一站式服务。建站平台，帮助中囯企业在海外进行品牌建设，品牌传播，最终实现销售增长。">
+    <meta name="google-site-verification" content="_8Ln6I7qCjpQats3YFq9i_pXvJYZwi0ZioSWa-jeKeY" />
+    <title>-定价</title>
+    <link rel="stylesheet" type="text/css" href="./css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/common.css?t=2">
+    <link rel="stylesheet" type="text/css" href="./css/pricing.css">
+    <link rel="shortcut icon" href="./favicon.ico?t=logo" />
+</head>
+
+<body>
+    <div id="app"></div>
+</body>
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script type="text/javascript" src="./js/public.js?t=20211228"></script>
+<script>
+    $(window).scroll(function () {
+        s_height = $(window).scrollTop();
+        let height = $(this).height() + $(this).scrollTop()
+        if (s_height <= height) {
+            $("#top_btn").show();
+        }
+        if ($("header").offset().top < height) {
+            $("header").addClass('fixed')
+        }
+
+        if ($(document).scrollTop() <= 0) {
+            $("header").removeClass('fixed')
+            $("#top_btn").hide();
+        }
+    })
+    $("#top_btn").click(function () {
+        $("html,body").animate({
+            scrollTop: 0
+        }, 600);
+    });
+</script>
+
+</html>

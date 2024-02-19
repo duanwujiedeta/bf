@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .web-loading-box {
+      width: 100%;
+      height: 100%;
+      font-size: 30px;
+      position: fixed;
+      z-index: 9999;
+      background: #fff;
+    }
+
+    .web-loading-box .loader-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate3d(-50%, -50%, 0);
+      text-align: center;
+    }
+
+    .web-loading-box .loader-box .desc {
+      font-size: 20px;
+      color: #1c2a3b;
+      margin-top: 20px;
+    }
+
+    .web-loading-box .loader-box .loader {
+      font-size: 70px;
+      line-height: 200px;
+      display: inline-block;
+      width: 84px;
+      height: 84px;
+      vertical-align: middle;
+      pointer-events: none;
+      position: relative;
+      -webkit-animation: 1s loader linear infinite;
+      animation: 1s loader linear infinite;
+    }
+
+    .web-loading-box .loader-box .loader::after {
+      content: '';
+      display: inline-block;
+      width: inherit;
+      height: inherit;
+      box-sizing: border-box;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: 6px solid transparent;
+      border-top-color: #4131D4;
+      border-radius: 50%;
+      /* opacity: .5; */
+      z-index: 2;
+    }
+
+    .web-loading-box .loader-box .loader:before {
+      content: '';
+      display: block;
+      width: inherit;
+      height: inherit;
+      box-sizing: border-box;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: .1em solid #eee;
+      border-radius: 50%;
+      opacity: .5;
+      z-index: 1;
+    }
+
+    @-webkit-keyframes loader {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes loader {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+
+    .browser-tip {
+      height: 80px;
+      width: 100%;
+      background: #F2F0E8;
+      color: #BDA558;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: -80px;
+      opacity: 0;
+      transition: all .8s;
+    }
+
+    .browser-tip-show {
+      margin-top: 0px;
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .browser-tip {
+        display: none !important;
+      }
+    }
+
+    .browser-tip-content {
+      display: flex;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .browser-tip-content .icon-box {
+      margin-right: 16px;
+    }
+
+    .browser-tip-content .icon-box .icongantanhao-sanjiaokuang {
+      font-size: 34px;
+    }
+
+    .browser-tip-link {
+      margin-left: 43px;
+    }
+
+    .icon-close-box {
+      width: 30px;
+      margin-right: 30px;
+      cursor: pointer;
+    }
+
+    .icon-close-box .icon-_close {
+      font-size: 30px;
+      color: #44505B;
+    }
+
+    #loaded-error {
+      position: absolute;
+      top: 20px;
+      width: 300px;
+      text-align: center;
+      z-index: 0;
+      transform: translateX(-50%);
+      left: 50%;
+      background: #fef0f0;
+      height: 36px;
+      color: #F56C6C;
+      line-height: 35px;
+      border-radius: 4px;
+      opacity: 0;
+      transition: all 1s;
+    }
+  </style>
+  <script>
+    //var myAudio = mAudio.default;
+    var audio;
+    var play_time = 1;
+    // MP3文件播放方法
+    function playMp3(f, en, cb, just_one, loop) {
+      var origin_f = f;
+      f = f.split("/");
+      if (f.length > 1) {
+        f = f[f.length - 1];
+      } else {
+        f = "ddddd.mp3";
+      }
+      var file = "./static/audio/" + (en ? "en/" : "us/") + f;
+
+      audio = document.getElementById("bgMusic");
+      audio.defaultPlaybackRate = window.speedWord || 1;
+      audio.playbackRates = window.speedWord || 1;
+      audio.onended = function () {
+        playAgin(origin_f, en, cb, just_one);
+      }
+      audio.onerror = function () {
+        if (loop) {
+          window.message("文件不存在");
+        }
+        !loop && playAgin(origin_f, en, cb, just_one);
+      }
+      audio.src = file;
+      //播放(继续播放)
+      audio.play();
+
+      /* //暂停
+      audio.pause();
+
+      //停止
+      audio.pause();
+      audio.currentTime = 0; */
+
+
+      /* 
+      audio = myAudio({
+        file: file,
+        loop: false,
+        volume: 1,
+      });
+      cb && audio.on("end", cb);
+      audio.play(); */
+    }
+    function playAgin(f, en, cb, just_one) {
+      if (!just_one && play_time == 1 && cb) {
+        play_time = play_time + 1;
+        playMp3(f, !en, cb, just_one)
+      } else {
+        play_time = 1;
+        cb && cb();
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <noscript>
+    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't
+        work properly without JavaScript enabled.
+        Please enable it to continue.</strong>
+  </noscript>
+  <!--   <div class="web-loading-box">
+    <div class="loader-box">
+      <div class="loader"></div>
+      <p class="desc">页面初始化中...</p>
+    </div>
+  </div> -->
+  <audio id="bgMusic">
+  </audio>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+
+</html>

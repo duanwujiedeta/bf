@@ -1,0 +1,485 @@
+[
+    {
+        "text": "the bad weather will improve",
+        "results": {
+            "GoogleWeb": {
+                "text": "the bad weather will improve",
+                "from": "英语",
+                "to": "中文(简体)",
+                "link": "https://translate.google.com/?sl=en&tl=zh-CN&text=the%20bad%20weather%20will%20improve&op=translate",
+                "result": [
+                    "恶劣天气将会好转"
+                ],
+                "ttsURI": "https://translate.googleapis.com/translate_tts?client=gtx&tl=en&ie=UTF-8&q=the%20bad%20weather%20will%20improve"
+            },
+            "DeepLWeb": {
+                "text": "the bad weather will improve",
+                "from": "英语",
+                "link": "https://www.deepl.com/translator#en/zh/the%20bad%20weather%20will%20improve",
+                "dict": [
+                    {
+                        "terms": [
+                            "坏天气会好转"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "坏天气将得到改善"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "恶劣天气会好转"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "坏天气会改善"
+                        ]
+                    }
+                ]
+            },
+            "BingDictWeb": {
+                "text": "the bad weather will improve",
+                "link": "https://www.bing.com/dict/search?q=the%20bad%20weather%20will%20improve&cc=cn",
+                "error": {
+                    "type": "API_SERVER_ERROR",
+                    "message": "无翻译结果。",
+                    "link": {
+                        "name": "查看解决方案",
+                        "url": "https://hcfy.app/docs/services/free#bingdict"
+                    }
+                }
+            }
+        },
+        "dir": {
+            "from": "英语",
+            "to": "中文(简体)"
+        },
+        "id": "1704372816260-26",
+        "date": 1704372816260,
+        "_id": "6596aa6c8aedb205cb0ec638"
+    },
+    {
+        "text": "obscured cityscape",
+        "results": {
+            "GoogleWeb": {
+                "text": "obscured cityscape",
+                "from": "英语",
+                "to": "中文(简体)",
+                "link": "https://translate.google.com/?sl=en&tl=zh-CN&text=obscured%20cityscape&op=translate",
+                "result": [
+                    "模糊的城市景观"
+                ],
+                "ttsURI": "https://translate.googleapis.com/translate_tts?client=gtx&tl=en&ie=UTF-8&q=obscured%20cityscape"
+            },
+            "DeepLWeb": {
+                "text": "obscured cityscape",
+                "from": "英语",
+                "link": "https://www.deepl.com/translator#en/zh/obscured%20cityscape",
+                "dict": [
+                    {
+                        "terms": [
+                            "市容晦暗"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "市容模糊"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "朦胧市景"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "市景朦胧"
+                        ]
+                    }
+                ]
+            },
+            "BingDictWeb": {
+                "text": "obscured cityscape",
+                "link": "https://www.bing.com/dict/search?q=obscured%20cityscape&cc=cn",
+                "error": {
+                    "type": "API_SERVER_ERROR",
+                    "message": "无翻译结果。",
+                    "link": {
+                        "name": "查看解决方案",
+                        "url": "https://hcfy.app/docs/services/free#bingdict"
+                    }
+                }
+            }
+        },
+        "dir": {
+            "from": "英语",
+            "to": "中文(简体)"
+        },
+        "id": "1704373076012-44",
+        "date": 1704373076012,
+        "_id": "6596ab548aedb2666a0ec677"
+    },
+    {
+        "text": "temporary suspension of city ferries",
+        "results": {
+            "GoogleWeb": {
+                "text": "temporary suspension of city ferries",
+                "from": "英语",
+                "to": "中文(简体)",
+                "link": "https://translate.google.com/?sl=en&tl=zh-CN&text=temporary%20suspension%20of%20city%20ferries&op=translate",
+                "result": [
+                    "城市渡轮暂时停运"
+                ],
+                "ttsURI": "https://translate.googleapis.com/translate_tts?client=gtx&tl=en&ie=UTF-8&q=temporary%20suspension%20of%20city%20ferries"
+            },
+            "DeepLWeb": {
+                "text": "temporary suspension of city ferries",
+                "from": "英语",
+                "link": "https://www.deepl.com/translator#en/zh/temporary%20suspension%20of%20city%20ferries",
+                "dict": [
+                    {
+                        "terms": [
+                            "城市渡轮临时停航"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "城市轮渡临时停航"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "城市渡轮暂时停航"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "城市渡轮的临时停航"
+                        ]
+                    }
+                ]
+            },
+            "BingDictWeb": {
+                "text": "temporary suspension of city ferries",
+                "link": "https://www.bing.com/dict/search?q=temporary%20suspension%20of%20city%20ferries&cc=cn",
+                "error": {
+                    "type": "API_SERVER_ERROR",
+                    "message": "无翻译结果。",
+                    "link": {
+                        "name": "查看解决方案",
+                        "url": "https://hcfy.app/docs/services/free#bingdict"
+                    }
+                }
+            }
+        },
+        "dir": {
+            "from": "英语",
+            "to": "中文(简体)"
+        },
+        "id": "1704373107088-53",
+        "date": 1704373107088,
+        "_id": "6596ab768aedb2833e0ec693"
+    },
+    {
+        "text": "Maryland makes new laws",
+        "results": {
+            "GoogleWeb": {
+                "text": "Maryland makes new laws",
+                "from": "英语",
+                "to": "中文(简体)",
+                "link": "https://translate.google.com/?sl=en&tl=zh-CN&text=Maryland%20makes%20new%20laws&op=translate",
+                "result": [
+                    "马里兰州制定新法律"
+                ],
+                "ttsURI": "https://translate.googleapis.com/translate_tts?client=gtx&tl=en&ie=UTF-8&q=Maryland%20makes%20new%20laws"
+            },
+            "DeepLWeb": {
+                "text": "Maryland makes new laws",
+                "from": "英语",
+                "link": "https://www.deepl.com/translator#en/zh/Maryland%20makes%20new%20laws",
+                "dict": [
+                    {
+                        "terms": [
+                            "马里兰州制定新法律"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "马里兰州颁布新法律"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "马里兰州制定新的法律"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "马里兰州制订新法律"
+                        ]
+                    }
+                ]
+            },
+            "BingDictWeb": {
+                "text": "Maryland makes new laws",
+                "link": "https://www.bing.com/dict/search?q=Maryland%20makes%20new%20laws&cc=cn",
+                "error": {
+                    "type": "API_SERVER_ERROR",
+                    "message": "无翻译结果。",
+                    "link": {
+                        "name": "查看解决方案",
+                        "url": "https://hcfy.app/docs/services/free#bingdict"
+                    }
+                }
+            }
+        },
+        "dir": {
+            "from": "英语",
+            "to": "中文(简体)"
+        },
+        "id": "1704373810254-105",
+        "date": 1704373810254,
+        "_id": "6596ae328aedb20bbe0ec791"
+    },
+    {
+        "text": "taking properties",
+        "results": {
+            "GoogleWeb": {
+                "text": "taking properties",
+                "from": "英语",
+                "to": "中文(简体)",
+                "link": "https://translate.google.com/?sl=en&tl=zh-CN&text=taking%20properties&op=translate",
+                "result": [
+                    "取得财产"
+                ],
+                "ttsURI": "https://translate.googleapis.com/translate_tts?client=gtx&tl=en&ie=UTF-8&q=taking%20properties"
+            },
+            "DeepLWeb": {
+                "text": "taking properties",
+                "from": "英语",
+                "link": "https://www.deepl.com/translator#en/zh/taking%20properties",
+                "dict": [
+                    {
+                        "terms": [
+                            "接管物业"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "接收财产"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "接收物业"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "接收房产"
+                        ]
+                    }
+                ]
+            },
+            "BingDictWeb": {
+                "text": "taking properties",
+                "link": "https://www.bing.com/dict/search?q=taking%20properties&cc=cn",
+                "error": {
+                    "type": "API_SERVER_ERROR",
+                    "message": "无翻译结果。",
+                    "link": {
+                        "name": "查看解决方案",
+                        "url": "https://hcfy.app/docs/services/free#bingdict"
+                    }
+                }
+            }
+        },
+        "dir": {
+            "from": "英语",
+            "to": "中文(简体)"
+        },
+        "id": "1704374016213-129",
+        "date": 1704374016213,
+        "_id": "6596af008aedb2b75b0ec7d8"
+    },
+    {
+        "text": "The opposition group",
+        "results": {
+            "GoogleWeb": {
+                "text": "The opposition group",
+                "from": "英语",
+                "to": "中文(简体)",
+                "link": "https://translate.google.com/?sl=en&tl=zh-CN&text=The%20opposition%20group&op=translate",
+                "result": [
+                    "反对派团体"
+                ],
+                "ttsURI": "https://translate.googleapis.com/translate_tts?client=gtx&tl=en&ie=UTF-8&q=The%20opposition%20group"
+            },
+            "DeepLWeb": {
+                "text": "The opposition group",
+                "from": "英语",
+                "link": "https://www.deepl.com/translator#en/zh/The%20opposition%20group",
+                "dict": [
+                    {
+                        "terms": [
+                            "反对派"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "反对派团体"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "反对派组织"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "反对党"
+                        ]
+                    }
+                ]
+            },
+            "BingDictWeb": {
+                "text": "The opposition group",
+                "link": "https://www.bing.com/dict/search?q=The%20opposition%20group&cc=cn",
+                "error": {
+                    "type": "API_SERVER_ERROR",
+                    "message": "无翻译结果。",
+                    "link": {
+                        "name": "查看解决方案",
+                        "url": "https://hcfy.app/docs/services/free#bingdict"
+                    }
+                }
+            }
+        },
+        "dir": {
+            "from": "英语",
+            "to": "中文(简体)"
+        },
+        "id": "1704374696382-190",
+        "date": 1704374696382,
+        "_id": "6596b1a88aedb2ffc10ec88d"
+    },
+    {
+        "text": "fraud allegations",
+        "results": {
+            "GoogleWeb": {
+                "text": "fraud allegations",
+                "from": "英语",
+                "to": "中文(简体)",
+                "link": "https://translate.google.com/?sl=en&tl=zh-CN&text=fraud%20allegations&op=translate",
+                "result": [
+                    "欺诈指控"
+                ],
+                "ttsURI": "https://translate.googleapis.com/translate_tts?client=gtx&tl=en&ie=UTF-8&q=fraud%20allegations"
+            },
+            "DeepLWeb": {
+                "text": "fraud allegations",
+                "from": "英语",
+                "link": "https://www.deepl.com/translator#en/zh/fraud%20allegations",
+                "dict": [
+                    {
+                        "terms": [
+                            "欺诈指控"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "诈骗指控"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "舞弊指控"
+                        ]
+                    }
+                ]
+            },
+            "BingDictWeb": {
+                "text": "fraud allegations",
+                "link": "https://www.bing.com/dict/search?q=fraud%20allegations&cc=cn",
+                "error": {
+                    "type": "API_SERVER_ERROR",
+                    "message": "无翻译结果。",
+                    "link": {
+                        "name": "查看解决方案",
+                        "url": "https://hcfy.app/docs/services/free#bingdict"
+                    }
+                }
+            }
+        },
+        "dir": {
+            "from": "英语",
+            "to": "中文(简体)"
+        },
+        "id": "1704374914490-217",
+        "date": 1704374914490,
+        "_id": "6596b2828aedb266b50ec8c4"
+    },
+    {
+        "text": "clashes with",
+        "results": {
+            "GoogleWeb": {
+                "text": "clashes with",
+                "from": "英语",
+                "to": "中文(简体)",
+                "link": "https://translate.google.com/?sl=en&tl=zh-CN&text=clashes%20with&op=translate",
+                "result": [
+                    "与 发生冲突"
+                ],
+                "ttsURI": "https://translate.googleapis.com/translate_tts?client=gtx&tl=en&ie=UTF-8&q=clashes%20with"
+            },
+            "DeepLWeb": {
+                "text": "clashes with",
+                "from": "英语",
+                "link": "https://www.deepl.com/translator#en/zh/clashes%20with",
+                "dict": [
+                    {
+                        "terms": [
+                            "与"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "冲突"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "碰撞"
+                        ]
+                    },
+                    {
+                        "terms": [
+                            "与以下方面发生冲突"
+                        ]
+                    }
+                ]
+            },
+            "BingDictWeb": {
+                "text": "clashes with",
+                "link": "https://www.bing.com/dict/search?q=clashes%20with&cc=cn",
+                "error": {
+                    "type": "API_SERVER_ERROR",
+                    "message": "无翻译结果。",
+                    "link": {
+                        "name": "查看解决方案",
+                        "url": "https://hcfy.app/docs/services/free#bingdict"
+                    }
+                }
+            }
+        },
+        "dir": {
+            "from": "英语",
+            "to": "中文(简体)"
+        },
+        "id": "1704375026194-241",
+        "date": 1704375026194,
+        "_id": "6596b2f28aedb2496f0ec8f3"
+    }
+]
