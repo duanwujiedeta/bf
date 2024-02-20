@@ -36,6 +36,18 @@ document.addEventListener('keydown', function (event) {
   }
 });
 
+// 监听键盘事件
+document.addEventListener('mouseup', function (event) {
+  // 检查是否按下了您所定义的快捷键（例如 Ctrl + Shift + S）
+  // 获取选中的文本
+  var selectedText = window.getSelection().toString();
+  if (event.ctrlKey && event.altKey && selectedText) {
+    // 发送消息到后台页面
+    // 获取选中的文本
+    window.open(`https://sentence.yourdictionary.com/${selectedText}`, "_blank");
+  }
+});
+
 
 
 //文件前缀
