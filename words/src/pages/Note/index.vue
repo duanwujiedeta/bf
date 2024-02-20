@@ -18,6 +18,7 @@
                 <!-- start left -->
                 <div class="left" style="flex-grow: 1">
                   <p>{{ scope.row.word }}</p>
+                  <p v-if="scope.row.tran">{{ scope.row.tran }}</p>
                 </div>
                 <!-- start left -->
                 <!-- <div class="right">
@@ -71,6 +72,47 @@
           </el-table-column>
         </el-table>
       </div>
+
+      <!-- start head -->
+
+      <div class="header">
+        <div v-if="show_left" class="left-setting">
+          <div>
+            <el-input
+              style="margin-top: 10px"
+              v-model="form.key_word"
+              @change="search"
+              size="medium"
+              placeholder="EN-Word"
+            >
+              <el-select
+                size="medium"
+                v-model="value"
+                placeholder="请选择"
+                slot="prepend"
+                style="width: 80px"
+                @change="changeList"
+              >
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+              <el-button slot="append" @click="findIndex">find</el-button>
+            </el-input>
+          </div>
+        </div>
+        <el-button
+          @click="show_left = !show_left"
+          type="text"
+          style="min-width: 30px"
+          >{{ show_left ? "《《" : "》》" }}</el-button
+        >
+      </div>
+      <!-- end head -->
     </div>
   </div>
 </template>
@@ -78,6 +120,7 @@
 <script>
 // import aline from "./airline.json"
 import { deepCopy } from "@/util/common";
+import configs from "./config";
 import {
   openDB,
   addData,
@@ -101,7 +144,7 @@ export default {
       auto_scroll: true,
       show_left: false,
       hide_right: false,
-      value: localStorage.getItem("value") || "yuren",
+      value: localStorage.getItem("note_value") || "earth",
       loop: true,
       speedWord: 2,
       origTranData: [],
@@ -148,9 +191,13 @@ export default {
         "y",
         "z",
       ],
+      options: configs.options,
+      ...configs.dataObj,
     };
   },
-  mounted() {},
+  mounted() {
+    this.changeList();
+  },
   methods: {
     makeShowObj(hidden, dis_play) {
       let dis_mode = this.dis_mode;
@@ -320,22 +367,8 @@ export default {
     },
     changeList() {
       let value = this.value;
-      localStorage.setItem("value", value);
+      localStorage.setItem("note_value", value);
       let list = this[value];
-      let str = this.getStr("readed");
-      let hstr = this.getStr("harded");
-      list.forEach((v, k) => {
-        if (str.indexOf(v.text) >= 0) {
-          v.readed = true;
-        } else {
-          v.readed = false;
-        }
-        if (hstr.indexOf(v.text) >= 0) {
-          v.harded = true;
-        } else {
-          v.harded = false;
-        }
-      });
       this.origTranData = deepCopy(list, []);
       this.$nextTick(() => {
         this.search();
@@ -500,7 +533,7 @@ export default {
     display: flex;
     flex-direction: column;
     min-height: 100%;
-    // min-height: calc(100% - 76px);
+    min-height: calc(100% - 76px);
   }
 
   .header {

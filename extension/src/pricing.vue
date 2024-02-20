@@ -2,7 +2,14 @@
   <div id="app">
     <el-input
       v-model="input"
-      placeholder="请输入内容"
+      placeholder="原文"
+      type="textarea"
+      :autosize="{ minRows: 4, maxRows: 10 }"
+    ></el-input>
+    <el-input
+      style="margin-top: 20px"
+      v-model="tran_input"
+      placeholder="译文"
       type="textarea"
       :autosize="{ minRows: 4, maxRows: 10 }"
     ></el-input>
@@ -40,6 +47,7 @@ export default {
     return {
       disabled: false,
       input: "",
+      tran_input: "",
     };
   },
   mounted() {
@@ -53,8 +61,13 @@ export default {
       this.disabled = true;
       let that = this;
       openDB("luey", "favorites").then((db) => {
-        addData(db, "favorites", { id: uuid(), word: this.input });
+        addData(db, "favorites", {
+          id: uuid(),
+          word: this.input,
+          tran: this.tran_input,
+        });
         that.input = "";
+        that.tran_input = "";
         this.disabled = false;
         /* getDataAll(db, "favorites").then((res) => {
           console.log(JSON.stringify(res));

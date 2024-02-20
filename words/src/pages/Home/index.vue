@@ -18,7 +18,22 @@
                 <!-- start left -->
                 <div class="left" style="flex-grow: 1">
                   <div :style="makeShowObj(hideen)">
-                    {{ scope.row.text }}
+                    <span style="margin-right: 20px">{{ scope.row.text }}</span>
+                    <a
+                      :href="dic(scope.row.text)"
+                      target="_blank"
+                      style="
+                        margin-right: 20px;
+                        cursor: pointer;
+                        color: #4131d4;
+                      "
+                      >dic</a
+                    >
+                    <a
+                      :href="stac(scope.row.text)"
+                      style="cursor: pointer; color: #4131d4"
+                      >stac</a
+                    >
                   </div>
                   <!-- start google -->
                   <!-- words -->
@@ -170,7 +185,7 @@
                 <div class="right">
                   <div
                     style="display: flex; flex-direction: column"
-                    :style="makeShowObj(hide_right,'flex')"
+                    :style="makeShowObj(hide_right, 'flex')"
                   >
                     <el-button
                       type="text"
@@ -475,8 +490,9 @@ import {
 export default {
   data() {
     return {
+      // kdgnnagjiakhaebnfddplffafniakfkc
       current_row_index: 0,
-      dis_mode: false,
+      dis_mode: true,
       auto_link: false,
       auto_scroll: true,
       show_left: false,
@@ -609,6 +625,18 @@ export default {
         this.$message.success("排序成功");
         this.tranData = newList;
       });
+    },
+    dic(text) {
+      text = text.trim();
+      if (text.indexOf(" ") >= 0) {
+        return "javascript:;";
+      }
+      return `https://sentence.yourdictionary.com/${text}`;
+    },
+    stac(text) {
+      text = text.trim();
+      text = text.replace(/\s+/g, "_");
+      return `https://sentencestack.com/q/${text}`;
     },
     openNew(url) {
       this.auto_link && url && window.open(url, "_blank");
