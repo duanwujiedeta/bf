@@ -23,7 +23,7 @@ export function openDB(dbName, storeName, version = 30) {// dbName hcfy   storeN
             let objectStore
 
             if (!db.objectStoreNames.contains(storeName)) {
-                objectStore = db.createObjectStore(storeName, { keyPath: 'id', autoIncrement: true }) // 创建表
+                objectStore = db.createObjectStore(storeName, { autoIncrement: true }) // 创建表
                 // objectStore.createIndex('name', 'name', { unique: true }) // 创建索引 可以让你搜索任意字段
             }
         }

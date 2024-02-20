@@ -62,7 +62,6 @@ export default {
       let that = this;
       openDB("luey", "favorites").then((db) => {
         addData(db, "favorites", {
-          id: uuid(),
           word: this.input,
           tran: this.tran_input,
         });

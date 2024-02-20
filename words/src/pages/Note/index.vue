@@ -111,6 +111,14 @@
           style="min-width: 30px"
           >{{ show_left ? "《《" : "》》" }}</el-button
         >
+        <div class="buttons">
+          <el-button
+            @click="$router.push({ name: 'home' })"
+            type="text"
+            style="flex-basis: 25px; margin-left: 10px"
+            >home</el-button
+          >
+        </div>
       </div>
       <!-- end head -->
     </div>
