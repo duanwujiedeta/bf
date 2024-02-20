@@ -34,7 +34,40 @@ document.addEventListener('keydown', function (event) {
     var selectedText = window.getSelection().toString();
     chrome.runtime.sendMessage({ action: "shortcutPressed", selectedText });
   }
+
+  // 检查是否按下了您所定义的快捷键（例如 Ctrl + Shift + S）
+  if (event.ctrlKey && event.altKey && event.key === 'q') {
+    $("hcfy-result").append(`<span class="luey-elm" style="cursor:pointer;">CP</span>`);
+  }
 });
+$(document).on("click", ".luey-elm", function () {
+  let ele = $(this).eq(0);
+  copyText(ele);
+})
+function copyText(ele) {
+  var res = $(ele).parent().find("hcfy-result-content").text();
+  copyTextToClipboard(res);
+}
+window.copyText = copyText;
+
+function copyTextToClipboard(text) {
+  var textArea = document.createElement("textarea");
+  textArea.value = text;
+
+  // 将文本域添加到文档中
+  document.body.appendChild(textArea);
+
+  // 选择文本域中的文本
+  textArea.select();
+
+  // 执行复制命令
+  document.execCommand('copy');
+
+  // 删除临时文本域
+  document.body.removeChild(textArea);
+}
+
+
 
 // 监听键盘事件
 document.addEventListener('mouseup', function (event) {
