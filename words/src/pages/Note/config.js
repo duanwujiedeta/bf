@@ -9,9 +9,19 @@ export default {
             value: "dizzy",
             label: "dizzy",
         },
+        {
+            value: "ssex",
+            label: "ssex",
+        },
+        {
+            value: "webpack",
+            label: "webpack",
+        },
     ],
     dataObj: {
         earth: deepCopy(require("./json/earth.json"), []),
         dizzy: deepCopy(require("./json/dizzy.json"), []),
+        ssex: deepCopy(require("./json/ssex.json"), []),
+        webpack: deepCopy(require("./json/webpack.json"), []),
     }
 }

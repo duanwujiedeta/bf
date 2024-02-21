@@ -17,8 +17,8 @@
               <div style="display: flex; gap: 15px" :id="'abc' + scope.row.id">
                 <!-- start left -->
                 <div class="left" style="flex-grow: 1">
-                  <p>{{ scope.row.word }}</p>
-                  <p v-if="scope.row.tran">{{ scope.row.tran }}</p>
+                  <p v-html="scope.row.word"></p>
+                  <p v-if="scope.row.tran" v-html="scope.row.tran"></p>
                 </div>
                 <!-- start left -->
                 <!-- <div class="right">

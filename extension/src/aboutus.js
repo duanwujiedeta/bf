@@ -38,7 +38,7 @@ function openCollect(text) {
     const panelWindowInfo = chrome.windows.create({
       url: chrome.runtime.getURL("/pricing.html") + `?text=${text}`,
       type: "popup",
-      height: 500,
+      height: 800,
       width: 300,
     });
   } catch (error) { console.log(error); }

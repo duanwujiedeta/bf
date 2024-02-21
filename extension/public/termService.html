@@ -22,24 +22,4 @@
 </body>
 <script type="text/javascript" src="./js/jquery.min.js"></script>
 <script type="text/javascript" src="./js/public.js?t=20211228"></script>
-<script>
-    $(window).scroll(function(){
-        s_height = $(window).scrollTop();
-        let height = $(this).height() + $(this).scrollTop()
-        if(s_height <= height){
-            $("#top_btn").show();
-        }
-        if ($("header").offset().top < height) {
-			$("header").addClass('fixed')
-		}
-
-		if ($(document).scrollTop()<=0){
-			$("header").removeClass('fixed')
-            $("#top_btn").hide();
-		}
-    })
-    $("#top_btn").click(function(){
-		$("html,body").animate({scrollTop: 0}, 600);
-	});
-</script>
 </html>
