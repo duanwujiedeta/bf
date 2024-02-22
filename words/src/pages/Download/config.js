@@ -28,5 +28,6 @@ export default {
         quiz: deepCopy(require("./quiz.json"), []),
         animal: deepCopy(require("./animal.json"), []),
         earth: deepCopy(require("./earth.json"), []),
+        webp: deepCopy(require("./webp.json"), []),
     }
 }

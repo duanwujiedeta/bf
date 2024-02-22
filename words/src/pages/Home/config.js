@@ -147,6 +147,10 @@ export default {
             value: "earth",
             label: "earth",
         },
+        {
+            value: "webp",
+            label: "webp",
+        },
     ],
     dataObj: {
         ult: deepCopy(require("./ult.json"), []),
@@ -175,5 +179,6 @@ export default {
         quiz: deepCopy(require("./home/quiz.json"), []),
         animal: deepCopy(require("./home/animal.json"), []),
         earth: deepCopy(require("./home/earth.json"), []),
+        webp: deepCopy(require("./home/webp.json"), []),
     }
 }

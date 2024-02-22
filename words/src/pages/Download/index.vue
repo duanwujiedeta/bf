@@ -43,7 +43,7 @@ export default {
   methods: {
     downloadEn(sec) {
       // 美是 0  英是 1
-      let data = this.earth;
+      let data = this.webp;
       this.start = this.index;
       data.forEach((v, k) => {
         let index = this.index;
