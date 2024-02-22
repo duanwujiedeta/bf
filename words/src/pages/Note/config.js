@@ -17,11 +17,16 @@ export default {
             value: "webpack",
             label: "webpack",
         },
+        {
+            value: "webp",
+            label: "webp",
+        },
     ],
     dataObj: {
         earth: deepCopy(require("./json/earth.json"), []),
         dizzy: deepCopy(require("./json/dizzy.json"), []),
         ssex: deepCopy(require("./json/ssex.json"), []),
         webpack: deepCopy(require("./json/webpack.json"), []),
+        webp: deepCopy(require("./json/webp.json"), []),
     }
 }
