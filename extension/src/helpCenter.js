@@ -41,14 +41,21 @@ document.addEventListener('keydown', function (event) {
   }
 });
 $(document).on("click", ".luey-elm", function () {
-  let ele = $(this).eq(0);
-  copyText(ele);
+  var cn = $(this).parent().find("hcfy-result-content").text();
+  var parent_node = $(this).parents(".sentence-item__text").clone();
+  parent_node.find("hcfy-result").remove();
+  var en = parent_node.text();
+  chrome.runtime.sendMessage({ cn, en });
+
+  /* let ele = $(this).eq(0);
+  copyText(ele); */
 })
-function copyText(ele) {
+/* function copyText(ele) {
   var res = $(ele).parent().find("hcfy-result-content").text();
   copyTextToClipboard(res);
-}
+} 
 window.copyText = copyText;
+*/
 
 function copyTextToClipboard(text) {
   var textArea = document.createElement("textarea");

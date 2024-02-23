@@ -37,6 +37,8 @@
         }
     ],
     "permissions": [
+        "tabs",
+        "activeTab",
         "\u003Call_urls>",
         "clipboard",
         "clipboardRead",

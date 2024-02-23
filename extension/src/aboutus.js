@@ -1,3 +1,18 @@
+import {
+  openDB,
+  addData,
+  getDataByKey,
+  cursorGetData,
+  getDataByIndex,
+  cursorGetDataByIndex,
+  updateDB,
+  deleteDB,
+  deleteDBAll,
+  closeDB,
+  getDataAll,
+  uuid,
+} from "@/util/indexdDB";
+
 chrome.contextMenus.create({
   'type': 'normal',
   'title': '加入笔记',
@@ -23,15 +38,6 @@ chrome.commands.onCommand.addListener(function (command) {
 })
 
 
-// 网页收藏
-
-// 消息监听
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.action == "shortcutPressed") {
-    openCollect(request.selectedText);
-  }
-});
-
 function openCollect(text) {
   text = encodeURIComponent(text);
   try {
@@ -43,6 +49,27 @@ function openCollect(text) {
     });
   } catch (error) { console.log(error); }
 }
+
+
+
+// 网页收藏
+
+// 消息监听，用于写入句子
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.cn && request.en) {// 插入 indexdDB
+    saveToDb(request);
+  }
+});
+
+function saveToDb({ en, cn }) {
+  openDB("luey", "favorites").then((db) => {
+    addData(db, "favorites", {
+      word: en,
+      tran: cn,
+    });
+  });
+}
+
 
 // 监听右键菜单项点击事件
 /* chrome.contextMenus.onClicked.addListener(function (info, tab) {
