@@ -89,6 +89,16 @@ document.addEventListener('mouseup', function (event) {
 });
 
 
+//  content脚本监听来自 background 的消息
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    console.log("Message from background script:", request);
+    // 在这里可以执行您的逻辑
+  }
+);
+
+
+
 
 //文件前缀
 

@@ -70,6 +70,13 @@ function saveToDb({ en, cn }) {
   });
 }
 
+function sendToContent() {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, { greeting: "Hello from background" });
+  });
+}
+
+
 
 // 监听右键菜单项点击事件
 /* chrome.contextMenus.onClicked.addListener(function (info, tab) {
@@ -92,7 +99,30 @@ function triggerContextMenuClick() {
   });
 }
 
+/* 
+// content.js
 
+// 监听来自后台页面的消息
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+  console.log("Received message from background script:", message);
+
+  // 在这里可以执行一些逻辑，比如根据收到的消息做出相应的操作
+
+  // 如果需要向后台页面发送响应，可以使用sendResponse函数
+  sendResponse({response: "Message received successfully!"});
+});
+
+
+message参数是从后台页面发送过来的消息对象。
+
+sender参数是一个包含有关消息发送者的信息的对象，包括tab属性，指示消息来自哪个标签页。
+
+sendResponse参数是一个函数，用于向消息发送者（通常是后台页面）发送响应消息。在处理完消息后，您可以通过调用sendResponse来发送一个响应。
+
+这样，当后台页面通过chrome.tabs.sendMessage发送消息时，内容脚本就会通过chrome.runtime.onMessage.addListener监听到，并且可以在回调函数中处理接收到的消息。
+
+
+*/
 
 // 剪切板内容
 // 在后台页面中监听剪贴板内容改变事件
