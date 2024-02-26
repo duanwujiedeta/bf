@@ -72,7 +72,8 @@ export let favoriteObj = {
                                     indexKey: oldKey,
                                     lid: uuid(),
                                     word: obj.en,
-                                    tran: obj.cn
+                                    tran: obj.cn,
+                                    ...obj
                                 });
                                 closeDB(sdb);
                             });
@@ -89,7 +90,8 @@ export let favoriteObj = {
                 indexKey: 123,
                 lid: uuid(),
                 word: obj.en,
-                tran: obj.cn
+                tran: obj.cn,
+                ...obj
             });
             closeDB(sdb);
         })
@@ -100,15 +102,20 @@ export let favoriteObj = {
             this.saveToDb(v);
         });
     },
-    updateToDb: function (obj, myStore) {
-        openDB(dbName, storeList).then((db) => {
-            updateDB(db, myStore, obj).then((res) => {
+    updateToDb: function (obj) {
+        openDB(dbName, favoStoreName).then((db) => {
+            updateDB(db, favoStoreName, obj).then((res) => {
             });
         });
     },
     updateList: function (list, myStore) {
         list.forEach((v, k) => {
             this.updateToDb(v, myStore);
+        });
+    },
+    delFromDb: function (id) {
+        openDB(dbName, storeList).then((db) => {
+            deleteDB(db, favoStoreName, id);
         });
     },
     getAll(cb) {
