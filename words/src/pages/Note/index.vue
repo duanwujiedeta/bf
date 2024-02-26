@@ -101,6 +101,13 @@
           >
 
           <el-button
+            @click="changeList"
+            type="text"
+            style="flex-basis: 25px; margin-left: 10px"
+            >all</el-button
+          >
+
+          <el-button
             @click="hide_right = !hide_right"
             type="text"
             style="flex-basis: 25px; margin-left: 10px"
