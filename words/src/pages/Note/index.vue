@@ -21,7 +21,7 @@
                   <p v-if="scope.row.tran" v-html="scope.row.tran"></p>
                 </div>
                 <!-- start left -->
-                <div class="right">
+                <div class="right" v-if="!hide_right">
                   <div style="display: flex; flex-direction: column">
                     <el-button
                       type="text"
@@ -98,6 +98,13 @@
             type="text"
             style="flex-basis: 25px; margin-left: 10px"
             >db</el-button
+          >
+
+          <el-button
+            @click="hide_right = !hide_right"
+            type="text"
+            style="flex-basis: 25px; margin-left: 10px"
+            >rig</el-button
           >
         </div>
       </div>
