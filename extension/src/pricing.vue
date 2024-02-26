@@ -50,20 +50,7 @@
 <script>
 import defaultObj from "@/util/defaultObj";
 import { VueEditor } from "vue2-editor";
-import {
-  openDB,
-  addData,
-  getDataByKey,
-  cursorGetData,
-  getDataByIndex,
-  cursorGetDataByIndex,
-  updateDB,
-  deleteDB,
-  deleteDBAll,
-  closeDB,
-  getDataAll,
-  uuid,
-} from "@/util/indexdDB";
+import { favoriteObj, keyObj } from "@/util/dbFunc";
 export default {
   ...defaultObj,
   data() {
@@ -90,21 +77,27 @@ export default {
       if (!this.input) return;
       this.disabled = true;
       let that = this;
-      openDB("luey", "favorites").then((db) => {
+      let obj = { en: this.input, cn: this.tran_input };
+      favoriteObj.saveToDb(obj);
+
+      // 还原页面状态
+      that.input = "";
+      that.tran_input = "";
+      this.disabled = false;
+      /* openDB("luey", "favorites").then((db) => {
         addData(db, "favorites", {
           word: this.input,
           tran: this.tran_input,
         });
-        that.input = "";
-        that.tran_input = "";
-        this.disabled = false;
-        /* getDataAll(db, "favorites").then((res) => {
+        getDataAll(db, "favorites").then((res) => {
           console.log(JSON.stringify(res));
-        }); */
-        /*list.forEach((v, k) => {
-        updateDB(db, "favorites", v).then((res) => { console.log("更新成功"); });
-    })*/
-      });
+        });
+        list.forEach((v, k) => {
+          updateDB(db, "favorites", v).then((res) => {
+            console.log("更新成功");
+          });
+        });
+      }); */
     },
   },
 };

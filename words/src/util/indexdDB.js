@@ -2,7 +2,7 @@
  * 封装的方法以及用法
  * 打开数据库
  */
-export function openDB(dbName, storeName, version = 30) {// dbName hcfy   storeName favorites
+export function openDB(dbName, storeList, version = 30) {// dbName hcfy   storeName favorites
     return new Promise((resolve, reject) => {
         let indexedDB = window.indexedDB
         let db
@@ -18,12 +18,13 @@ export function openDB(dbName, storeName, version = 30) {// dbName hcfy   storeN
 
         request.onupgradeneeded = function (event) {
             // 数据库创建或升级的时候会触发
-            console.log('onupgradeneeded')
+            console.log('onupgradeneeded');
             db = event.target.result // 数据库对象
             let objectStore
 
-            if (!db.objectStoreNames.contains(storeName)) {
-                objectStore = db.createObjectStore(storeName, { keyPath: 'id', autoIncrement: true }) // 创建表
+            if (!db.objectStoreNames.contains(storeList[0])) {
+                objectStore = db.createObjectStore(storeList[0], { autoIncrement: true, keyPath: 'lid' }) // 创建表
+                objectStore = db.createObjectStore(storeList[1], { autoIncrement: true, keyPath: 'lid' }) // 创建表
                 // objectStore.createIndex('name', 'name', { unique: true }) // 创建索引 可以让你搜索任意字段
             }
         }

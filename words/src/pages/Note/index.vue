@@ -21,52 +21,26 @@
                   <p v-if="scope.row.tran" v-html="scope.row.tran"></p>
                 </div>
                 <!-- start left -->
-                <!-- <div class="right">
-                  <div
-                    style="display: flex; flex-direction: column"
-                    :style="makeShowObj(hide_right,'flex')"
-                  >
+                <div class="right">
+                  <div style="display: flex; flex-direction: column">
                     <el-button
                       type="text"
-                      v-if="!scope.row.readed"
+                      v-if="!scope.row.notRead"
                       :key="'read'"
                       size="mini"
-                      @click="setReaded(scope.row)"
+                      @click="NotRead(scope.row)"
                       style="margin-left: 0px; margin-bottom: 5px"
-                      >read</el-button
-                    >
-                    <el-button
-                      type="text"
-                      v-if="!scope.row.harded"
-                      :key="'hard'"
-                      size="mini"
-                      @click="setHeaded(scope.row)"
-                      style="margin-left: 0px; margin-bottom: 5px"
-                      >hard</el-button
+                      >noread</el-button
                     >
                     <el-button
                       type="text"
                       size="mini"
-                      @click="setIndexText(scope.row)"
-                      style="margin-left: 0px; margin-bottom: 5px"
-                      >stidx</el-button
-                    >
-                    <el-button
-                      type="text"
-                      size="mini"
-                      @click="delCur(scope.$index)"
+                      @click="delFromDb(scope.row)"
                       style="margin-left: 0px; margin-bottom: 5px"
                       >del</el-button
                     >
-                    <el-button
-                      type="text"
-                      size="mini"
-                      @click="loopPlay(scope.row)"
-                      style="margin-left: 0px"
-                      >loop</el-button
-                    >
                   </div>
-                </div> -->
+                </div>
               </div>
             </template>
           </el-table-column>
@@ -118,6 +92,13 @@
             style="flex-basis: 25px; margin-left: 10px"
             >home</el-button
           >
+
+          <el-button
+            @click="getAllDbData"
+            type="text"
+            style="flex-basis: 25px; margin-left: 10px"
+            >db</el-button
+          >
         </div>
       </div>
       <!-- end head -->
@@ -143,6 +124,7 @@ import {
   getDataAll,
   uuid,
 } from "@/util/indexdDB";
+import { favoriteObj, keyObj } from "@/util/dbFunc";
 export default {
   data() {
     return {
@@ -207,6 +189,20 @@ export default {
     this.changeList();
   },
   methods: {
+    delFromDb(row) {
+      favoriteObj.delFromDb(row.lid);
+      let index = this.tranData.indexOf(row);
+      this.tranData.splice(index, 1);
+    },
+    getAllDbData() {
+      favoriteObj.getAll((list) => {
+        this.tranData = list;
+      });
+    },
+    NotRead(row) {
+      row.notRead = true;
+      favoriteObj.saveToDb(row);
+    },
     makeShowObj(hidden, dis_play) {
       let dis_mode = this.dis_mode;
       let res;
@@ -377,6 +373,24 @@ export default {
       let value = this.value;
       localStorage.setItem("note_value", value);
       let list = this[value];
+      list.forEach((v, k) => {
+        v.notRead = false;
+      });
+      if (list[0].indexKey) {
+        list = list.sort((v1, v2) => {
+          let text1 = v1.indexKey;
+          let text2 = v2.indexKey;
+          if (text1 < text2) {
+            return -1;
+          }
+          if (text1 > text2) {
+            return 1;
+          }
+
+          // name 必须相等
+          return 0;
+        });
+      }
       this.origTranData = deepCopy(list, []);
       this.$nextTick(() => {
         this.search();

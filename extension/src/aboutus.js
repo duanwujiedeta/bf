@@ -1,17 +1,7 @@
 import {
-  openDB,
-  addData,
-  getDataByKey,
-  cursorGetData,
-  getDataByIndex,
-  cursorGetDataByIndex,
-  updateDB,
-  deleteDB,
-  deleteDBAll,
-  closeDB,
-  getDataAll,
-  uuid,
-} from "@/util/indexdDB";
+  favoriteObj,
+  keyObj
+} from "@/util/dbFunc";
 
 chrome.contextMenus.create({
   'type': 'normal',
@@ -57,18 +47,9 @@ function openCollect(text) {
 // 消息监听，用于写入句子
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.cn && request.en) {// 插入 indexdDB
-    saveToDb(request);
+    favoriteObj.saveToDb(request);
   }
 });
-
-function saveToDb({ en, cn }) {
-  openDB("luey", "favorites").then((db) => {
-    addData(db, "favorites", {
-      word: en,
-      tran: cn,
-    });
-  });
-}
 
 function sendToContent() {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -133,5 +114,5 @@ chrome.clipboard.onClipboardDataChanged.addListener(function () {
 
     // 在这里对剪贴板内容进行处理
   });
-}); */
+});
 
