@@ -17,8 +17,8 @@
               <div style="display: flex; gap: 15px" :id="'abc' + scope.row.id">
                 <!-- start left -->
                 <div class="left" style="flex-grow: 1">
-                  <p v-html="scope.row.word"></p>
-                  <p v-if="scope.row.tran" v-html="scope.row.tran"></p>
+                  <p v-html="scope.row.word" :style="makeShowObj(hideen)"></p>
+                  <p v-if="scope.row.tran" v-html="scope.row.tran" :style="makeShowObj(hidecn)"></p>
                 </div>
                 <!-- start left -->
                 <div class="right" v-if="!hide_right">
@@ -112,6 +112,20 @@
             type="text"
             style="flex-basis: 25px; margin-left: 10px"
             >rig</el-button
+          >
+
+          <el-button
+            @click="hideen = !hideen"
+            type="text"
+            style="flex-basis: 25px; margin-left: 10px"
+            >en</el-button
+          >
+
+          <el-button
+            @click="hidecn = !hidecn"
+            type="text"
+            style="flex-basis: 25px; margin-left: 10px"
+            >cn</el-button
           >
         </div>
       </div>
