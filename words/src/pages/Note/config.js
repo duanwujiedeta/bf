@@ -21,6 +21,10 @@ export default {
             value: "webp",
             label: "webp",
         },
+        {
+            value: "webpf",
+            label: "webpf",
+        },
     ],
     dataObj: {
         earth: deepCopy(require("./json/earth.json"), []),
@@ -28,5 +32,6 @@ export default {
         ssex: deepCopy(require("./json/ssex.json"), []),
         webpack: deepCopy(require("./json/webpack.json"), []),
         webp: deepCopy(require("./json/webp.json"), []),
+        webpf: deepCopy(require("./json/webpf.json"), []),
     }
 }

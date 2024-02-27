@@ -41,10 +41,11 @@ document.addEventListener('keydown', function (event) {
   }
 });
 $(document).on("click", ".luey-elm", function () {
+  $(this).html("CP ✓");
   var cn = $(this).parent().find("hcfy-result-content").text();
-  var parent_node = $(this).parents(".sentence-item__text").clone();
+  var parent_node = $(this).parents(".sentence-item__text,.sent-txt").clone();
   parent_node.find("hcfy-result").remove();
-  var en = parent_node.text();
+  var en = parent_node.html();
   chrome.runtime.sendMessage({ cn, en });
 
   /* let ele = $(this).eq(0);
@@ -91,7 +92,7 @@ document.addEventListener('mouseup', function (event) {
 
 //  content脚本监听来自 background 的消息
 chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
+  function (request, sender, sendResponse) {
     console.log("Message from background script:", request);
     // 在这里可以执行您的逻辑
   }
