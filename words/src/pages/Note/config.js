@@ -29,6 +29,10 @@ export default {
             value: "yuren",
             label: "yuren",
         },
+        {
+            value: "yuren1",
+            label: "yuren1",
+        },
     ],
     dataObj: {
         earth: deepCopy(require("./json/earth.json"), []),
@@ -38,5 +42,6 @@ export default {
         webp: deepCopy(require("./json/webp.json"), []),
         webpf: deepCopy(require("./json/webpf.json"), []),
         yuren: deepCopy(require("./json/yuren.json"), []),
+        yuren1: deepCopy(require("./json/yuren1.json"), []),
     }
 }
