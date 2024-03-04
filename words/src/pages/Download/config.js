@@ -29,5 +29,6 @@ export default {
         animal: deepCopy(require("./animal.json"), []),
         earth: deepCopy(require("./earth.json"), []),
         webp: deepCopy(require("./webp.json"), []),
+        fenlei: deepCopy(require("./fenlei.json"), []),
     }
 }

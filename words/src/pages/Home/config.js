@@ -151,6 +151,10 @@ export default {
             value: "webp",
             label: "webp",
         },
+        {
+            value: "fenlei",
+            label: "fenlei",
+        },
     ],
     dataObj: {
         ult: deepCopy(require("./ult.json"), []),
@@ -180,5 +184,6 @@ export default {
         animal: deepCopy(require("./home/animal.json"), []),
         earth: deepCopy(require("./home/earth.json"), []),
         webp: deepCopy(require("./home/webp.json"), []),
+        fenlei: deepCopy(require("./home/fenlei.json"), []),
     }
 }
