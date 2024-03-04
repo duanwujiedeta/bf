@@ -41,6 +41,10 @@ export default {
             value: "yuren3",
             label: "yuren3",
         },
+        {
+            value: "fenlei",
+            label: "fenlei",
+        },
     ],
     dataObj: {
         earth: deepCopy(require("./json/earth.json"), []),
@@ -53,5 +57,6 @@ export default {
         yuren1: deepCopy(require("./json/yuren1.json"), []),
         vue: deepCopy(require("./json/vue.json"), []),
         yuren3: deepCopy(require("./json/yuren3.json"), []),
+        fenlei: deepCopy(require("./json/fenlei.json"), []),
     }
 }
