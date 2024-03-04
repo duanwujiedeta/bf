@@ -496,7 +496,7 @@ export default {
       auto_link: false,
       auto_scroll: true,
       show_left: false,
-      hide_right: false,
+      hide_right: true,
       value: localStorage.getItem("value") || "yuren",
       loop: true,
       speedWord: 2,
