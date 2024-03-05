@@ -38,6 +38,33 @@
                       "
                       >stac</a
                     >
+                    <a
+                      :href="coli(scope.row.text)"
+                      style="
+                        margin-right: 20px;
+                        cursor: pointer;
+                        color: #4131d4;
+                      "
+                      >coli</a
+                    >
+                    <a
+                      :href="leng(scope.row.text)"
+                      style="
+                        margin-right: 20px;
+                        cursor: pointer;
+                        color: #4131d4;
+                      "
+                      >leng</a
+                    >
+                    <a
+                      :href="bab(scope.row.text)"
+                      style="
+                        margin-right: 20px;
+                        cursor: pointer;
+                        color: #4131d4;
+                      "
+                      >bab</a
+                    >
                     <el-button type="text" @click="goNoteWithParam(scope.row)"
                       >cen</el-button
                     >
@@ -511,7 +538,7 @@ export default {
       tranData: [],
       hideen: false,
       hidecn: true,
-      hidensp: false,
+      hidensp: true,
       us: false,
       form: {
         key_word: localStorage.getItem("keyword_word") || "",
@@ -683,6 +710,21 @@ export default {
         return "javascript:;";
       }
       return `https://sentence.yourdictionary.com/${text}`;
+    },
+    bab(text) {
+      text = text.trim();
+      text = text.replace(/\s+/g, "-");
+      return `https://en.bab.la/sentences/english/${text}`;
+    },
+    leng(text) {
+      text = text.trim();
+      text = text.replace(/\s+/g, "%20");
+      return `https://lengusa.com/sentence-examples/${text}`;
+    },
+    coli(text) {
+      text = text.trim();
+      text = text.replace(/\s+/g, "-");
+      return `https://www.collinsdictionary.com/sentences/english/${text}`;
     },
     stac(text) {
       text = text.trim();

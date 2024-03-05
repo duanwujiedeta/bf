@@ -155,6 +155,10 @@ export default {
             value: "fenlei",
             label: "fenlei",
         },
+        {
+            value: "fenlei1",
+            label: "fenlei1",
+        },
     ],
     dataObj: {
         ult: deepCopy(require("./ult.json"), []),
@@ -185,5 +189,6 @@ export default {
         earth: deepCopy(require("./home/earth.json"), []),
         webp: deepCopy(require("./home/webp.json"), []),
         fenlei: deepCopy(require("./home/fenlei.json"), []),
+        fenlei1: deepCopy(require("./home/fenlei1.json"), []),// 未下载音频
     }
 }

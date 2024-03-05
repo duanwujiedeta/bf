@@ -13,7 +13,11 @@ import $ from "jquery";
 
 $("body").append(`<div id="lueycontent" style="height:1px;"></div>`);
 
-
+$(function () {
+  $(".dict-example").find(".flag").remove();
+  $(".dict-example").find(".voice-icons").remove();
+  $(".dict-example").find(".icon-link-wrapper").remove();
+});
 
 
 // 监听鼠标抬起事件
@@ -43,7 +47,7 @@ document.addEventListener('keydown', function (event) {
 $(document).on("click", ".luey-elm", function () {
   $(this).html("CP ✓");
   var cn = $(this).parent().find("hcfy-result-content").text();
-  var parent_node = $(this).parents(".sentence-item__text,.sent-txt").clone();
+  var parent_node = $(this).parents(".sentence-item__text,.sent-txt,.example,.text-black,.dict-example").clone();
   parent_node.find("hcfy-result").remove();
   var en = parent_node.html();
   chrome.runtime.sendMessage({ cn, en });
