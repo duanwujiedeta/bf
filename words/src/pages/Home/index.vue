@@ -31,8 +31,15 @@
                     >
                     <a
                       :href="stac(scope.row.text)"
-                      style="cursor: pointer; color: #4131d4"
+                      style="
+                        margin-right: 20px;
+                        cursor: pointer;
+                        color: #4131d4;
+                      "
                       >stac</a
+                    >
+                    <el-button type="text" @click="goNoteWithParam(scope.row)"
+                      >cen</el-button
                     >
                   </div>
                   <!-- start google -->
@@ -503,7 +510,7 @@ export default {
       origTranData: [],
       tranData: [],
       hideen: false,
-      hidecn: false,
+      hidecn: true,
       hidensp: false,
       us: false,
       form: {
@@ -544,15 +551,59 @@ export default {
       ],
       speedOpt: configs.speedOpt,
       options: configs.options,
+      text: "",
       ...configs.dataObj,
     };
   },
   mounted() {
+    this.text = this.$route.query.text || "";
     window.message = this.$message.warning;
     this.changeSpeed();
     this.changeList();
   },
   methods: {
+    changeList() {
+      let value = this.value;
+      localStorage.setItem("value", value);
+      let list = this[value];
+      let str = this.getStr("readed");
+      let hstr = this.getStr("harded");
+      list.forEach((v, k) => {
+        if (str.indexOf(v.text) >= 0) {
+          v.readed = true;
+        } else {
+          v.readed = false;
+        }
+        if (hstr.indexOf(v.text) >= 0) {
+          v.harded = true;
+        } else {
+          v.harded = false;
+        }
+      });
+      this.origTranData = deepCopy(list, []);
+      this.$nextTick(() => {
+        this.search();
+      });
+    },
+    search() {
+      /* if (this.form.key_word == 1) {
+        this.tranData = this.origTranData.slice(0, 150);
+      } else if (this.form.key_word == 2) {
+        this.tranData = this.origTranData.slice(149, 300);
+      } else if (this.form.key_word == 3) {
+        this.tranData = this.origTranData.slice(299);
+      } else {
+      } */
+      let text = this.text;
+      this.tranData = deepCopy(this.origTranData, []);
+      this.$nextTick(() => {
+        text && this.findIndex(text);
+      });
+    },
+    goNoteWithParam(row) {
+      let text = row.text;
+      this.$router.push({ name: "note", query: { text } });
+    },
     makeShowObj(hidden, dis_play) {
       let dis_mode = this.dis_mode;
       let res;
@@ -684,8 +735,8 @@ export default {
       this.i = index;
       this.playAllEn(false, true);
     },
-    findIndex() {
-      let key_word = this.form.key_word;
+    findIndex(text) {
+      let key_word = text || this.form.key_word;
       let list = this.tranData;
       let res = list.filter((v, k) => {
         return v.text.indexOf(key_word) >= 0;
@@ -730,40 +781,6 @@ export default {
       } else {
         audio.pause();
       }
-    },
-    changeList() {
-      let value = this.value;
-      localStorage.setItem("value", value);
-      let list = this[value];
-      let str = this.getStr("readed");
-      let hstr = this.getStr("harded");
-      list.forEach((v, k) => {
-        if (str.indexOf(v.text) >= 0) {
-          v.readed = true;
-        } else {
-          v.readed = false;
-        }
-        if (hstr.indexOf(v.text) >= 0) {
-          v.harded = true;
-        } else {
-          v.harded = false;
-        }
-      });
-      this.origTranData = deepCopy(list, []);
-      this.$nextTick(() => {
-        this.search();
-      });
-    },
-    search() {
-      /* if (this.form.key_word == 1) {
-        this.tranData = this.origTranData.slice(0, 150);
-      } else if (this.form.key_word == 2) {
-        this.tranData = this.origTranData.slice(149, 300);
-      } else if (this.form.key_word == 3) {
-        this.tranData = this.origTranData.slice(299);
-      } else {
-      } */
-      this.tranData = deepCopy(this.origTranData, []);
     },
     getStr(str) {
       return localStorage.getItem(str) || "";

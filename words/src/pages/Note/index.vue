@@ -18,7 +18,11 @@
                 <!-- start left -->
                 <div class="left" style="flex-grow: 1">
                   <p v-html="scope.row.word" :style="makeShowObj(hideen)"></p>
-                  <p v-if="scope.row.tran" v-html="scope.row.tran" :style="makeShowObj(hidecn)"></p>
+                  <p
+                    v-if="scope.row.tran"
+                    v-html="scope.row.tran"
+                    :style="makeShowObj(hidecn)"
+                  ></p>
                 </div>
                 <!-- start left -->
                 <div class="right" v-if="!hide_right">
@@ -87,7 +91,7 @@
         >
         <div class="buttons">
           <el-button
-            @click="$router.push({ name: 'home' })"
+            @click="backHome"
             type="text"
             style="flex-basis: 25px; margin-left: 10px"
             >home</el-button
@@ -210,13 +214,69 @@ export default {
         "z",
       ],
       options: configs.options,
+      text: "",
       ...configs.dataObj,
     };
   },
   mounted() {
+    this.text = this.$route.query.text || "";
     this.changeList();
   },
   methods: {
+    backHome() {
+      let params = { name: "home" };
+      let text = this.text || "";
+      if (text) {
+        params.query = { text };
+      }
+      this.$router.push(params);
+    },
+    changeList() {
+      let value = this.value;
+      localStorage.setItem("note_value", value);
+      let list = this[value];
+      list.forEach((v, k) => {
+        v.notRead = false;
+      });
+      if (list[0].indexKey) {
+        list = list.sort((v1, v2) => {
+          let text1 = v1.indexKey;
+          let text2 = v2.indexKey;
+          if (text1 < text2) {
+            return -1;
+          }
+          if (text1 > text2) {
+            return 1;
+          }
+
+          // name 必须相等
+          return 0;
+        });
+      }
+      let text = this.text;
+      if (text) {
+        // 过滤
+        let filterList = list.filter((v, k) => {
+          return v.word.indexOf(text) >= 0;
+        });
+        filterList.length && (list = filterList);
+      }
+      this.origTranData = deepCopy(list, []);
+      this.$nextTick(() => {
+        this.search();
+      });
+    },
+    search() {
+      /* if (this.form.key_word == 1) {
+        this.tranData = this.origTranData.slice(0, 150);
+      } else if (this.form.key_word == 2) {
+        this.tranData = this.origTranData.slice(149, 300);
+      } else if (this.form.key_word == 3) {
+        this.tranData = this.origTranData.slice(299);
+      } else {
+      } */
+      this.tranData = deepCopy(this.origTranData, []);
+    },
     delFromDb(row) {
       favoriteObj.delFromDb(row.lid);
       let index = this.tranData.indexOf(row);
@@ -350,8 +410,8 @@ export default {
       this.i = index;
       this.playAllEn(false, true);
     },
-    findIndex() {
-      let key_word = this.form.key_word;
+    findIndex(text) {
+      let key_word = text || this.form.key_word;
       let list = this.tranData;
       let res = list.filter((v, k) => {
         return v.text.indexOf(key_word) >= 0;
@@ -396,44 +456,6 @@ export default {
       } else {
         audio.pause();
       }
-    },
-    changeList() {
-      let value = this.value;
-      localStorage.setItem("note_value", value);
-      let list = this[value];
-      list.forEach((v, k) => {
-        v.notRead = false;
-      });
-      if (list[0].indexKey) {
-        list = list.sort((v1, v2) => {
-          let text1 = v1.indexKey;
-          let text2 = v2.indexKey;
-          if (text1 < text2) {
-            return -1;
-          }
-          if (text1 > text2) {
-            return 1;
-          }
-
-          // name 必须相等
-          return 0;
-        });
-      }
-      this.origTranData = deepCopy(list, []);
-      this.$nextTick(() => {
-        this.search();
-      });
-    },
-    search() {
-      /* if (this.form.key_word == 1) {
-        this.tranData = this.origTranData.slice(0, 150);
-      } else if (this.form.key_word == 2) {
-        this.tranData = this.origTranData.slice(149, 300);
-      } else if (this.form.key_word == 3) {
-        this.tranData = this.origTranData.slice(299);
-      } else {
-      } */
-      this.tranData = deepCopy(this.origTranData, []);
     },
     getStr(str) {
       return localStorage.getItem(str) || "";
