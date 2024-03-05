@@ -30,5 +30,6 @@ export default {
         earth: deepCopy(require("./earth.json"), []),
         webp: deepCopy(require("./webp.json"), []),
         fenlei: deepCopy(require("./fenlei.json"), []),
+        fenlei1: deepCopy(require("./fenlei1.json"), []),
     }
 }
