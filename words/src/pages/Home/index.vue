@@ -47,7 +47,7 @@
                       "
                       >coli</a
                     >
-                    <a
+                    <!-- <a
                       :href="leng(scope.row.text)"
                       style="
                         margin-right: 20px;
@@ -64,9 +64,19 @@
                         color: #4131d4;
                       "
                       >bab</a
-                    >
+                    > -->
                     <el-button type="text" @click="goNoteWithParam(scope.row)"
                       >cen</el-button
+                    >
+                    <a
+                      v-if="!scope.row.harded"
+                      :href="setHeaded(scope.row)"
+                      style="
+                        margin-right: 20px;
+                        cursor: pointer;
+                        color: #4131d4;
+                      "
+                      >hard</a
                     >
                   </div>
                   <!-- start google -->
@@ -316,18 +326,6 @@
               >ref</el-button
             >
             <el-button
-              @click="getHarded('harded')"
-              type="text"
-              style="flex-basis: 20px; margin-left: 10px"
-              >har</el-button
-            >
-            <el-button
-              @click="clearChoose('harded')"
-              type="text"
-              style="flex-basis: 20px; margin-left: 10px"
-              >clhar</el-button
-            >
-            <el-button
               @click="clearStorage"
               type="text"
               style="flex-basis: 20px; margin-left: 10px"
@@ -472,6 +470,18 @@
             type="text"
             style="flex-basis: 50px"
             >CN隐显</el-button
+          >
+          <el-button
+            @click="getHarded('harded')"
+            type="text"
+            style="flex-basis: 20px; margin-left: 10px"
+            >har</el-button
+          >
+          <el-button
+            @click="clearChoose('harded')"
+            type="text"
+            style="flex-basis: 20px; margin-left: 10px"
+            >clhar</el-button
           >
           <el-button @click="next" type="text" style="flex-basis: 30px"
             >next</el-button
@@ -830,9 +840,9 @@ export default {
     setHeaded(row) {
       let text = row.text; /* .replace(/\s/g, "") */
       let str = this.getStr("harded");
-      if (str.split(",").length >= 10) {
+      /* if (str.split(",").length >= 10) {
         return this.$message.warning("已经有10个了");
-      }
+      } */
       if (str.indexOf(text) < 0) {
         str += str ? `,${text}` : `${text}`;
       }
