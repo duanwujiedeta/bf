@@ -68,15 +68,11 @@
                     <el-button type="text" @click="goNoteWithParam(scope.row)"
                       >cen</el-button
                     >
-                    <a
+                    <el-button
                       v-if="!scope.row.harded"
-                      :href="setHeaded(scope.row)"
-                      style="
-                        margin-right: 20px;
-                        cursor: pointer;
-                        color: #4131d4;
-                      "
-                      >hard</a
+                      type="text"
+                      @click="setHeaded(scope.row)"
+                      >hd</el-button
                     >
                   </div>
                   <!-- start google -->
@@ -1115,9 +1111,6 @@ export default {
         margin-top: 60px;
         margin-bottom: 155px;
         width: 100%;
-
-        .detail-desc-item {
-        }
       }
     }
   }
