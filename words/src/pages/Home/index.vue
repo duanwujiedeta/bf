@@ -443,6 +443,18 @@
             style="flex-basis: 20px"
             >美</el-button
           >
+          <el-button
+            @click="getHarded('harded')"
+            type="text"
+            style="flex-basis: 20px; margin-left: 10px"
+            >har</el-button
+          >
+          <el-button
+            @click="clearChoose('harded')"
+            type="text"
+            style="flex-basis: 20px; margin-left: 10px"
+            >clhar</el-button
+          >
           <!-- start 操作栏 -->
           <el-button @click="startOrStop" type="text" style="flex-basis: 42px"
             >past</el-button
@@ -466,18 +478,6 @@
             type="text"
             style="flex-basis: 50px"
             >CN隐显</el-button
-          >
-          <el-button
-            @click="getHarded('harded')"
-            type="text"
-            style="flex-basis: 20px; margin-left: 10px"
-            >har</el-button
-          >
-          <el-button
-            @click="clearChoose('harded')"
-            type="text"
-            style="flex-basis: 20px; margin-left: 10px"
-            >clhar</el-button
           >
           <el-button @click="next" type="text" style="flex-basis: 30px"
             >next</el-button
