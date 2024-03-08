@@ -18,7 +18,18 @@
                 <!-- start left -->
                 <div class="left" style="flex-grow: 1">
                   <div :style="makeShowObj(hideen)">
-                    <span style="margin-right: 20px">{{ scope.row.text }}</span>
+                    <myInput
+                      :quizCheck="quizCheck"
+                      :row="scope.row"
+                      :index="scope.$index"
+                      :quizing="quizing"
+                      :totalIndex="totalIndex"
+                    ></myInput>
+                    <span
+                      style="margin-right: 20px"
+                      v-show="!quizing || scope.row.single_show"
+                      >{{ scope.row.text }}</span
+                    >
                     <a
                       :href="dic(scope.row.text)"
                       target="_blank"
@@ -424,6 +435,8 @@
           >{{ show_left ? "《《" : "》》" }}</el-button
         >
         <div class="buttons">
+          <el-button @click="cquiz" type="text">quiz</el-button>
+          <el-button @click="rquiz" type="text">rquiz</el-button>
           <el-button @click="playAllEn(false)" type="text">英美</el-button>
           <el-button
             @click="
@@ -513,6 +526,7 @@
 // import aline from "./airline.json"
 import { deepCopy } from "@/util/common";
 import configs from "./config";
+import myInput from "@/components/MyInput";
 import {
   openDB,
   addData,
@@ -531,6 +545,8 @@ export default {
   data() {
     return {
       // kdgnnagjiakhaebnfddplffafniakfkc
+      totalIndex: 0,
+      quizing: false,
       current_row_index: 0,
       dis_mode: true,
       auto_link: false,
@@ -588,6 +604,9 @@ export default {
       ...configs.dataObj,
     };
   },
+  components: {
+    myInput,
+  },
   mounted() {
     this.text = this.$route.query.text || "";
     window.message = this.$message.warning;
@@ -595,6 +614,34 @@ export default {
     this.changeList();
   },
   methods: {
+    quizCheck(row, index, qw) {
+      row.quiz_word = qw;
+      let quiz_word = row.quiz_word;
+      let text = row.text;
+      if (quiz_word.trim() == text.trim()) {
+        this.$message({
+          message: "passed",
+          type: "success",
+          duration: 500,
+        });
+        row.quiz_word = "";
+        this.totalIndex = parseInt(index, 10) + 1;
+      } else {
+        this.$message({
+          message: "no passed",
+          type: "warning",
+          duration: 500,
+        });
+      }
+    },
+    rquiz() {
+      this.quizing = false;
+      this.hidecn = true;
+    },
+    cquiz() {
+      this.quizing = true;
+      this.hidecn = false;
+    },
     changeList() {
       let value = this.value;
       localStorage.setItem("value", value);
@@ -602,6 +649,8 @@ export default {
       let str = this.getStr("readed");
       let hstr = this.getStr("harded");
       list.forEach((v, k) => {
+        v.quiz_word = "";
+        v.single_show = false;
         if (str.indexOf(v.text) >= 0) {
           v.readed = true;
         } else {
