@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <el-input :enterkeyhint="'done'" v-model="quiz_word" clearable :ref="'quiz'" v-show="quizing"
+    <el-input :enterkeyhint="'done'" v-model="quiz_word" clearable :ref="'quiz'" v-show="quizing" @focus="clearTotal"
       @keyup.enter.native="sub(row, index)">
       <el-button slot="append" @click="row.single_show = !row.single_show">trig</el-button>
     </el-input>
@@ -14,7 +14,7 @@ export default {
       quiz_word: "",
     };
   },
-  props: ["quizCheck", "row", "index", "quizing", "totalIndex", "fc"],
+  props: ["quizCheck", "row", "index", "quizing", "totalIndex", "fc", "clearTotal"],
   watch: {
     fc: {
       handler(editForm, oldName) {

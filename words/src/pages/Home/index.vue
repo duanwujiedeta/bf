@@ -2,63 +2,35 @@
   <div id="app-index">
     <div class="header-session">
       <div class="head-content">
-        <el-table
-          :data="tranData"
-          style="width: 100%"
-          height="100%"
-          :row-key="
-            (row) => {
-              row.text + row.id;
-            }
-          "
-        >
+        <el-table :data="tranData" style="width: 100%" height="100%" :row-key="(row) => {
+          row.text + row.id;
+        }
+          ">
           <el-table-column prop="date">
             <template slot-scope="scope">
               <div style="display: flex; gap: 15px" :id="'abc' + scope.row.id">
                 <!-- start left -->
                 <div class="left" style="flex-grow: 1">
                   <div :style="makeShowObj(hideen)">
-                    <myInput
-                      :quizCheck="quizCheck"
-                      :row="scope.row"
-                      :index="scope.$index"
-                      :quizing="quizing"
-                      :totalIndex="totalIndex"
-                      :fc="totalIndex==scope.$index"
-                    ></myInput>
-                    <span
-                      style="margin-right: 20px"
-                      v-show="!quizing || scope.row.single_show"
-                      >{{ scope.row.text }}</span
-                    >
-                    <a
-                      :href="dic(scope.row.text)"
-                      target="_blank"
-                      style="
+                    <myInput :quizCheck="quizCheck" :row="scope.row" :index="scope.$index" :quizing="quizing"
+                      :totalIndex="totalIndex" :fc="totalIndex === scope.$index" :clearTotal="clearTotal"></myInput>
+                    <span style="margin-right: 20px" v-show="!quizing || scope.row.single_show">{{ scope.row.text
+                    }}</span>
+                    <a :href="dic(scope.row.text)" target="_blank" style="
                         margin-right: 20px;
                         cursor: pointer;
                         color: #4131d4;
-                      "
-                      >dic</a
-                    >
-                    <a
-                      :href="stac(scope.row.text)"
-                      style="
+                      ">dic</a>
+                    <a :href="stac(scope.row.text)" style="
                         margin-right: 20px;
                         cursor: pointer;
                         color: #4131d4;
-                      "
-                      >stac</a
-                    >
-                    <a
-                      :href="coli(scope.row.text)"
-                      style="
+                      ">stac</a>
+                    <a :href="coli(scope.row.text)" style="
                         margin-right: 20px;
                         cursor: pointer;
                         color: #4131d4;
-                      "
-                      >coli</a
-                    >
+                      ">coli</a>
                     <!-- <a
                       :href="leng(scope.row.text)"
                       style="
@@ -77,32 +49,18 @@
                       "
                       >bab</a
                     > -->
-                    <el-button type="text" @click="goNoteWithParam(scope.row)"
-                      >cen</el-button
-                    >
-                    <el-button
-                      v-if="!scope.row.harded"
-                      type="text"
-                      @click="setHeaded(scope.row)"
-                      >hd</el-button
-                    >
+                    <el-button type="text" @click="goNoteWithParam(scope.row)">cen</el-button>
+                    <el-button v-if="!scope.row.harded" type="text" @click="setHeaded(scope.row)">hd</el-button>
                   </div>
                   <!-- start google -->
                   <!-- words -->
-                  <div
-                    :style="makeShowObj(hidecn)"
-                    v-if="scope.row.results.GoogleWeb.dict"
-                    style="
+                  <div :style="makeShowObj(hidecn)" v-if="scope.row.results.GoogleWeb.dict" style="
                       border-bottom: 1px solid #cccccc;
                       margin-bottom: 5px;
                       padding-bottom: 5px;
-                    "
-                  >
+                    ">
                     <div>Google词典</div>
-                    <p
-                      v-for="(item, index) in scope.row.results.GoogleWeb.dict"
-                      :key="index"
-                    >
+                    <p v-for="(item, index) in scope.row.results.GoogleWeb.dict" :key="index">
                       <span v-for="(ditem, dindex) in item.terms" :key="dindex">
                         <span>{{ item.pos }} </span>
                         <span>
@@ -113,30 +71,22 @@
                   </div>
                   <!-- end words -->
                   <!-- cens -->
-                  <div
-                    :style="makeShowObj(hidecn)"
-                    v-else
-                    style="
+                  <div :style="makeShowObj(hidecn)" v-else style="
                       border-bottom: 1px solid #cccccc;
                       margin-bottom: 5px;
                       padding-bottom: 5px;
-                    "
-                  >
+                    ">
                     <div>Google词典</div>
                     <p>
-                      <span
-                        v-for="(ditem, dindex) in scope.row.results.GoogleWeb
-                          .result"
-                        :key="'goo' + dindex"
-                      >
+                      <span v-for="(ditem, dindex) in scope.row.results.GoogleWeb
+                            .result" :key="'goo' + dindex">
                         <span>{{ ditem }} </span>
-                        <span
-                          >{{
-                            dindex ==
-                            scope.row.results.GoogleWeb.result.length - 1
-                              ? ""
-                              : ","
-                          }}
+                        <span>{{
+                          dindex ==
+                          scope.row.results.GoogleWeb.result.length - 1
+                          ? ""
+                          : ","
+                        }}
                         </span>
                       </span>
                     </p>
@@ -145,35 +95,22 @@
                   <!-- end google -->
                   <!-- start Bing -->
                   <!-- words -->
-                  <div
-                    v-if="
-                      scope.row.results.BingDictWeb &&
-                      scope.row.results.BingDictWeb.dict &&
-                      !scope.row.results.BingDictWeb.error
-                    "
-                  >
-                    <div
-                      style="cursor: pointer"
-                      @click="openNew(scope.row.results.BingDictWeb.link)"
-                      :style="makeShowObj(hidensp)"
-                    >
+                  <div v-if="scope.row.results.BingDictWeb &&
+                    scope.row.results.BingDictWeb.dict &&
+                    !scope.row.results.BingDictWeb.error
+                    ">
+                    <div style="cursor: pointer" @click="openNew(scope.row.results.BingDictWeb.link)"
+                      :style="makeShowObj(hidensp)">
                       必应辞典
                     </div>
                     <p :style="makeShowObj(hidensp)">
-                      <span
-                        v-for="(ditem, dindex) in scope.row.results.BingDictWeb
-                          .phonetic"
-                        :key="dindex"
-                      >
+                      <span v-for="(ditem, dindex) in scope.row.results.BingDictWeb
+                        .phonetic" :key="dindex">
                         {{ ditem.name }}/{{ ditem.value }}/
                       </span>
                     </p>
-                    <p
-                      v-for="(item, index) in scope.row.results.BingDictWeb
-                        .dict"
-                      :key="index"
-                      :style="makeShowObj(hidecn)"
-                    >
+                    <p v-for="(item, index) in scope.row.results.BingDictWeb
+                      .dict" :key="index" :style="makeShowObj(hidecn)">
                       <span v-for="(ditem, dindex) in item.terms" :key="dindex">
                         <span>{{ item.pos }} </span>
                         <span>
@@ -184,19 +121,12 @@
                   </div>
                   <!-- end words -->
                   <!-- cens -->
-                  <div
-                    v-else-if="
-                      scope.row.results.DeepLWeb &&
-                      scope.row.results.DeepLWeb.dict &&
-                      !scope.row.results.DeepLWeb.error
-                    "
-                  >
+                  <div v-else-if="scope.row.results.DeepLWeb &&
+                    scope.row.results.DeepLWeb.dict &&
+                    !scope.row.results.DeepLWeb.error
+                    ">
                     <div :style="makeShowObj(hidensp)">deepl辞典</div>
-                    <p
-                      v-for="(item, index) in scope.row.results.DeepLWeb.dict"
-                      :key="index"
-                      :style="makeShowObj(hidecn)"
-                    >
+                    <p v-for="(item, index) in scope.row.results.DeepLWeb.dict" :key="index" :style="makeShowObj(hidecn)">
                       <span v-for="(ditem, dindex) in item.terms" :key="dindex">
                         <span>
                           {{ ditem }}{{ dindex - 1 == ditem.length ? "" : "," }}
@@ -204,28 +134,22 @@
                       </span>
                     </p>
                   </div>
-                  <div
-                    v-else-if="
-                      scope.row.results.DeepLWeb &&
-                      scope.row.results.DeepLWeb.result
-                    "
-                  >
+                  <div v-else-if="scope.row.results.DeepLWeb &&
+                    scope.row.results.DeepLWeb.result
+                    ">
                     <div :style="makeShowObj(hidensp)">deepl辞典</div>
                     <p :style="makeShowObj(hidecn)">
-                      <span
-                        v-for="(ditem, dindex) in scope.row.results.DeepLWeb
-                          .result"
-                        :key="'deepl' + dindex"
-                      >
+                      <span v-for="(ditem, dindex) in scope.row.results.DeepLWeb
+                            .result" :key="'deepl' + dindex">
                         <!-- <span>{{ item.pos }} </span> -->
                         <span>
                           {{ ditem
                           }}{{
-                            dindex ==
-                            scope.row.results.DeepLWeb.result.length - 1
-                              ? ""
-                              : ","
-                          }}
+  dindex ==
+  scope.row.results.DeepLWeb.result.length - 1
+  ? ""
+  : ","
+}}
                         </span>
                       </span>
                     </p>
@@ -235,42 +159,15 @@
                 </div>
                 <!-- start left -->
                 <div class="right">
-                  <div
-                    style="display: flex; flex-direction: column"
-                    :style="makeShowObj(hide_right, 'flex')"
-                  >
-                    <el-button
-                      type="text"
-                      v-if="!scope.row.readed"
-                      :key="'read'"
-                      size="mini"
-                      @click="setReaded(scope.row)"
-                      style="margin-left: 0px; margin-bottom: 5px"
-                      >read</el-button
-                    >
-                    <el-button
-                      type="text"
-                      v-if="!scope.row.harded"
-                      :key="'hard'"
-                      size="mini"
-                      @click="setHeaded(scope.row)"
-                      style="margin-left: 0px; margin-bottom: 5px"
-                      >hard</el-button
-                    >
-                    <el-button
-                      type="text"
-                      size="mini"
-                      @click="setIndexText(scope.row)"
-                      style="margin-left: 0px; margin-bottom: 5px"
-                      >stidx</el-button
-                    >
-                    <el-button
-                      type="text"
-                      size="mini"
-                      @click="delCur(scope.$index)"
-                      style="margin-left: 0px; margin-bottom: 5px"
-                      >del</el-button
-                    >
+                  <div style="display: flex; flex-direction: column" :style="makeShowObj(hide_right, 'flex')">
+                    <el-button type="text" v-if="!scope.row.readed" :key="'read'" size="mini"
+                      @click="setReaded(scope.row)" style="margin-left: 0px; margin-bottom: 5px">read</el-button>
+                    <el-button type="text" v-if="!scope.row.harded" :key="'hard'" size="mini"
+                      @click="setHeaded(scope.row)" style="margin-left: 0px; margin-bottom: 5px">hard</el-button>
+                    <el-button type="text" size="mini" @click="setIndexText(scope.row)"
+                      style="margin-left: 0px; margin-bottom: 5px">stidx</el-button>
+                    <el-button type="text" size="mini" @click="delCur(scope.$index)"
+                      style="margin-left: 0px; margin-bottom: 5px">del</el-button>
                     <!-- <el-button
                       size="mini"
                       @click="playBen(scope.row)"
@@ -283,13 +180,8 @@
                       style="margin-left: 0px; margin-bottom: 10px"
                       >B-Us</el-button
                     > -->
-                    <el-button
-                      type="text"
-                      size="mini"
-                      @click="loopPlay(scope.row)"
-                      style="margin-left: 0px"
-                      >loop</el-button
-                    >
+                    <el-button type="text" size="mini" @click="loopPlay(scope.row)"
+                      style="margin-left: 0px">loop</el-button>
                   </div>
                 </div>
               </div>
@@ -300,100 +192,37 @@
       <div class="header">
         <div v-if="show_left" class="left-setting">
           <div>
-            <el-input
-              style="margin-top: 10px"
-              v-model="form.key_word"
-              @change="search"
-              size="medium"
-              placeholder="EN-Word"
-            >
-              <el-select
-                size="medium"
-                v-model="value"
-                placeholder="请选择"
-                slot="prepend"
-                style="width: 80px"
-                @change="changeList"
-              >
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
+            <el-input style="margin-top: 10px" v-model="form.key_word" @change="search" size="medium"
+              placeholder="EN-Word">
+              <el-select size="medium" v-model="value" placeholder="请选择" slot="prepend" style="width: 80px"
+                @change="changeList">
+                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
               </el-select>
               <el-button slot="append" @click="findIndex">find</el-button>
             </el-input>
           </div>
           <div>
-            <el-button
-              @click="reflash('readed')"
-              type="text"
-              style="flex-basis: 20px; margin-left: 10px"
-              >ref</el-button
-            >
-            <el-button
-              @click="clearStorage"
-              type="text"
-              style="flex-basis: 20px; margin-left: 10px"
-              >cls</el-button
-            >
-            <el-button
-              @click="$router.push({ name: 'note' })"
-              type="text"
-              style="flex-basis: 20px; margin-left: 10px"
-              >note</el-button
-            >
-            <el-button
-              @click="$router.push({ name: 'cen' })"
-              type="text"
-              style="flex-basis: 20px; margin-left: 10px"
-              >cen</el-button
-            >
+            <el-button @click="reflash('readed')" type="text" style="flex-basis: 20px; margin-left: 10px">ref</el-button>
+            <el-button @click="clearStorage" type="text" style="flex-basis: 20px; margin-left: 10px">cls</el-button>
+            <el-button @click="$router.push({ name: 'note' })" type="text"
+              style="flex-basis: 20px; margin-left: 10px">note</el-button>
+            <el-button @click="$router.push({ name: 'cen' })" type="text"
+              style="flex-basis: 20px; margin-left: 10px">cen</el-button>
           </div>
           <div>
-            <el-select
-              size="medium"
-              v-model="speedWord"
-              placeholder="速度"
-              slot="prepend"
-              style="width: 80px"
-              @change="changeSpeed"
-            >
-              <el-option
-                v-for="item in speedOpt"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
+            <el-select size="medium" v-model="speedWord" placeholder="速度" slot="prepend" style="width: 80px"
+              @change="changeSpeed">
+              <el-option v-for="item in speedOpt" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
-            <el-button
-              @click="msgLength"
-              type="text"
-              style="flex-basis: 20px; margin-left: 10px"
-              >len</el-button
-            >
-            <el-button
-              @click="hide_right = !hide_right"
-              type="text"
-              style="flex-basis: 20px; margin-left: 10px"
-              >rig</el-button
-            >
-            <el-button
-              @click="search"
-              type="text"
-              style="flex-basis: 20px; margin-left: 10px"
-              >all</el-button
-            >
+            <el-button @click="msgLength" type="text" style="flex-basis: 20px; margin-left: 10px">len</el-button>
+            <el-button @click="hide_right = !hide_right" type="text"
+              style="flex-basis: 20px; margin-left: 10px">rig</el-button>
+            <el-button @click="search" type="text" style="flex-basis: 20px; margin-left: 10px">all</el-button>
             <span>
               dis
-              <el-switch
-                v-model="dis_mode"
-                :active-value="true"
-                :inactive-value="false"
-              >
+              <el-switch v-model="dis_mode" :active-value="true" :inactive-value="false">
                 loop
               </el-switch>
             </span>
@@ -401,116 +230,54 @@
           <div>
             <span>
               loop
-              <el-switch
-                v-model="loop"
-                :active-value="true"
-                :inactive-value="false"
-              >
+              <el-switch v-model="loop" :active-value="true" :inactive-value="false">
                 loop
               </el-switch>
             </span>
             <span>
               scroll
-              <el-switch
-                v-model="auto_scroll"
-                :active-value="true"
-                :inactive-value="false"
-              >
+              <el-switch v-model="auto_scroll" :active-value="true" :inactive-value="false">
               </el-switch>
             </span>
             <span>
               link
-              <el-switch
-                v-model="auto_link"
-                :active-value="true"
-                :inactive-value="false"
-              >
+              <el-switch v-model="auto_link" :active-value="true" :inactive-value="false">
               </el-switch>
             </span>
           </div>
         </div>
-        <el-button
-          @click="show_left = !show_left"
-          type="text"
-          style="min-width: 30px"
-          >{{ show_left ? "《《" : "》》" }}</el-button
-        >
+        <el-button @click="show_left = !show_left" type="text" style="min-width: 30px">{{ show_left ? "《《" : "》》"
+        }}</el-button>
         <div class="buttons">
           <el-button @click="cquiz" type="text">quiz</el-button>
           <el-button @click="rquiz" type="text">rquiz</el-button>
           <el-button @click="playAllEn(false)" type="text">英美</el-button>
-          <el-button
-            @click="
-              us = false;
-              playAllEn(true);
-            "
-            type="text"
-            style="flex-basis: 20px"
-            >英</el-button
-          >
-          <el-button
-            @click="
-              us = true;
-              playAllEn(true);
-            "
-            type="text"
-            style="flex-basis: 20px"
-            >美</el-button
-          >
-          <el-button
-            @click="getHarded('harded')"
-            type="text"
-            style="flex-basis: 20px; margin-left: 10px"
-            >har</el-button
-          >
-          <el-button
-            @click="clearChoose('harded')"
-            type="text"
-            style="flex-basis: 20px; margin-left: 10px"
-            >clhar</el-button
-          >
+          <el-button @click="
+            us = false;
+          playAllEn(true);
+          " type="text" style="flex-basis: 20px">英</el-button>
+          <el-button @click="
+            us = true;
+          playAllEn(true);
+          " type="text" style="flex-basis: 20px">美</el-button>
+          <el-button @click="getHarded('harded')" type="text" style="flex-basis: 20px; margin-left: 10px">har</el-button>
+          <el-button @click="clearChoose('harded')" type="text"
+            style="flex-basis: 20px; margin-left: 10px">clhar</el-button>
           <!-- start 操作栏 -->
-          <el-button @click="startOrStop" type="text" style="flex-basis: 42px"
-            >past</el-button
-          >
-          <el-button @click="clear" type="text" style="width: 38px"
-            >stop</el-button
-          >
+          <el-button @click="startOrStop" type="text" style="flex-basis: 42px">past</el-button>
+          <el-button @click="clear" type="text" style="width: 38px">stop</el-button>
           <!-- <el-button @click="start" type="text" style="width: 38px"
             >start</el-button
           > -->
           <!-- end 操作栏 -->
           <el-button @click="hidensp = !hidensp" type="text">音标</el-button>
-          <el-button
-            @click="hideen = !hideen"
-            type="text"
-            style="flex-basis: 50px"
-            >EN隐显</el-button
-          >
-          <el-button
-            @click="hidecn = !hidecn"
-            type="text"
-            style="flex-basis: 50px"
-            >CN隐显</el-button
-          >
-          <el-button @click="next" type="text" style="flex-basis: 30px"
-            >next</el-button
-          >
-          <el-button @click="scrollNext" type="text" style="flex-basis: 30px"
-            >snext</el-button
-          >
-          <el-button @click="sortList" type="text" style="flex-basis: 30px"
-            >sort</el-button
-          >
-          <el-button @click="group" type="text" style="flex-basis: 30px"
-            >group</el-button
-          >
-          <el-button
-            @click="reflash('readed')"
-            type="text"
-            style="flex-basis: 30px"
-            >not</el-button
-          >
+          <el-button @click="hideen = !hideen" type="text" style="flex-basis: 50px">EN隐显</el-button>
+          <el-button @click="hidecn = !hidecn" type="text" style="flex-basis: 50px">CN隐显</el-button>
+          <el-button @click="next" type="text" style="flex-basis: 30px">next</el-button>
+          <el-button @click="scrollNext" type="text" style="flex-basis: 30px">snext</el-button>
+          <el-button @click="sortList" type="text" style="flex-basis: 30px">sort</el-button>
+          <el-button @click="group" type="text" style="flex-basis: 30px">group</el-button>
+          <el-button @click="reflash('readed')" type="text" style="flex-basis: 30px">not</el-button>
         </div>
       </div>
     </div>
@@ -615,6 +382,11 @@ export default {
     this.changeList();
   },
   methods: {
+    clearTotal() {
+      setTimeout(() => {
+        this.totalIndex = "";
+      })
+    },
     quizCheck(row, index, qw) {
       row.quiz_word = qw;
       let quiz_word = row.quiz_word;
@@ -625,7 +397,7 @@ export default {
           type: "success",
           duration: 500,
         });
-        row.quiz_word = "";
+        // row.quiz_word = "";
         this.totalIndex = parseInt(index, 10) + 1;
       } else {
         this.$message({
@@ -1009,7 +781,7 @@ export default {
       let mp3_file = row.results.GoogleWeb.ttsURI || "";
       window.playMp3(row.results.GoogleWeb.ttsURI);
     },
-    handlerClick() {},
+    handlerClick() { },
   },
 };
 </script>
@@ -1040,6 +812,7 @@ export default {
     flex-direction: row;
     white-space: nowrap;
     align-items: center;
+
     .left-setting {
       display: inline-flex;
       flex-direction: column;
@@ -1049,7 +822,8 @@ export default {
       justify-content: flex-start;
       overflow-y: auto;
       flex-basis: 220px;
-      & > div {
+
+      &>div {
         margin-bottom: 10px;
       }
     }
@@ -1061,7 +835,7 @@ export default {
       overflow-x: auto;
       padding-right: 15px;
 
-      & > button {
+      &>button {
         flex-basis: 30px;
         flex-shrink: 0;
       }
@@ -1136,8 +910,7 @@ export default {
           width: 20px;
           height: 18px;
           position: absolute;
-          background: url(~@/assets/images/index/float-left-cion.svg) center
-            center/100% 100% no-repeat;
+          background: url(~@/assets/images/index/float-left-cion.svg) center center/100% 100% no-repeat;
           left: -30px;
           top: 9px;
         }
@@ -1148,8 +921,7 @@ export default {
           width: 20px;
           height: 18px;
           position: absolute;
-          background: url(~@/assets/images/index/float-right-icon.svg) center
-            center/100% 100% no-repeat;
+          background: url(~@/assets/images/index/float-right-icon.svg) center center/100% 100% no-repeat;
           top: 9px;
           right: -30px;
         }
