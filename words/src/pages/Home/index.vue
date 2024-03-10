@@ -24,6 +24,7 @@
                       :index="scope.$index"
                       :quizing="quizing"
                       :totalIndex="totalIndex"
+                      :fc="totalIndex==scope.$index"
                     ></myInput>
                     <span
                       style="margin-right: 20px"
