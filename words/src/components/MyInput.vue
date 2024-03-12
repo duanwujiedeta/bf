@@ -48,7 +48,9 @@ export default {
       this.quizCheck(row, index, this.quiz_word);
     },
     selfFocus() {
-      document.querySelector(`#a${this.index}quizel`).scrollIntoView();
+      document
+        .querySelector(`#a${this.index}quizel`)
+        .scrollIntoView({ block: "center", inline: "nearest" });
       this.$refs[`quiz`].focus();
     },
   },
