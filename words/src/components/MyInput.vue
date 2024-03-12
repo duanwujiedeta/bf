@@ -45,7 +45,8 @@ export default {
   },
   methods: {
     sub(row, index) {
-      this.quizCheck(row, index, this.quiz_word);
+      let res = this.quizCheck(row, index, this.quiz_word);
+      res && (this.quiz_word = "");
     },
     selfFocus() {
       document

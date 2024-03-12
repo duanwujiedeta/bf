@@ -633,6 +633,7 @@ export default {
         });
         // row.quiz_word = "";
         this.totalIndex = parseInt(index, 10) + 1;
+        return true;
       } else {
         this.$message({
           message: "no passed",
