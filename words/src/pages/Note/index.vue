@@ -17,7 +17,15 @@
               <div style="display: flex; gap: 15px" :id="'abc' + scope.row.id">
                 <!-- start left -->
                 <div class="left" style="flex-grow: 1">
-                  <p v-html="scope.row.word" :style="makeShowObj(hideen)"></p>
+                  <span
+                    style="color: red; margin-right: 5px"
+                    v-if="scope.$index % 4 === 0"
+                    >{{ scope.$index / 4 }}*</span
+                  >
+                  <p
+                    v-html="scope.row.word.replace(/    /g, '&nbsp;&nbsp;&nbsp;&nbsp;')"
+                    :style="makeShowObj(hideen)"
+                  ></p>
                   <p
                     v-if="scope.row.tran"
                     v-html="scope.row.tran"
