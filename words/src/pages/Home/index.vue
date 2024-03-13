@@ -18,6 +18,11 @@
                 <!-- start left -->
                 <div class="left" style="flex-grow: 1">
                   <div :style="makeShowObj(hideen)">
+                    <span
+                      style="color: red; margin-right: 5px"
+                      v-if="scope.$index % 5 === 0"
+                      >{{ scope.$index / 5 }}*</span
+                    >
                     <myInput
                       :quizCheck="quizCheck"
                       :row="scope.row"

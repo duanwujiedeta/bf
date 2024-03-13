@@ -1,11 +1,10 @@
 <template>
-  <div class="hello">
+  <div class="hello" v-show="quizing">
     <el-input
       :enterkeyhint="'done'"
       v-model="quiz_word"
       clearable
       :ref="'quiz'"
-      v-show="quizing"
       :id="'a' + index + 'quizel'"
       @focus="clearTotal"
       @keyup.enter.native="sub(row, index)"
