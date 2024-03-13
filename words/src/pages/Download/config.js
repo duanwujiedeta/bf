@@ -31,5 +31,6 @@ export default {
         webp: deepCopy(require("./webp.json"), []),
         fenlei: deepCopy(require("./fenlei.json"), []),
         fenlei1: deepCopy(require("./fenlei1.json"), []),
+        amen: deepCopy(require("./amen.json"), []),
     }
 }
