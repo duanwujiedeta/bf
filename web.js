@@ -1,34 +1,15 @@
 import { createVue } from 'vue'
-
 const App = {
     template: `
-<img :src="imageSrc" />`,
-    data() {
-        return {
-            imageSrc: "https://res.cloudinary.com/mayashavin/image/upload/TheCute%20Cat"
-        }
-    }
-}
-
-const app = createApp(App)
-app.mount('#app')
-
-
-import { createVue } from 'vue'
-
-const App = {
-    template: `
-<img v-bind="image" />
+<div><div v-if="isVisible">I'm the text in toggle</div>
+<div>Visibility: {{isVisible}}</div>
+</div>
 `,
     data() {
         return {
-            image: {
-                src: "https://res.cloudinary.com/mayashavin/image/upload/TheCute%20Cat",
-                alt: "A random cute cate image"
-            }
+            isVisible: false
         }
     }
 }
-
 const app = createApp(App)
 app.mount('#app')
