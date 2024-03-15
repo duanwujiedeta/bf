@@ -1,5 +1,5 @@
 <template>
-  <div class="hello" v-show="quizing">
+  <div class="hello" v-if="quizing">
     <el-input
       :enterkeyhint="'done'"
       v-model="quiz_word"
