@@ -56,7 +56,7 @@
                       "
                       >stac</a
                     >
-                    <a
+                    <!-- <a
                       :href="coli(scope.row.text)"
                       style="
                         margin-right: 20px;
@@ -64,7 +64,7 @@
                         color: #4131d4;
                       "
                       >coli</a
-                    >
+                    > -->
                     <!-- <a
                       :href="leng(scope.row.text)"
                       style="
@@ -91,6 +91,9 @@
                       type="text"
                       @click="setHeaded(scope.row)"
                       >hd</el-button
+                    >
+                    <el-button type="text" @click="copyText(scope.row.text)"
+                      >cp</el-button
                     >
                   </div>
                   <!-- start google -->
@@ -531,7 +534,7 @@
 
 <script>
 // import aline from "./airline.json"
-import { deepCopy } from "@/util/common";
+import { deepCopy, copyWord } from "@/util/common";
 import configs from "./config";
 import myInput from "@/components/MyInput";
 import {
@@ -621,6 +624,9 @@ export default {
     this.changeList();
   },
   methods: {
+    copyText(text) {
+      copyWord(text);
+    },
     clearTotal() {
       setTimeout(() => {
         this.totalIndex = "";
