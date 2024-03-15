@@ -332,7 +332,7 @@
                 >
                 </el-option>
               </el-select>
-              <el-button slot="append" @click="findIndex">find</el-button>
+              <el-button slot="append" @click="goIndex">find</el-button>
             </el-input>
           </div>
           <div>
@@ -850,6 +850,9 @@ export default {
       let index = this.tranData.indexOf(row);
       this.i = index;
       this.playAllEn(false, true);
+    },
+    goIndex() {
+      this.findIndex();
     },
     findIndex(text) {
       let key_word = text || this.form.key_word;
