@@ -48,210 +48,33 @@
                     ></wordCal>
                   </div>
                   <!-- start google -->
-                  <!-- words -->
-                  <div
-                    :style="makeShowObj(hidecn)"
-                    v-if="scope.row.results.GoogleWeb.dict"
-                    style="
-                      border-bottom: 1px solid #cccccc;
-                      margin-bottom: 5px;
-                      padding-bottom: 5px;
-                    "
-                  >
-                    <div>Google词典</div>
-                    <p
-                      v-for="(item, index) in scope.row.results.GoogleWeb.dict"
-                      :key="index"
-                    >
-                      <span v-for="(ditem, dindex) in item.terms" :key="dindex">
-                        <span>{{ item.pos }} </span>
-                        <span>
-                          {{ ditem }}{{ dindex - 1 == ditem.length ? "" : "," }}
-                        </span>
-                      </span>
-                    </p>
-                  </div>
-                  <!-- end words -->
-                  <!-- cens -->
-                  <div
-                    :style="makeShowObj(hidecn)"
-                    v-else
-                    style="
-                      border-bottom: 1px solid #cccccc;
-                      margin-bottom: 5px;
-                      padding-bottom: 5px;
-                    "
-                  >
-                    <div>Google词典</div>
-                    <p>
-                      <span
-                        v-for="(ditem, dindex) in scope.row.results.GoogleWeb
-                          .result"
-                        :key="'goo' + dindex"
-                      >
-                        <span>{{ ditem }} </span>
-                        <span
-                          >{{
-                            dindex ==
-                            scope.row.results.GoogleWeb.result.length - 1
-                              ? ""
-                              : ","
-                          }}
-                        </span>
-                      </span>
-                    </p>
-                  </div>
-                  <!-- end cens -->
+
+                  <googleEl
+                    :scope="scope"
+                    :makeShowObj="makeShowObj"
+                    :hidecn="hidecn"
+                  ></googleEl>
                   <!-- end google -->
                   <!-- start Bing -->
-                  <!-- words -->
-                  <div
-                    v-if="
-                      scope.row.results.BingDictWeb &&
-                      scope.row.results.BingDictWeb.dict &&
-                      !scope.row.results.BingDictWeb.error
-                    "
-                  >
-                    <div
-                      style="cursor: pointer"
-                      @click="openNew(scope.row.results.BingDictWeb.link)"
-                      :style="makeShowObj(hidensp)"
-                    >
-                      必应辞典
-                    </div>
-                    <p :style="makeShowObj(hidensp)">
-                      <span
-                        v-for="(ditem, dindex) in scope.row.results.BingDictWeb
-                          .phonetic"
-                        :key="dindex"
-                      >
-                        {{ ditem.name }}/{{ ditem.value }}/
-                      </span>
-                    </p>
-                    <p
-                      v-for="(item, index) in scope.row.results.BingDictWeb
-                        .dict"
-                      :key="index"
-                      :style="makeShowObj(hidecn)"
-                    >
-                      <span v-for="(ditem, dindex) in item.terms" :key="dindex">
-                        <span>{{ item.pos }} </span>
-                        <span>
-                          {{ ditem }}{{ dindex - 1 == ditem.length ? "" : "," }}
-                        </span>
-                      </span>
-                    </p>
-                  </div>
-                  <!-- end words -->
-                  <!-- cens -->
-                  <div
-                    v-else-if="
-                      scope.row.results.DeepLWeb &&
-                      scope.row.results.DeepLWeb.dict &&
-                      !scope.row.results.DeepLWeb.error
-                    "
-                  >
-                    <div :style="makeShowObj(hidensp)">deepl辞典</div>
-                    <p
-                      v-for="(item, index) in scope.row.results.DeepLWeb.dict"
-                      :key="index"
-                      :style="makeShowObj(hidecn)"
-                    >
-                      <span v-for="(ditem, dindex) in item.terms" :key="dindex">
-                        <span>
-                          {{ ditem }}{{ dindex - 1 == ditem.length ? "" : "," }}
-                        </span>
-                      </span>
-                    </p>
-                  </div>
-                  <div
-                    v-else-if="
-                      scope.row.results.DeepLWeb &&
-                      scope.row.results.DeepLWeb.result
-                    "
-                  >
-                    <div :style="makeShowObj(hidensp)">deepl辞典</div>
-                    <p :style="makeShowObj(hidecn)">
-                      <span
-                        v-for="(ditem, dindex) in scope.row.results.DeepLWeb
-                          .result"
-                        :key="'deepl' + dindex"
-                      >
-                        <!-- <span>{{ item.pos }} </span> -->
-                        <span>
-                          {{ ditem
-                          }}{{
-                            dindex ==
-                            scope.row.results.DeepLWeb.result.length - 1
-                              ? ""
-                              : ","
-                          }}
-                        </span>
-                      </span>
-                    </p>
-                  </div>
-                  <!-- end cens -->
+                  <bingEl
+                    :scope="scope"
+                    :makeShowObj="makeShowObj"
+                    :hidecn="hidecn"
+                    :hidensp="hidensp"
+                  ></bingEl>
                   <!-- end Bing -->
                 </div>
                 <!-- start left -->
-                <div class="right">
-                  <div
-                    style="display: flex; flex-direction: column"
-                    :style="makeShowObj(hide_right, 'flex')"
-                  >
-                    <el-button
-                      type="text"
-                      v-if="!scope.row.readed"
-                      :key="'read'"
-                      size="mini"
-                      @click="setReaded(scope.row)"
-                      style="margin-left: 0px; margin-bottom: 5px"
-                      >read</el-button
-                    >
-                    <el-button
-                      type="text"
-                      v-if="!scope.row.harded"
-                      :key="'hard'"
-                      size="mini"
-                      @click="setHeaded(scope.row)"
-                      style="margin-left: 0px; margin-bottom: 5px"
-                      >hard</el-button
-                    >
-                    <el-button
-                      type="text"
-                      size="mini"
-                      @click="setIndexText(scope.row)"
-                      style="margin-left: 0px; margin-bottom: 5px"
-                      >stidx</el-button
-                    >
-                    <el-button
-                      type="text"
-                      size="mini"
-                      @click="delCur(scope.$index)"
-                      style="margin-left: 0px; margin-bottom: 5px"
-                      >del</el-button
-                    >
-                    <!-- <el-button
-                      size="mini"
-                      @click="playBen(scope.row)"
-                      style="margin-left: 0px; margin-bottom: 5px"
-                      >B-En</el-button
-                    >
-                    <el-button
-                      size="mini"
-                      @click="playBus(scope.row)"
-                      style="margin-left: 0px; margin-bottom: 10px"
-                      >B-Us</el-button
-                    > -->
-                    <el-button
-                      type="text"
-                      size="mini"
-                      @click="loopPlay(scope.row)"
-                      style="margin-left: 0px"
-                      >loop</el-button
-                    >
-                  </div>
-                </div>
+                <rightEl
+                  :hide_right="hide_right"
+                  :scope="scope"
+                  :makeShowObj="makeShowObj"
+                  :setReaded="setReaded"
+                  :setHeaded="setHeaded"
+                  :setIndexText="setIndexText"
+                  :delCur="delCur"
+                  :loopPlay="loopPlay"
+                ></rightEl>
               </div>
             </template>
           </el-table-column>
@@ -452,7 +275,6 @@
         </div>
       </div>
     </div>
-    
   </div>
 </template>
 
@@ -463,6 +285,9 @@ import configs from "./config";
 import myInput from "@/components/MyInput";
 import bottomSel from "@/components/BottomSel";
 import wordCal from "@/components/WordCal";
+import rightEl from "@/components/RightEl";
+import googleEl from "@/components/GoogleEl";
+import bingEl from "@/components/BingEl";
 import {
   openDB,
   addData,
@@ -478,6 +303,14 @@ import {
   uuid,
 } from "@/util/indexdDB";
 export default {
+  components: {
+    rightEl,
+    myInput,
+    bottomSel,
+    wordCal,
+    googleEl,
+    bingEl,
+  },
   data() {
     return {
       // kdgnnagjiakhaebnfddplffafniakfkc
@@ -539,11 +372,6 @@ export default {
       text: "",
       ...configs.dataObj,
     };
-  },
-  components: {
-    myInput,
-    bottomSel,
-    wordCal,
   },
   mounted() {
     this.text = this.$route.query.text || "";
