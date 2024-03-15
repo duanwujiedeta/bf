@@ -113,52 +113,18 @@
               >cen</el-button
             >
           </div>
-          <div>
-            <el-select
-              size="medium"
-              v-model="speedWord"
-              placeholder="速度"
-              slot="prepend"
-              style="width: 80px"
-              @change="changeSpeed"
-            >
-              <el-option
-                v-for="item in speedOpt"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-            <el-button
-              @click="msgLength"
-              type="text"
-              style="flex-basis: 20px; margin-left: 10px"
-              >len</el-button
-            >
-            <el-button
-              @click="hide_right = !hide_right"
-              type="text"
-              style="flex-basis: 20px; margin-left: 10px"
-              >rig</el-button
-            >
-            <el-button
-              @click="search"
-              type="text"
-              style="flex-basis: 20px; margin-left: 10px"
-              >all</el-button
-            >
-            <span>
-              dis
-              <el-switch
-                v-model="dis_mode"
-                :active-value="true"
-                :inactive-value="false"
-              >
-                loop
-              </el-switch>
-            </span>
-          </div>
+          <!-- speed area -->
+          <speedArea
+            :speedWord="speedWord"
+            :changeSpeed="changeSpeed"
+            :speedOpt="speedOpt"
+            :msgLength="msgLength"
+            :triggRight="triggRight"
+            :search="search"
+            :changeDisMode="changeDisMode"
+          >
+          </speedArea>
+          <!-- speed area -->
           <div>
             <span>
               loop
@@ -288,6 +254,7 @@ import wordCal from "@/components/WordCal";
 import rightEl from "@/components/RightEl";
 import googleEl from "@/components/GoogleEl";
 import bingEl from "@/components/BingEl";
+import speedArea from "@/components/SpeedArea";
 import {
   openDB,
   addData,
@@ -310,6 +277,7 @@ export default {
     wordCal,
     googleEl,
     bingEl,
+    speedArea,
   },
   data() {
     return {
@@ -380,6 +348,12 @@ export default {
     this.changeList();
   },
   methods: {
+    changeDisMode(mode) {
+      this.dis_mode = mode;
+    },
+    triggRight() {
+      this.hide_right = !this.hide_right;
+    },
     copyText(text) {
       copyWord(text);
     },
@@ -593,9 +567,9 @@ export default {
         duration: 500,
       });
     },
-    changeSpeed() {
+    changeSpeed(speed) {
       // https://www.w3school.com.cn/tags/html_ref_audio_video_dom.asp
-      let speedWord = this.speedWord;
+      let speedWord = speed || this.speedWord;
       window.speedWord = speedWord;
     },
     next() {
