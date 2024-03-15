@@ -37,64 +37,15 @@
                       v-show="!quizing || scope.row.single_show"
                       >{{ scope.row.text }}</span
                     >
-                    <a
-                      :href="dic(scope.row.text)"
-                      target="_blank"
-                      style="
-                        margin-right: 20px;
-                        cursor: pointer;
-                        color: #4131d4;
-                      "
-                      >dic</a
-                    >
-                    <a
-                      :href="stac(scope.row.text)"
-                      style="
-                        margin-right: 20px;
-                        cursor: pointer;
-                        color: #4131d4;
-                      "
-                      >stac</a
-                    >
-                    <!-- <a
-                      :href="coli(scope.row.text)"
-                      style="
-                        margin-right: 20px;
-                        cursor: pointer;
-                        color: #4131d4;
-                      "
-                      >coli</a
-                    > -->
-                    <!-- <a
-                      :href="leng(scope.row.text)"
-                      style="
-                        margin-right: 20px;
-                        cursor: pointer;
-                        color: #4131d4;
-                      "
-                      >leng</a
-                    >
-                    <a
-                      :href="bab(scope.row.text)"
-                      style="
-                        margin-right: 20px;
-                        cursor: pointer;
-                        color: #4131d4;
-                      "
-                      >bab</a
-                    > -->
-                    <el-button type="text" @click="goNoteWithParam(scope.row)"
-                      >cen</el-button
-                    >
-                    <el-button
-                      v-if="!scope.row.harded"
-                      type="text"
-                      @click="setHeaded(scope.row)"
-                      >hd</el-button
-                    >
-                    <el-button type="text" @click="copyText(scope.row.text)"
-                      >cp</el-button
-                    >
+
+                    <wordCal
+                      :scope="scope"
+                      :copyText="copyText"
+                      :dic="dic"
+                      :stac="stac"
+                      :goNoteWithParam="goNoteWithParam"
+                      :setHeaded="setHeaded"
+                    ></wordCal>
                   </div>
                   <!-- start google -->
                   <!-- words -->
@@ -308,33 +259,11 @@
       </div>
       <div class="header">
         <div v-if="show_left" class="left-setting">
-          <div>
-            <el-input
-              style="margin-top: 10px"
-              v-model="form.key_word"
-              @change="search"
-              size="medium"
-              placeholder="EN-Word"
-            >
-              <el-select
-                size="medium"
-                v-model="value"
-                placeholder="请选择"
-                slot="prepend"
-                style="width: 80px"
-                @change="changeList"
-              >
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-              <el-button slot="append" @click="goIndex">find</el-button>
-            </el-input>
-          </div>
+          <bottomSel
+            :changeList="selChange"
+            :options="options"
+            :goIndex="subGo"
+          ></bottomSel>
           <div>
             <el-button
               @click="reflash('readed')"
@@ -523,12 +452,7 @@
         </div>
       </div>
     </div>
-
-    <div class="index-container">
-      <div class="detail-container">
-        <div class="detail-desc"></div>
-      </div>
-    </div>
+    
   </div>
 </template>
 
@@ -537,6 +461,8 @@
 import { deepCopy, copyWord } from "@/util/common";
 import configs from "./config";
 import myInput from "@/components/MyInput";
+import bottomSel from "@/components/BottomSel";
+import wordCal from "@/components/WordCal";
 import {
   openDB,
   addData,
@@ -616,6 +542,8 @@ export default {
   },
   components: {
     myInput,
+    bottomSel,
+    wordCal,
   },
   mounted() {
     this.text = this.$route.query.text || "";
@@ -686,6 +614,14 @@ export default {
         this.search();
       });
     },
+    subGo(key_word) {
+      this.key_word = key_word;
+      this.goIndex();
+    },
+    selChange(value) {
+      this.value = value;
+      this.changeList();
+    },
     search() {
       /* if (this.form.key_word == 1) {
         this.tranData = this.origTranData.slice(0, 150);
@@ -695,7 +631,7 @@ export default {
         this.tranData = this.origTranData.slice(299);
       } else {
       } */
-      let text = this.text;
+      let text = this.text; // url 参数，用作滚动
       this.tranData = deepCopy(this.origTranData, []);
       this.$nextTick(() => {
         text && this.findIndex(text);
