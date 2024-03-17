@@ -610,7 +610,7 @@ export default {
   flex-direction: column;
 
   .header-session {
-    display: flex;
+    // display: flex;
     flex-direction: column;
     min-height: 100%;
     min-height: calc(100% - 76px);
@@ -655,7 +655,7 @@ export default {
   }
 
   .head-content {
-    height: calc(100% - 76px);
+    height: 100%;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
