@@ -2,145 +2,26 @@
   <div id="note-index">
     <div class="header-session">
       <div class="head-content">
-        <el-table
-          :data="tranData"
-          style="width: 100%"
-          height="100%"
-          :row-key="
-            (row) => {
-              row.text + row.id;
-            }
-          "
-        >
+        <el-table :data="tranData" style="width: 100%" height="100%" :row-key="(row) => {
+          row.text + row.id;
+        }
+          ">
           <el-table-column prop="date">
             <template slot-scope="scope">
-              <div style="display: flex; gap: 15px" :id="'abc' + scope.row.id">
-                <!-- start left -->
-                <div class="left" style="flex-grow: 1">
-                  <span
-                    style="color: red; margin-right: 5px"
-                    v-if="scope.$index % 4 === 0"
-                    >{{ scope.$index / 4 }}*</span
-                  >
-                  <p
-                    v-html="scope.row.word.replace(/    /g, '&nbsp;&nbsp;&nbsp;&nbsp;')"
-                    :style="makeShowObj(hideen)"
-                  ></p>
-                  <p
-                    v-if="scope.row.tran"
-                    v-html="scope.row.tran"
-                    :style="makeShowObj(hidecn)"
-                  ></p>
-                </div>
-                <!-- start left -->
-                <div class="right" v-if="!hide_right">
-                  <div style="display: flex; flex-direction: column">
-                    <el-button
-                      type="text"
-                      v-if="!scope.row.notRead"
-                      :key="'read'"
-                      size="mini"
-                      @click="NotRead(scope.row)"
-                      style="margin-left: 0px; margin-bottom: 5px"
-                      >noread</el-button
-                    >
-                    <el-button
-                      type="text"
-                      size="mini"
-                      @click="delFromDb(scope.row)"
-                      style="margin-left: 0px; margin-bottom: 5px"
-                      >del</el-button
-                    >
-                  </div>
-                </div>
-              </div>
+              <cents :makeShowObj="makeShowObj" :scope="scope" :hideen="hideen" :hidecn="hidecn" :NotRead="NotRead"
+                :delFromDb="delFromDb" :hide_right="hide_right" :quizing="quizing" :quizCheck="quizCheck"
+                :totalIndex="totalIndex" :clearTotal="clearTotal" :quizDb="quizDb"></cents>
+
             </template>
           </el-table-column>
         </el-table>
       </div>
 
       <!-- start head -->
-
-      <div class="header">
-        <div v-if="show_left" class="left-setting">
-          <div>
-            <el-input
-              style="margin-top: 10px"
-              v-model="form.key_word"
-              @change="search"
-              size="medium"
-              placeholder="EN-Word"
-            >
-              <el-select
-                size="medium"
-                v-model="value"
-                placeholder="请选择"
-                slot="prepend"
-                style="width: 80px"
-                @change="changeList"
-              >
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-              <el-button slot="append" @click="findIndex">find</el-button>
-            </el-input>
-          </div>
-        </div>
-        <el-button
-          @click="show_left = !show_left"
-          type="text"
-          style="min-width: 30px"
-          >{{ show_left ? "《《" : "》》" }}</el-button
-        >
-        <div class="buttons">
-          <el-button
-            @click="backHome"
-            type="text"
-            style="flex-basis: 25px; margin-left: 10px"
-            >home</el-button
-          >
-
-          <el-button
-            @click="getAllDbData"
-            type="text"
-            style="flex-basis: 25px; margin-left: 10px"
-            >db</el-button
-          >
-
-          <el-button
-            @click="changeList"
-            type="text"
-            style="flex-basis: 25px; margin-left: 10px"
-            >all</el-button
-          >
-
-          <el-button
-            @click="hide_right = !hide_right"
-            type="text"
-            style="flex-basis: 25px; margin-left: 10px"
-            >rig</el-button
-          >
-
-          <el-button
-            @click="hideen = !hideen"
-            type="text"
-            style="flex-basis: 25px; margin-left: 10px"
-            >en</el-button
-          >
-
-          <el-button
-            @click="hidecn = !hidecn"
-            type="text"
-            style="flex-basis: 25px; margin-left: 10px"
-            >cn</el-button
-          >
-        </div>
-      </div>
+      <noteBottom :makeShowObj="makeShowObj" :triggerCn="triggerCn" :triggerEn="triggerEn" :changeList="changeList"
+        :getAllDbData="getAllDbData" :backHome="backHome" :subFind="subFind" :options="options" :subChange="subChange"
+        :triggerRight="triggerRight" :rquiz="rquiz" :cquiz="cquiz">
+      </noteBottom>
       <!-- end head -->
     </div>
   </div>
@@ -165,15 +46,22 @@ import {
   uuid,
 } from "@/util/indexdDB";
 import { favoriteObj, keyObj } from "@/util/dbFunc";
+import cents from "@/components/note/Cents";
+import noteBottom from "@/components/note/NoteBottom";
 export default {
+  components: {
+    cents,
+    noteBottom
+  },
   data() {
     return {
+      totalIndex: 0,
+      quizing: false,
       current_row_index: 0,
       dis_mode: false,
       auto_link: false,
       auto_scroll: true,
-      show_left: false,
-      hide_right: false,
+      hide_right: true,
       value: localStorage.getItem("note_value") || "earth",
       loop: true,
       speedWord: 2,
@@ -231,6 +119,60 @@ export default {
     this.changeList();
   },
   methods: {
+    clearTotal() {
+      setTimeout(() => {
+        this.totalIndex = "";
+      });
+    },
+    quizDb(row, index, qw) {
+      row.text = qw;
+      row.value = this.value;
+      favoriteObj.saveToDb(row);
+      this.totalIndex = parseInt(index, 10) + 1;
+    },
+    quizCheck(row, index, qw) {
+      row.quiz_word = qw;
+      if (!row.quiz_word) {
+        return this.$message({
+          message: "未添加",
+          type: "warning",
+          duration: 500,
+        });
+      }
+      let quiz_word = row.quiz_word.toLowerCase();
+      let text = row.text.toLowerCase();
+      if (quiz_word.trim() == text.trim()) {
+        this.$message({
+          message: "passed",
+          type: "success",
+          duration: 500,
+        });
+        // row.quiz_word = "";
+        this.totalIndex = parseInt(index, 10) + 1;
+        return true;
+      } else {
+        this.$message({
+          message: "no passed",
+          type: "warning",
+          duration: 500,
+        });
+      }
+    },
+    rquiz() {
+      this.quizing = true;
+    },
+    cquiz() {
+      this.quizing = false;
+    },
+    triggerRight() {
+      this.hide_right = !this.hide_right;
+    },
+    triggerCn() {
+      this.hidecn = !this.hidecn;
+    },
+    triggerEn() {
+      this.hideen = !this.hideen;
+    },
     backHome() {
       let params = { name: "home" };
       let text = this.text || "";
@@ -238,6 +180,10 @@ export default {
         params.query = { text };
       }
       this.$router.push(params);
+    },
+    subChange(value) {
+      this.value = value;
+      this.changeList();
     },
     changeList() {
       let value = this.value;
@@ -292,11 +238,31 @@ export default {
     },
     getAllDbData() {
       favoriteObj.getAll((list) => {
+        let value = this.value;
+        list = list.filter((v, k) => {
+          return v.value == value;
+        });
+        if (list[0].indexKey) {
+          list = list.sort((v1, v2) => {
+            let text1 = v1.indexKey;
+            let text2 = v2.indexKey;
+            if (text1 < text2) {
+              return -1;
+            }
+            if (text1 > text2) {
+              return 1;
+            }
+
+            // name 必须相等
+            return 0;
+          });
+        }
         this.tranData = list;
       });
     },
     NotRead(row) {
       row.notRead = true;
+      row.value = this.value;
       favoriteObj.saveToDb(row);
     },
     makeShowObj(hidden, dis_play) {
@@ -417,6 +383,10 @@ export default {
       let index = this.tranData.indexOf(row);
       this.i = index;
       this.playAllEn(false, true);
+    },
+    subFind(key_word) {
+      this.form.key_word = key_word;
+      this.findIndex();
     },
     findIndex(text) {
       let key_word = text || this.form.key_word;
@@ -594,7 +564,7 @@ export default {
       let mp3_file = row.results.GoogleWeb.ttsURI || "";
       window.playMp3(row.results.GoogleWeb.ttsURI);
     },
-    handlerClick() {},
+    handlerClick() { },
   },
 };
 </script>
@@ -626,6 +596,7 @@ export default {
     flex-direction: row;
     white-space: nowrap;
     align-items: center;
+
     .left-setting {
       display: inline-flex;
       flex-direction: column;
@@ -635,7 +606,8 @@ export default {
       justify-content: flex-start;
       overflow-y: auto;
       flex-basis: 220px;
-      & > div {
+
+      &>div {
         margin-bottom: 10px;
       }
     }
@@ -647,7 +619,7 @@ export default {
       overflow-x: auto;
       padding-right: 15px;
 
-      & > button {
+      &>button {
         flex-basis: 30px;
         flex-shrink: 0;
       }
@@ -722,8 +694,7 @@ export default {
           width: 20px;
           height: 18px;
           position: absolute;
-          background: url(~@/assets/images/index/float-left-cion.svg) center
-            center/100% 100% no-repeat;
+          background: url(~@/assets/images/index/float-left-cion.svg) center center/100% 100% no-repeat;
           left: -30px;
           top: 9px;
         }
@@ -734,8 +705,7 @@ export default {
           width: 20px;
           height: 18px;
           position: absolute;
-          background: url(~@/assets/images/index/float-right-icon.svg) center
-            center/100% 100% no-repeat;
+          background: url(~@/assets/images/index/float-right-icon.svg) center center/100% 100% no-repeat;
           top: 9px;
           right: -30px;
         }
@@ -748,8 +718,7 @@ export default {
         margin-bottom: 155px;
         width: 100%;
 
-        .detail-desc-item {
-        }
+        .detail-desc-item {}
       }
     }
   }

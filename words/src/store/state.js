@@ -3,4 +3,5 @@ export default {
     login: false,
     scrolling: false,
     showAddStore: false,
+    toDbOrNot: true,
 }
