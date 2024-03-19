@@ -1,16 +1,15 @@
 <template>
   <div>
-    <div>
-      <label for="name"
-        >Name:
-        <input v-model="user.name" placeholder="Enter your name" id="name" />
-      </label>
-    </div>
-    <div>
-      <label for="age"
-        >Age:
-        <input v-model="user.age" placeholder="Enter your age" id="age" />
-      </label>
-    </div>
+    This is a house
   </div>
+  <Teleport to="#sky">
+    <div>Sky and clouds</div>
+  </Teleport>
+</template>
+
+<template>
+  <section id="sky" />  <!-- 下方的 House 组建内的 Teleport将会作用到sky来 -->
+  <section class="wrapper">
+    <House />
+  </section>
 </template>

@@ -1,11 +1,9 @@
-//...
-export default defineComponent({
+export default {
     //...
-    watch: {
-        'user.name': {
-            handler(newValue: string, oldValue: string) {
-                console.log({ newValue, oldValue })
-            },
-        },
-    }
-});
+    provide() {
+        return {
+            selectedIds: [1]
+        }
+    },
+    //...
+}

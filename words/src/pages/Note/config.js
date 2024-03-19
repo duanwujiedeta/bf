@@ -42,6 +42,10 @@ export default {
             label: "vue1",
         },
         {
+            value: "vue2",
+            label: "vue2",
+        },
+        {
             value: "yuren3",
             label: "yuren3",
         },
@@ -65,6 +69,7 @@ export default {
         yuren1: deepCopy(require("./json/yuren1.json"), []),
         vue: deepCopy(require("./json/vue.json"), []),
         vue1: deepCopy(require("./json/vue1.json"), []),
+        vue2: deepCopy(require("./json/vue2.json"), []),
         yuren3: deepCopy(require("./json/yuren3.json"), []),
         fenlei: deepCopy(require("./json/fenlei.json"), []),
         fenlei1: deepCopy(require("./json/fenlei1.json"), []),
