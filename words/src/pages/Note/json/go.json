@@ -1,0 +1,82 @@
+[
+    {
+        "indexKey": 871,
+        "lid": "04f0694b-5c5d-4522-8de3-2d4fbe638442",
+        "word": "<p>其他的<strong>检查代码</strong>工具</p><p><br></p><p>1、go install golang.org/x/lint/golint@latest</p><p>golint ./...</p><p><br></p><p>2、go vet ./...</p><p><br></p><p>3、golangci-lint run</p><p><br></p><p><br></p>",
+        "tran": "",
+        "en": "<p>其他的<strong>检查代码</strong>工具</p><p><br></p><p>1、go install golang.org/x/lint/golint@latest</p><p>golint ./...</p><p><br></p><p>2、go vet ./...</p><p><br></p><p>3、golangci-lint run</p><p><br></p><p><br></p>",
+        "cn": ""
+    },
+    {
+        "indexKey": 874,
+        "lid": "08af5919-f3f8-44b6-843a-928735287e18",
+        "word": "<p><strong>选择特定版本来进行编译</strong></p><p><br></p><p>To install a secondary Go environment.</p><p><br></p><p>go 1.15.2 wants to try out version 1.15.6,do it like follow.</p><p><br></p><p>$ go get golang.org/dl/go.1.15.6</p><p>$ go1.15.6 download</p><p><br></p><p>$ go1.15.6 build</p><p><br></p><p>用完后删除：</p><p>$ go1.15.6 env GOROOT</p><p>/Users/gobook/sdk/go1.15.6</p><p>$ rm -rf $(go1.15.6 env GOROOT)</p><p>$ rm $(go env GOPATH)/bin/go1.15.6</p><p><br></p><p><br></p>",
+        "tran": "<p>The go versions to choose:</p><p>https://golang.org/dl</p><p><br></p><p>The Linux to update:</p><p>$ mv /usr/local/go /usr/local/old-go</p><p>$ tar -C /usr/local -xzf go1.15.2.linux-amd64.tar.gz</p><p>$ rm -rf /usr/local/old-go</p>",
+        "en": "<p><strong>选择特定版本来进行编译</strong></p><p><br></p><p>To install a secondary Go environment.</p><p><br></p><p>go 1.15.2 wants to try out version 1.15.6,do it like follow.</p><p><br></p><p>$ go get golang.org/dl/go.1.15.6</p><p>$ go1.15.6 download</p><p><br></p><p>$ go1.15.6 build</p><p><br></p><p>用完后删除：</p><p>$ go1.15.6 env GOROOT</p><p>/Users/gobook/sdk/go1.15.6</p><p>$ rm -rf $(go1.15.6 env GOROOT)</p><p>$ rm $(go env GOPATH)/bin/go1.15.6</p><p><br></p><p><br></p>",
+        "cn": "<p>The go versions to choose:</p><p>https://golang.org/dl</p><p><br></p><p>The Linux to update:</p><p>$ mv /usr/local/go /usr/local/old-go</p><p>$ tar -C /usr/local -xzf go1.15.2.linux-amd64.tar.gz</p><p>$ rm -rf /usr/local/old-go</p>"
+    },
+    {
+        "indexKey": 870,
+        "lid": "1e600c79-db5e-4d63-a81d-6a0d7473ac76",
+        "word": "<p><strong>Fortmatting Code</strong></p><p><br></p><p>大多数语言在代码的布局方式上都允许很大的灵活性。 Go 则不然。</p><p><br></p><p>1、如果大括号与开始的声明或命令不再同一行，则是一个语法错误；</p><p><br></p><p>2、格式化工具：</p><p>\t2-1、go fmt；</p><p>\t2-2、goimports</p><p>\t\t\tgo install golang.org/x/</p><p>tools/cmd/goimports@latest.</p><p>\t\t\tgoimports -l -w .</p><p>\t\t\t-l flag：找出错误格式的到sonsole; -w：修复错误的格式； . ：当前目录和它的子目录。</p><p><br></p><p>\t\t\t</p>",
+        "tran": "",
+        "en": "<p><strong>Fortmatting Code</strong></p><p><br></p><p>大多数语言在代码的布局方式上都允许很大的灵活性。 Go 则不然。</p><p><br></p><p>1、如果大括号与开始的声明或命令不再同一行，则是一个语法错误；</p><p><br></p><p>2、格式化工具：</p><p>\t2-1、go fmt；</p><p>\t2-2、goimports</p><p>\t\t\tgo install golang.org/x/</p><p>tools/cmd/goimports@latest.</p><p>\t\t\tgoimports -l -w .</p><p>\t\t\t-l flag：找出错误格式的到sonsole; -w：修复错误的格式； . ：当前目录和它的子目录。</p><p><br></p><p>\t\t\t</p>",
+        "cn": ""
+    },
+    {
+        "indexKey": 875,
+        "lid": "24998ad9-3ed4-4a68-b902-1b5c089bd4b2",
+        "word": "<p><strong>其他系列命令</strong></p><p><br></p><p># Lint 整个项目</p><p>$ golint ./…</p><p><br></p><p>go mod </p><p><br></p><p><span style=\"color: rgb(64, 64, 64);\">开启方式：</span></p><p>Windows中，在环境变量中添加变量即可，变量名为 GO111MODULE ，变量值可设置为 on、off、auto。</p><p>Linux中，只要在 /etc/profile 中添加 export GO111MODULE=on 或 export GO111MODULE=off 或 export GO111MODULE=auto。然后执行 source /etc/profile 刷新即可。</p><p><br></p>",
+        "tran": "<p>$ go mod download path@version</p><p>$ go mod graph</p><p>$ go init path</p><p>$ go mod tidy</p><p>$ <span style=\"color: rgb(24, 24, 24);\">go list -m all</span></p><p><span style=\"color: rgb(24, 24, 24);\">$  go clean -modcache</span></p><p><br></p>",
+        "en": "<p><strong>其他系列命令</strong></p><p><br></p><p># Lint 整个项目</p><p>$ golint ./…</p><p><br></p><p>go mod </p><p><br></p><p><span style=\"color: rgb(64, 64, 64);\">开启方式：</span></p><p>Windows中，在环境变量中添加变量即可，变量名为 GO111MODULE ，变量值可设置为 on、off、auto。</p><p>Linux中，只要在 /etc/profile 中添加 export GO111MODULE=on 或 export GO111MODULE=off 或 export GO111MODULE=auto。然后执行 source /etc/profile 刷新即可。</p><p><br></p>",
+        "cn": "<p>$ go mod download path@version</p><p>$ go mod graph</p><p>$ go init path</p><p>$ go mod tidy</p><p>$ <span style=\"color: rgb(24, 24, 24);\">go list -m all</span></p><p><span style=\"color: rgb(24, 24, 24);\">$  go clean -modcache</span></p><p><br></p>"
+    },
+    {
+        "indexKey": 869,
+        "lid": "415e973b-cfe4-47dc-9e0c-823f601e4564",
+        "word": "<p><strong>go Command</strong></p><p><br></p><p>go run and go build</p><p><br></p><p>go run hello.go</p><p><br></p><p>go build hello.go</p><p>go build -o hello_world hello.go</p>",
+        "tran": "<p><strong>Getting Third-Party Go Tools</strong></p><p>This will save at the $GOPATH</p><p><br></p><p>$ go install github.com/rakyll/hey@latest</p><p><br></p><p>update the version</p><p>go install github.com/rakyll/hey@latest</p>",
+        "en": "<p><strong>go Command</strong></p><p><br></p><p>go run and go build</p><p><br></p><p>go run hello.go</p><p><br></p><p>go build hello.go</p><p>go build -o hello_world hello.go</p>",
+        "cn": "<p><strong>Getting Third-Party Go Tools</strong></p><p>This will save at the $GOPATH</p><p><br></p><p>$ go install github.com/rakyll/hey@latest</p><p><br></p><p>update the version</p><p>go install github.com/rakyll/hey@latest</p>"
+    },
+    {
+        "indexKey": 873,
+        "lid": "5b962e12-6186-4539-8126-fdf7f30b3e87",
+        "word": "<p><strong>Makefiles</strong></p><p><br></p><p>内容如下：包含三个结构，先执行、自己。</p><p><br></p><p><span style=\"color: rgb(156, 220, 254);\">.DEFAULT_GOAL</span> := build</p><p><br></p><p><span style=\"color: rgb(220, 220, 170);\">fmt</span>:</p><p>    go fmt ./...</p><p><span style=\"color: rgb(220, 220, 170);\">.PHONY</span>:fmt</p><p><br></p><p><span style=\"color: rgb(220, 220, 170);\">lint</span>: fmt</p><p>    golint ./...</p><p><span style=\"color: rgb(220, 220, 170);\">.PHONY</span>:lint</p><p><br></p><p><span style=\"color: rgb(220, 220, 170);\">vet</span>: fmt</p><p>    go vet ./...</p><p><span style=\"color: rgb(220, 220, 170);\">.PHONY</span>:vet</p><p><br></p><p><span style=\"color: rgb(220, 220, 170);\">build</span>: vet</p><p>    go build hello.go</p><p><span style=\"color: rgb(220, 220, 170);\">.PHONY</span>:build</p>",
+        "tran": "<p>use</p><p><strong>make</strong></p><p><br></p><p>You should see the following output:</p><p>go fmt ./...</p><p>go vet ./...</p><p>go build hello.go</p><p><br></p><p><strong>The window to install make</strong></p><p>https://chocolatey.org/</p><p>choco install make</p><p><br></p>",
+        "en": "<p><strong>Makefiles</strong></p><p><br></p><p>内容如下：包含三个结构，先执行、自己。</p><p><br></p><p><span style=\"color: rgb(156, 220, 254);\">.DEFAULT_GOAL</span> := build</p><p><br></p><p><span style=\"color: rgb(220, 220, 170);\">fmt</span>:</p><p>    go fmt ./...</p><p><span style=\"color: rgb(220, 220, 170);\">.PHONY</span>:fmt</p><p><br></p><p><span style=\"color: rgb(220, 220, 170);\">lint</span>: fmt</p><p>    golint ./...</p><p><span style=\"color: rgb(220, 220, 170);\">.PHONY</span>:lint</p><p><br></p><p><span style=\"color: rgb(220, 220, 170);\">vet</span>: fmt</p><p>    go vet ./...</p><p><span style=\"color: rgb(220, 220, 170);\">.PHONY</span>:vet</p><p><br></p><p><span style=\"color: rgb(220, 220, 170);\">build</span>: vet</p><p>    go build hello.go</p><p><span style=\"color: rgb(220, 220, 170);\">.PHONY</span>:build</p>",
+        "cn": "<p>use</p><p><strong>make</strong></p><p><br></p><p>You should see the following output:</p><p>go fmt ./...</p><p>go vet ./...</p><p>go build hello.go</p><p><br></p><p><strong>The window to install make</strong></p><p>https://chocolatey.org/</p><p>choco install make</p><p><br></p>"
+    },
+    {
+        "indexKey": 872,
+        "lid": "636e14ff-ebab-4b01-aac5-64a3cc0ea8ca",
+        "word": "<p><strong>vs code</strong></p><p><br></p><p>extensions:</p><p>https://marketplace.visualstudio.com/items?itemName=golang.go</p><p>https://github.com/go-delve/delve/tree/master?tab=readme-ov-file</p>",
+        "tran": "<p>Debugger:</p><p>1、安装 Go 扩展；</p><p>2、Ctrl + Shift + P，输入 go:install/Update Tools，把相应的都选择进行安装；</p><p>3、安装好依赖之后，Run  --&gt;  Start Debugging 可以进行调试。</p>",
+        "en": "<p><strong>vs code</strong></p><p><br></p><p>extensions:</p><p>https://marketplace.visualstudio.com/items?itemName=golang.go</p><p>https://github.com/go-delve/delve/tree/master?tab=readme-ov-file</p>",
+        "cn": "<p>Debugger:</p><p>1、安装 Go 扩展；</p><p>2、Ctrl + Shift + P，输入 go:install/Update Tools，把相应的都选择进行安装；</p><p>3、安装好依赖之后，Run  --&gt;  Start Debugging 可以进行调试。</p>"
+    },
+    {
+        "indexKey": 876,
+        "lid": "98902f30-280b-440e-945a-a46e5014c53c",
+        "word": "<p><strong>The Zero Value</strong></p><p><br></p><p>Assigns a default zero value to any variable that is declared but not assigned a value.</p>",
+        "tran": "",
+        "en": "<p><strong>The Zero Value</strong></p><p><br></p><p>Assigns a default zero value to any variable that is declared but not assigned a value.</p>",
+        "cn": ""
+    },
+    {
+        "indexKey": 868,
+        "lid": "d84e882c-265c-483c-bb87-78d9b7730dbb",
+        "word": "<p><strong>$GOPATH and  its subfolder</strong></p><p><br></p><p>$GOPATH</p><p>\t\tbin</p><p>\t\tsrc</p><p>\t\tpkg</p><p><br></p><p>go install</p><p><br></p><p>something sometimes need to fix is use to add the following to .profile.</p><p><br></p><p>export GOPATH=$HOME/go</p><p>export PATH=$PATH:$GOPATH/bin</p><p><br></p><p>On windows</p><p>setx GOPATH %USERPROFILE%\\go</p><p>setx path \"%path%;%USERPROFILE%\\bin\"</p>",
+        "tran": "",
+        "en": "<p><strong>$GOPATH and  its subfolder</strong></p><p><br></p><p>$GOPATH</p><p>\t\tbin</p><p>\t\tsrc</p><p>\t\tpkg</p><p><br></p><p>go install</p><p><br></p><p>something sometimes need to fix is use to add the following to .profile.</p><p><br></p><p>export GOPATH=$HOME/go</p><p>export PATH=$PATH:$GOPATH/bin</p><p><br></p><p>On windows</p><p>setx GOPATH %USERPROFILE%\\go</p><p>setx path \"%path%;%USERPROFILE%\\bin\"</p>",
+        "cn": ""
+    },
+    {
+        "indexKey": 867,
+        "lid": "f109f2b6-e721-444e-b8f0-4a1e34792d28",
+        "word": "<p><strong>Installing the Go Tools</strong></p><p><br></p><p>$ tar -C /usr/local -xzf go1.15.2.linux-amd64.tar.gz</p><p><br></p><p>$ echo 'export PATH=$PATH:/usr/local/go/bin' &gt;&gt; $HOME/.profile</p><p><br></p><p>$ source $HOME/.profile</p><p><br></p><p>//Test</p><p>$ go version</p>",
+        "tran": "",
+        "en": "<p><strong>Installing the Go Tools</strong></p><p><br></p><p>$ tar -C /usr/local -xzf go1.15.2.linux-amd64.tar.gz</p><p><br></p><p>$ echo 'export PATH=$PATH:/usr/local/go/bin' &gt;&gt; $HOME/.profile</p><p><br></p><p>$ source $HOME/.profile</p><p><br></p><p>//Test</p><p>$ go version</p>",
+        "cn": ""
+    }
+]
