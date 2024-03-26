@@ -34,6 +34,18 @@ export default {
             label: "yuren1",
         },
         {
+            value: "yuren3",
+            label: "yuren3",
+        },
+        {
+            value: "fenlei",
+            label: "fenlei",
+        },
+        {
+            value: "fenlei1",
+            label: "fenlei1",
+        },
+        {
             value: "vue",
             label: "vue",
         },
@@ -46,16 +58,8 @@ export default {
             label: "vue2",
         },
         {
-            value: "yuren3",
-            label: "yuren3",
-        },
-        {
-            value: "fenlei",
-            label: "fenlei",
-        },
-        {
-            value: "fenlei1",
-            label: "fenlei1",
+            value: "go",
+            label: "go",
         },
     ],
     dataObj: {
@@ -70,6 +74,7 @@ export default {
         vue: deepCopy(require("./json/vue.json"), []),
         vue1: deepCopy(require("./json/vue1.json"), []),
         vue2: deepCopy(require("./json/vue2.json"), []),
+        go: deepCopy(require("./json/go.json"), []),
         yuren3: deepCopy(require("./json/yuren3.json"), []),
         fenlei: deepCopy(require("./json/fenlei.json"), []),
         fenlei1: deepCopy(require("./json/fenlei1.json"), []),
