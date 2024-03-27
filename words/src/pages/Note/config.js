@@ -61,6 +61,10 @@ export default {
             value: "go",
             label: "go",
         },
+        {
+            value: "go1",
+            label: "go1",
+        },
     ],
     dataObj: {
         earth: deepCopy(require("./json/earth.json"), []),
@@ -75,6 +79,7 @@ export default {
         vue1: deepCopy(require("./json/vue1.json"), []),
         vue2: deepCopy(require("./json/vue2.json"), []),
         go: deepCopy(require("./json/go.json"), []),
+        go1: deepCopy(require("./json/go1.json"), []),
         yuren3: deepCopy(require("./json/yuren3.json"), []),
         fenlei: deepCopy(require("./json/fenlei.json"), []),
         fenlei1: deepCopy(require("./json/fenlei1.json"), []),
