@@ -20,7 +20,7 @@
       <!-- start head -->
       <noteBottom :makeShowObj="makeShowObj" :triggerCn="triggerCn" :triggerEn="triggerEn" :changeList="changeList"
         :getAllDbData="getAllDbData" :backHome="backHome" :subFind="subFind" :options="options" :subChange="subChange"
-        :triggerRight="triggerRight" :rquiz="rquiz" :cquiz="cquiz">
+        :triggerRight="triggerRight" :rquiz="rquiz" :cquiz="cquiz" :triggerPs="triggerPs">
       </noteBottom>
       <!-- end head -->
     </div>
@@ -31,6 +31,7 @@
 // import aline from "./airline.json"
 import { deepCopy } from "@/util/common";
 import configs from "./config";
+import $ from "jquery";
 import {
   openDB,
   addData,
@@ -55,6 +56,7 @@ export default {
   },
   data() {
     return {
+      ps: null,
       totalIndex: 0,
       quizing: false,
       current_row_index: 0,
@@ -119,6 +121,16 @@ export default {
     this.changeList();
   },
   methods: {
+    triggerPs() {
+      this.ps = this.ps || $("p").filter(function () {
+        return !$(this).find("strong").length;
+      });
+      if (this.ps.is(":visible")) {
+        this.ps.hide();
+      } else {
+        this.ps.show();
+      }
+    },
     clearTotal() {
       setTimeout(() => {
         this.totalIndex = "";
@@ -721,6 +733,10 @@ export default {
         .detail-desc-item {}
       }
     }
+  }
+
+  img {
+    width: 100%;
   }
 }
 </style>

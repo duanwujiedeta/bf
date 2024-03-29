@@ -28,11 +28,13 @@
 
       <el-button @click="changeList" type="text" style="flex-basis: 25px; margin-left: 10px">all</el-button>
 
-      <el-button @click="triggerRight" type="text" style="flex-basis: 25px; margin-left: 10px">rig</el-button>
+      <el-button @click="triggerPs" type="text" style="flex-basis: 25px; margin-left: 10px">stg</el-button>
 
       <el-button @click="triggerEn" type="text" style="flex-basis: 25px; margin-left: 10px">en</el-button>
 
       <el-button @click="triggerCn" type="text" style="flex-basis: 25px; margin-left: 10px">cn</el-button>
+
+      <el-button @click="triggerRight" type="text" style="flex-basis: 25px; margin-left: 10px">rig</el-button>
     </div>
   </div>
 </template>
@@ -45,7 +47,7 @@ export default {
       value: localStorage.getItem("note_value") || "earth",
     };
   },
-  props: ["makeShowObj", "triggerCn", "triggerEn", "changeList", "getAllDbData", "backHome", "subFind", "options", "subChange", "triggerRight", "rquiz", "cquiz"],
+  props: ["makeShowObj", "triggerCn", "triggerEn", "changeList", "getAllDbData", "backHome", "subFind", "options", "subChange", "triggerRight", "rquiz", "cquiz", "triggerPs"],
   methods: {},
 };
 </script>
