@@ -1,5 +1,5 @@
 <template>
-  <div style="display: flex; gap: 15px" :id="'abc' + (scope.row.id || scope.row.lid)">
+  <div style="display: flex; gap: 15px" :id="'abc' + (scope.row.id || scope.row.lid)" @click="previewImg">
     <!-- start left -->
     <div class="left" style="flex-grow: 1">
 
@@ -51,6 +51,14 @@ export default {
         this.el_ps.show();
       }
     },
+    previewImg(e) {
+      let target = e.target;
+      let tagName = target.tagName.toLocaleLowerCase();
+      if (tagName == "img") {
+        let src = target.src;
+        this.$hevueImgPreview(src);
+      }
+    }
   },
 };
 </script>

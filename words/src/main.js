@@ -13,6 +13,7 @@ import router from './router'
 import store from './store'
 import http from './util/http'
 import ElementUI from 'element-ui'
+import hevueImgPreview from 'hevue-img-preview'
 
 
 //文件前缀
@@ -21,6 +22,7 @@ import ElementUI from 'element-ui'
 Vue.config.productionTip = false
 Vue.use(http);
 Vue.use(ElementUI);
+Vue.use(hevueImgPreview)
 
 new Vue({
   router,

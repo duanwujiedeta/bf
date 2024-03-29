@@ -4457,6 +4457,11 @@ he@1.2.x, he@^1.1.0:
   resolved "https://registry.npm.taobao.org/he/download/he-1.2.0.tgz?cache=0&sync_timestamp=1589682765156&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhe%2Fdownload%2Fhe-1.2.0.tgz"
   integrity sha1-hK5l+n6vsWX922FWauFLrwVmTw8=
 
+hevue-img-preview@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/hevue-img-preview/-/hevue-img-preview-6.1.0.tgz#3c390370ac607f1ff478d419967b84eb21b72348"
+  integrity sha512-2KrbKUUGUbwYR6MuKVeBghPIywTBYFr0XMoJADoZ33cQHDT0x1A7B4g8EwL1zXK6eyk1low5kefmUw2q+yIfvw==
+
 hex-color-regex@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npm.taobao.org/hex-color-regex/download/hex-color-regex-1.1.0.tgz"
