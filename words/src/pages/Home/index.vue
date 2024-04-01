@@ -15,7 +15,7 @@
                     <span style="color: red; margin-right: 5px" v-if="scope.$index % 5 === 0">{{ scope.$index / 5
                       }}*</span>
 
-                    <el-button @click="scope.row.show_myself=!scope.row.show_myself" type="text" style="flex-basis: 25px; margin-right: 10px">stg</el-button>
+                    <!-- <el-button @click="scope.row.show_myself=!scope.row.show_myself" type="text" style="flex-basis: 25px; margin-right: 10px">stg</el-button> -->
                     <myInput :quizCheck="quizCheck" :row="scope.row" :index="scope.$index" :quizing="quizing"
                       :totalIndex="totalIndex" :fc="totalIndex === scope.$index" :clearTotal="clearTotal"></myInput>
                     <span style="margin-right: 20px" v-show="!quizing || scope.row.single_show">{{ scope.row.text
@@ -26,10 +26,12 @@
                   </div>
                   <!-- start google -->
 
-                  <googleEl :scope="scope" :makeShowObj="makeShowObj" :hidecn="hidecn" :show_myself="scope.row.show_myself"></googleEl>
+                  <googleEl :scope="scope" :makeShowObj="makeShowObj" :hidecn="hidecn"
+                    :show_myself="scope.row.show_myself"></googleEl>
                   <!-- end google -->
                   <!-- start Bing -->
-                  <bingEl :scope="scope" :makeShowObj="makeShowObj" :hidecn="hidecn" :hidensp="hidensp" :show_myself="scope.row.show_myself"></bingEl>
+                  <bingEl :scope="scope" :makeShowObj="makeShowObj" :hidecn="hidecn" :hidensp="hidensp"
+                    :show_myself="scope.row.show_myself"></bingEl>
                   <!-- end Bing -->
                 </div>
                 <!-- start left -->
