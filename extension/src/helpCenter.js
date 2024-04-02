@@ -43,6 +43,10 @@ document.addEventListener('keydown', function (event) {
   if (event.ctrlKey && event.altKey && event.key === 'q') {
     $("hcfy-result").append(`<span class="luey-elm" style="cursor:pointer;">CP</span>`);
   }
+  // 清除多余的翻译行
+  if (event.ctrlKey && event.altKey && event.key === 'r') {
+    $(".s67,.s70,.s79,.s89,.s85,.s69").find("hcfy-result").remove();
+  }
 });
 $(document).on("click", ".luey-elm", function () {
   $(this).html("CP ✓");
