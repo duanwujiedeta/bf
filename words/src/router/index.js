@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '@/pages/Home/index.vue'
 import Cen from '@/pages/Home/cen.vue'
 import Note from '@/pages/Note/index.vue'
+import Mem from '@/pages/MEM/index.vue'
 import Download from '@/pages/Download/index.vue'
 
 Vue.use(VueRouter)
@@ -23,6 +24,11 @@ let routes = [{
   component: Note,
   children: []
 }, {
+  path: '/mem',
+  name: 'mem',
+  component: Mem,
+  children: []
+},{
   path: '/download',
   name: 'download',
   component: Download,

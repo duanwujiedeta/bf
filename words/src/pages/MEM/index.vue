@@ -1,5 +1,5 @@
 <template>
-  <div id="app-index">
+  <div id="mem-index">
     <div class="header-session">
       <div class="head-content">
         <el-table :data="tranData" style="width: 100%" height="100%" :row-key="(row) => {
@@ -8,128 +8,30 @@
           ">
           <el-table-column prop="date">
             <template slot-scope="scope">
-              <div style="display: flex; gap: 15px" :id="'abc' + scope.row.id">
-                <!-- start left -->
-                <div class="left" style="flex-grow: 1">
-                  <div :style="makeShowObj(hideen)">
-                    <span style="color: red; margin-right: 5px" v-if="scope.$index % 5 === 0">{{ scope.$index / 5
-                      }}*</span>
+              <cents :makeShowObj="makeShowObj" :scope="scope" :hideen="hideen" :hidecn="hidecn" :NotRead="NotRead"
+                :delFromDb="delFromDb" :hide_right="hide_right" :quizing="quizing" :quizCheck="quizCheck"
+                :totalIndex="totalIndex" :clearTotal="clearTotal" :quizDb="quizDb"></cents>
 
-                    <!-- <el-button @click="scope.row.show_myself=!scope.row.show_myself" type="text" style="flex-basis: 25px; margin-right: 10px">stg</el-button> -->
-                    <myInput :quizCheck="quizCheck" :row="scope.row" :index="scope.$index" :quizing="quizing"
-                      :totalIndex="totalIndex" :fc="totalIndex === scope.$index" :clearTotal="clearTotal"></myInput>
-                    <span style="margin-right: 20px" v-show="!quizing || scope.row.single_show">{{ scope.row.text
-                      }}</span>
-
-                    <wordCal :scope="scope" :copyText="copyText" :dic="dic" :stac="stac"
-                      :goNoteWithParam="goNoteWithParam" :setHeaded="setHeaded"></wordCal>
-                  </div>
-                  <!-- start google -->
-
-                  <googleEl :scope="scope" :makeShowObj="makeShowObj" :hidecn="hidecn"
-                    :show_myself="scope.row.show_myself"></googleEl>
-                  <!-- end google -->
-                  <!-- start Bing -->
-                  <bingEl :scope="scope" :makeShowObj="makeShowObj" :hidecn="hidecn" :hidensp="hidensp"
-                    :show_myself="scope.row.show_myself"></bingEl>
-                  <!-- end Bing -->
-                </div>
-                <!-- start left -->
-                <rightEl :hide_right="hide_right" :scope="scope" :makeShowObj="makeShowObj" :setReaded="setReaded"
-                  :setHeaded="setHeaded" :setIndexText="setIndexText" :delCur="delCur" :loopPlay="loopPlay"></rightEl>
-              </div>
             </template>
           </el-table-column>
         </el-table>
       </div>
-      <div class="header">
-        <div v-if="show_left" class="left-setting">
-          <bottomSel :changeList="selChange" :options="options" :goIndex="subGo"></bottomSel>
-          <div>
-            <el-button @click="reflash('readed')" type="text"
-              style="flex-basis: 20px; margin-left: 10px">ref</el-button>
-            <el-button @click="clearStorage" type="text" style="flex-basis: 20px; margin-left: 10px">cls</el-button>
-            <el-button @click="$router.push({ name: 'mem' })" type="text"
-              style="flex-basis: 20px; margin-left: 10px">mem</el-button>
-            <el-button @click="$router.push({ name: 'note' })" type="text"
-              style="flex-basis: 20px; margin-left: 10px">note</el-button>
-            <el-button @click="$router.push({ name: 'cen' })" type="text"
-              style="flex-basis: 20px; margin-left: 10px">cen</el-button>
-          </div>
-          <!-- speed area -->
-          <speedArea :speedWord="speedWord" :changeSpeed="changeSpeed" :speedOpt="speedOpt" :msgLength="msgLength"
-            :triggRight="triggRight" :search="search" :changeDisMode="changeDisMode">
-          </speedArea>
-          <!-- speed area -->
-          <div>
-            <span>
-              loop
-              <el-switch v-model="loop" :active-value="true" :inactive-value="false">
-                loop
-              </el-switch>
-            </span>
-            <span>
-              scroll
-              <el-switch v-model="auto_scroll" :active-value="true" :inactive-value="false">
-              </el-switch>
-            </span>
-            <span>
-              link
-              <el-switch v-model="auto_link" :active-value="true" :inactive-value="false">
-              </el-switch>
-            </span>
-          </div>
-        </div>
-        <el-button @click="show_left = !show_left" type="text" style="min-width: 30px">{{ show_left ? "《《" : "》》"
-          }}</el-button>
-        <div class="buttons">
-          <el-button @click="cquiz" type="text">quiz</el-button>
-          <el-button @click="rquiz" type="text">rquiz</el-button>
-          <el-button @click="playAllEn(false)" type="text">英美</el-button>
-          <el-button @click="
-          us = false;
-        playAllEn(true);
-        " type="text" style="flex-basis: 20px">英</el-button>
-          <el-button @click="
-          us = true;
-        playAllEn(true);
-        " type="text" style="flex-basis: 20px">美</el-button>
-          <el-button @click="getHarded('harded')" type="text"
-            style="flex-basis: 20px; margin-left: 10px">har</el-button>
-          <el-button @click="clearChoose('harded')" type="text"
-            style="flex-basis: 20px; margin-left: 10px">clhar</el-button>
-          <!-- start 操作栏 -->
-          <el-button @click="startOrStop" type="text" style="flex-basis: 42px">past</el-button>
-          <el-button @click="clear" type="text" style="width: 38px">stop</el-button>
-          <!-- <el-button @click="start" type="text" style="width: 38px"
-            >start</el-button
-          > -->
-          <!-- end 操作栏 -->
-          <el-button @click="hidensp = !hidensp" type="text">音标</el-button>
-          <el-button @click="hideen = !hideen" type="text" style="flex-basis: 50px">EN隐显</el-button>
-          <el-button @click="hidecn = !hidecn" type="text" style="flex-basis: 50px">CN隐显</el-button>
-          <el-button @click="next" type="text" style="flex-basis: 30px">next</el-button>
-          <el-button @click="scrollNext" type="text" style="flex-basis: 30px">snext</el-button>
-          <el-button @click="sortList" type="text" style="flex-basis: 30px">sort</el-button>
-          <el-button @click="group" type="text" style="flex-basis: 30px">group</el-button>
-          <el-button @click="reflash('readed')" type="text" style="flex-basis: 30px">not</el-button>
-        </div>
-      </div>
+
+      <!-- start head -->
+      <noteBottom :makeShowObj="makeShowObj" :triggerCn="triggerCn" :triggerEn="triggerEn" :changeList="changeList"
+        :getAllDbData="getAllDbData" :backHome="backHome" :subFind="subFind" :options="options" :subChange="subChange"
+        :triggerRight="triggerRight" :rquiz="rquiz" :cquiz="cquiz" :triggerPs="triggerPs">
+      </noteBottom>
+      <!-- end head -->
     </div>
   </div>
 </template>
 
 <script>
-// import aline from "./airline.json"
-import { deepCopy, copyWord } from "@/util/common";
+// import aline from "./airline.json"  命令行与shell大全，第四版  linux、react、vue、
+import { deepCopy } from "@/util/common";
 import configs from "./config";
-import myInput from "@/components/MyInput";
-import bottomSel from "@/components/BottomSel";
-import wordCal from "@/components/WordCal";
-import rightEl from "@/components/RightEl";
-import googleEl from "@/components/GoogleEl";
-import bingEl from "@/components/BingEl";
-import speedArea from "@/components/SpeedArea";
+import $ from "jquery";
 import {
   openDB,
   addData,
@@ -144,38 +46,37 @@ import {
   getDataAll,
   uuid,
 } from "@/util/indexdDB";
+import { favoriteObj, keyObj } from "@/util/dbFunc";
+import cents from "@/components/note/Cents";
+import noteBottom from "@/components/note/MemBottom";
 export default {
   components: {
-    rightEl,
-    myInput,
-    bottomSel,
-    wordCal,
-    googleEl,
-    bingEl,
-    speedArea,
+    cents,
+    noteBottom
   },
   data() {
     return {
-      // kdgnnagjiakhaebnfddplffafniakfkc
+      ps: null,
       totalIndex: 0,
       quizing: false,
       current_row_index: 0,
-      dis_mode: true,
+      dis_mode: false,
       auto_link: false,
       auto_scroll: true,
-      show_left: false,
       hide_right: true,
-      value: localStorage.getItem("value") || "yuren",
+      value: localStorage.getItem("mem_value") || "linking",
       loop: true,
       speedWord: 2,
       origTranData: [],
-      tranData: [],
+      tranData: [
+        { id: "14c94599-e7f4-4ad1-91d1-94e43f7f9b02", word: "fswgww" },
+      ],
       hideen: false,
-      hidecn: true,
-      hidensp: true,
+      hidecn: false,
+      hidensp: false,
       us: false,
       form: {
-        key_word: localStorage.getItem("keyword_word") || "",
+        key_word: localStorage.getItem("mem_keyword_word") || "",
         enWord: "",
         cnWord: "",
         isShow: true,
@@ -210,7 +111,6 @@ export default {
         "y",
         "z",
       ],
-      speedOpt: configs.speedOpt,
       options: configs.options,
       text: "",
       ...configs.dataObj,
@@ -218,27 +118,39 @@ export default {
   },
   mounted() {
     this.text = this.$route.query.text || "";
-    window.message = this.$message.warning;
-    this.changeSpeed();
     this.changeList();
   },
   methods: {
-    changeDisMode(mode) {
-      this.dis_mode = mode;
-    },
-    triggRight() {
-      this.hide_right = !this.hide_right;
-    },
-    copyText(text) {
-      copyWord(text);
+    triggerPs() {
+      this.ps = this.ps || $("p").filter(function () {
+        return !$(this).find("strong").length;
+      });
+      if (this.ps.is(":visible")) {
+        this.ps.hide();
+      } else {
+        this.ps.show();
+      }
     },
     clearTotal() {
       setTimeout(() => {
         this.totalIndex = "";
       });
     },
+    quizDb(row, index, qw) {
+      row.text = qw;
+      row.value = this.value;
+      favoriteObj.saveToDb(row);
+      this.totalIndex = parseInt(index, 10) + 1;
+    },
     quizCheck(row, index, qw) {
       row.quiz_word = qw;
+      if (!row.quiz_word) {
+        return this.$message({
+          message: "未添加",
+          type: "warning",
+          duration: 500,
+        });
+      }
       let quiz_word = row.quiz_word.toLowerCase();
       let text = row.text.toLowerCase();
       if (quiz_word.trim() == text.trim()) {
@@ -259,46 +171,66 @@ export default {
       }
     },
     rquiz() {
-      this.quizing = false;
-      this.hidecn = true;
+      this.quizing = true;
     },
     cquiz() {
-      this.quizing = true;
-      this.hidecn = false;
+      this.quizing = false;
+    },
+    triggerRight() {
+      this.hide_right = !this.hide_right;
+    },
+    triggerCn() {
+      this.hidecn = !this.hidecn;
+    },
+    triggerEn() {
+      this.hideen = !this.hideen;
+    },
+    backHome() {
+      let params = { name: "home" };
+      let text = this.text || "";
+      if (text) {
+        params.query = { text };
+      }
+      this.$router.push(params);
+    },
+    subChange(value) {
+      this.value = value;
+      this.changeList();
     },
     changeList() {
       let value = this.value;
-      localStorage.setItem("value", value);
+      localStorage.setItem("mem_value", value);
       let list = this[value];
-      let str = this.getStr("readed");
-      let hstr = this.getStr("harded");
       list.forEach((v, k) => {
-        v.quiz_word = "";
-        v.single_show = false;
-        v.show_myself = true;
-        if (str.indexOf(v.text) >= 0) {
-          v.readed = true;
-        } else {
-          v.readed = false;
-        }
-        if (hstr.indexOf(v.text) >= 0) {
-          v.harded = true;
-        } else {
-          v.harded = false;
-        }
+        v.notRead = false;
       });
+      if (list[0].indexKey) {
+        list = list.sort((v1, v2) => {
+          let text1 = v1.indexKey;
+          let text2 = v2.indexKey;
+          if (text1 < text2) {
+            return -1;
+          }
+          if (text1 > text2) {
+            return 1;
+          }
+
+          // name 必须相等
+          return 0;
+        });
+      }
+      let text = this.text;
+      if (text) {
+        // 过滤
+        let filterList = list.filter((v, k) => {
+          return v.word.indexOf(text) >= 0;
+        });
+        filterList.length && (list = filterList);
+      }
       this.origTranData = deepCopy(list, []);
       this.$nextTick(() => {
         this.search();
       });
-    },
-    subGo(key_word) {
-      this.key_word = key_word;
-      this.goIndex();
-    },
-    selChange(value) {
-      this.value = value;
-      this.changeList();
     },
     search() {
       /* if (this.form.key_word == 1) {
@@ -309,15 +241,41 @@ export default {
         this.tranData = this.origTranData.slice(299);
       } else {
       } */
-      let text = this.text; // url 参数，用作滚动
       this.tranData = deepCopy(this.origTranData, []);
-      this.$nextTick(() => {
-        text && this.findIndex(text);
+    },
+    delFromDb(row) {
+      favoriteObj.delFromDb(row.lid);
+      let index = this.tranData.indexOf(row);
+      this.tranData.splice(index, 1);
+    },
+    getAllDbData() {
+      favoriteObj.getAll((list) => {
+        let value = this.value;
+        list = list.filter((v, k) => {
+          return v.value == value;
+        });
+        if (list[0].indexKey) {
+          list = list.sort((v1, v2) => {
+            let text1 = v1.indexKey;
+            let text2 = v2.indexKey;
+            if (text1 < text2) {
+              return -1;
+            }
+            if (text1 > text2) {
+              return 1;
+            }
+
+            // name 必须相等
+            return 0;
+          });
+        }
+        this.tranData = list;
       });
     },
-    goNoteWithParam(row) {
-      let text = row.text;
-      this.$router.push({ name: "note", query: { text } });
+    NotRead(row) {
+      row.notRead = true;
+      row.value = this.value;
+      favoriteObj.saveToDb(row);
     },
     makeShowObj(hidden, dis_play) {
       let dis_mode = this.dis_mode;
@@ -392,33 +350,6 @@ export default {
         this.tranData = newList;
       });
     },
-    dic(text) {
-      text = text.trim();
-      if (text.indexOf(" ") >= 0) {
-        return "javascript:;";
-      }
-      return `https://sentence.yourdictionary.com/${text}`;
-    },
-    bab(text) {
-      text = text.trim();
-      text = text.replace(/\s+/g, "-");
-      return `https://en.bab.la/sentences/english/${text}`;
-    },
-    leng(text) {
-      text = text.trim();
-      text = text.replace(/\s+/g, "%20");
-      return `https://lengusa.com/sentence-examples/${text}`;
-    },
-    coli(text) {
-      text = text.trim();
-      text = text.replace(/\s+/g, "-");
-      return `https://www.collinsdictionary.com/sentences/english/${text}`;
-    },
-    stac(text) {
-      text = text.trim();
-      text = text.replace(/\s+/g, "_");
-      return `https://sentencestack.com/q/${text}`;
-    },
     openNew(url) {
       this.auto_link && url && window.open(url, "_blank");
     },
@@ -443,9 +374,9 @@ export default {
         duration: 500,
       });
     },
-    changeSpeed(speed) {
+    changeSpeed() {
       // https://www.w3school.com.cn/tags/html_ref_audio_video_dom.asp
-      let speedWord = speed || this.speedWord;
+      let speedWord = this.speedWord;
       window.speedWord = speedWord;
     },
     next() {
@@ -465,7 +396,8 @@ export default {
       this.i = index;
       this.playAllEn(false, true);
     },
-    goIndex() {
+    subFind(key_word) {
+      this.form.key_word = key_word;
       this.findIndex();
     },
     findIndex(text) {
@@ -488,7 +420,7 @@ export default {
       let index = this.tranData.indexOf(row);
       this.i = index;
       localStorage.setItem("i", index);
-      localStorage.setItem("keyword_word", row.text);
+      localStorage.setItem("mem_keyword_word", row.text);
     },
     scrollNext() {
       this.i++;
@@ -521,9 +453,9 @@ export default {
     setHeaded(row) {
       let text = row.text; /* .replace(/\s/g, "") */
       let str = this.getStr("harded");
-      /* if (str.split(",").length >= 10) {
+      if (str.split(",").length >= 10) {
         return this.$message.warning("已经有10个了");
-      } */
+      }
       if (str.indexOf(text) < 0) {
         str += str ? `,${text}` : `${text}`;
       }
@@ -650,7 +582,7 @@ export default {
 </script>
 
 <style lang="less">
-#app-index {
+#mem-index {
   width: 100%;
   height: 100%;
   overflow-y: hidden;
@@ -662,6 +594,7 @@ export default {
   .header-session {
     // display: flex;
     flex-direction: column;
+    min-height: 100%;
     min-height: calc(100% - 76px);
   }
 
@@ -796,8 +729,14 @@ export default {
         margin-top: 60px;
         margin-bottom: 155px;
         width: 100%;
+
+        .detail-desc-item {}
       }
     }
+  }
+
+  img {
+    width: 100%;
   }
 }
 </style>
