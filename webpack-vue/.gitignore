@@ -1,0 +1,29 @@
+.DS_Store
+yarn.lock
+node_modules/
+/dist/
+/os/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+/test/unit/coverage/
+/test/e2e/reports/
+selenium-debug.log
+.cache/
+.history/
+.history*
+# /build/*.dll.*.json
+# /src/assets/dll/
+package-lock.json
+.prettierrc.json
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+package-lock.json
+
+# 忽略本地调试配置（若有改动，单独提交）
+src/config/shopNameConfig.js＀
