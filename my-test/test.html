@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>position: sticky 示例</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  .header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    position: sticky;
+    top: 0; /* 元素在滚动到视口顶部时固定 */
+    z-index: 1000; /* 确保在其他内容之上 */
+  }
+  .content {
+    height: 2000px; /* 模拟长内容 */
+    padding: 20px;
+    background: linear-gradient(white, lightgray);
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  我是粘性头部
+</div>
+<div class="content">
+  <p>滚动页面查看粘性效果。</p>
+  <!-- 更多内容 -->
+</div>
+
+</body>
+</html>
