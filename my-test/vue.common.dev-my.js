@@ -2135,8 +2135,7 @@ function _traverse (val, seen) {
   }
 }
 
-/*  */
-
+// 根据事件标识符，提取是否 捕获、passive、once
 var normalizeEvent = cached(function (name) {
   var passive = name.charAt(0) === '&';
   name = passive ? name.slice(1) : name;
@@ -2152,6 +2151,7 @@ var normalizeEvent = cached(function (name) {
   }
 });
 
+// 传入函数和上下文，生成回调函数，运行回调函数的时候，返回原函数的值（如果传入函数数组，则不返回）
 function createFnInvoker (fns, vm) {
   function invoker () {
     var arguments$1 = arguments;
@@ -2171,6 +2171,8 @@ function createFnInvoker (fns, vm) {
   return invoker
 }
 
+// 传入新的事件和旧的事件，把新的事件更新进去。旧的存在（新的不存在）则移除
+// 解析事件名，once、passive、capture
 function updateListeners (
   on,
   oldOn,
@@ -2181,9 +2183,9 @@ function updateListeners (
 ) {
   var name, def$$1, cur, old, event;
   for (name in on) {
-    def$$1 = cur = on[name];
-    old = oldOn[name];
-    event = normalizeEvent(name);
+    def$$1 = cur = on[name]; // 回调函数
+    old = oldOn[name]; // 旧的回调函数
+    event = normalizeEvent(name); // 解析事件名
     if (isUndef(cur)) {
       warn(
         "Invalid handler for event \"" + (event.name) + "\": got " + String(cur),
@@ -2210,8 +2212,7 @@ function updateListeners (
   }
 }
 
-/*  */
-
+//  给vnode对象的data.hook回调函数（回调函数无返回值），key值为 hookKey('insert'等)，回调函数调用后，会在原有回调列表把回调函数移除
 function mergeVNodeHook (def, hookKey, hook) {
   if (def instanceof VNode) {
     def = def.data.hook || (def.data.hook = {});
@@ -2245,16 +2246,13 @@ function mergeVNodeHook (def, hookKey, hook) {
   def[hookKey] = invoker;
 }
 
-/*  */
 
+// 根据 Ctor.options.props 的属性，从 data 里面把 Ctor.options.props 的属性key从 data.attrs、data.props中提取到一个 res 对象中，最后返回回来，优先取 props ，取不到再取 attrs 的
 function extractPropsFromVNodeData (
   data,
   Ctor,
   tag
 ) {
-  // we are only extracting raw values here.
-  // validation and default values are handled in the child
-  // component itself.
   var propOptions = Ctor.options.props;
   if (isUndef(propOptions)) {
     return
@@ -2288,12 +2286,13 @@ function extractPropsFromVNodeData (
   return res
 }
 
+// 从查找对象hash中，查找 key 或 altKey 的属性，赋值给res，如果找到，则返回 true ，不然则返回 false
 function checkProp (
-  res,
-  hash,
-  key,
-  altKey,
-  preserve
+  res,// 结果对象
+  hash,// 查找对象
+  key,// 指定的 key
+  altKey,// 备用的 key
+  preserve// 是否保留 hash 的 key 的控制
 ) {
   if (isDef(hash)) {
     if (hasOwn(hash, key)) {
@@ -2313,20 +2312,7 @@ function checkProp (
   return false
 }
 
-/*  */
-
-// The template compiler attempts to minimize the need for normalization by
-// statically analyzing the template at compile time.
-//
-// For plain HTML markup, normalization can be completely skipped because the
-// generated render function is guaranteed to return Array<VNode>. There are
-// two cases where extra normalization is needed:
-
-// 1. When the children contains components - because a functional component
-// may return an Array instead of a single root. In this case, just a simple
-// normalization is needed - if any child is an Array, we flatten the whole
-// thing with Array.prototype.concat. It is guaranteed to be only 1-level deep
-// because functional components already normalize their own children.
+// 处理 children 中，如果元素中含有数组，把二位的数组扁平化，直接处理成一维数组
 function simpleNormalizeChildren (children) {
   for (var i = 0; i < children.length; i++) {
     if (Array.isArray(children[i])) {
@@ -2336,10 +2322,7 @@ function simpleNormalizeChildren (children) {
   return children
 }
 
-// 2. When the children contains constructs that always generated nested Arrays,
-// e.g. <template>, <slot>, v-for, or when the children is provided by user
-// with hand-written render functions / JSX. In such cases a full normalization
-// is needed to cater to all possible types of children values.
+// 深度扁平化 children 数组
 function normalizeChildren (children) {
   return isPrimitive(children)
     ? [createTextVNode(children)]
@@ -2348,24 +2331,26 @@ function normalizeChildren (children) {
       : undefined
 }
 
+// 判断是否为 TextVnode
 function isTextNode (node) {
   return isDef(node) && isDef(node.text) && isFalse(node.isComment)
 }
 
+// 深度扁平化 children 数组
 function normalizeArrayChildren (children, nestedIndex) {
   var res = [];
   var i, c, lastIndex, last;
   for (i = 0; i < children.length; i++) {
     c = children[i];
     if (isUndef(c) || typeof c === 'boolean') { continue }
-    lastIndex = res.length - 1;
-    last = res[lastIndex];
+    lastIndex = res.length - 1; // res数组中的最后的key
+    last = res[lastIndex]; // res数组中的最后一个元素
     //  nested
     if (Array.isArray(c)) {
       if (c.length > 0) {
         c = normalizeArrayChildren(c, ((nestedIndex || '') + "_" + i));
         // merge adjacent text nodes
-        if (isTextNode(c[0]) && isTextNode(last)) {
+        if (isTextNode(c[0]) && isTextNode(last)) { // 如果前一个是 TextNode ，当前的c第一个也是 TextNode，则合并
           res[lastIndex] = createTextVNode(last.text + (c[0]).text);
           c.shift();
         }
@@ -2391,7 +2376,7 @@ function normalizeArrayChildren (children, nestedIndex) {
           isDef(c.tag) &&
           isUndef(c.key) &&
           isDef(nestedIndex)) {
-          c.key = "__vlist" + nestedIndex + "_" + i + "__";
+          c.key = "__vlist" + nestedIndex + "_" + i + "__";  // 针对含有 _isVList(这个是 for 生成的列表，也就死 renderList) 的，重新生成 key 属性
         }
         res.push(c);
       }
@@ -2400,8 +2385,7 @@ function normalizeArrayChildren (children, nestedIndex) {
   return res
 }
 
-/*  */
-
+// 为当前的vm生成 _provided 属性
 function initProvide (vm) {
   var provide = vm.$options.provide;
   if (provide) {
@@ -2411,6 +2395,7 @@ function initProvide (vm) {
   }
 }
 
+// 提取inject，把提取的inject绑定到vm属性上，且不允许修改
 function initInjections (vm) {
   var result = resolveInject(vm.$options.inject, vm);
   if (result) {
@@ -2432,6 +2417,7 @@ function initInjections (vm) {
   }
 }
 
+// 根据 inject ，从当前的vm向上取，把inject的相关属性都获取出来
 function resolveInject (inject, vm) {
   if (inject) {
     // inject is :any because flow is not smart enough to figure out cached
@@ -2468,13 +2454,7 @@ function resolveInject (inject, vm) {
   }
 }
 
-/*  */
-
-
-
-/**
- * Runtime helper for resolving raw children VNodes into a slot object.
- */
+// 针对 slot 进行处理，在slot的一个组件中，根据slot的名字作为key值，把slot都按照名字组织成一个数组对象，最后返回 slots ，如果没有数据，则 返回 {}
 function resolveSlots (
   children,
   context
